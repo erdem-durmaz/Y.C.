@@ -1,0 +1,45 @@
+{% extends './bootstrap.html'%}
+{% load static %}
+
+{% block title %} {% endblock  %}
+{% block meta %} {% endblock  %}
+
+{% block css %}
+
+{% endblock css %}
+
+
+{%block content%}
+
+
+<div id='question' class="container w-50 mt-5">
+    <div class="card text-center">
+        <div class="card-header">
+            Haftanın Sorusu
+        </div>
+        <div class="card-body">
+            <h5 class="card-title">{{question}}</h5>
+            <ul class="list-group text-left ">
+                <form method="POST" action="{% url 'yaratici:get_question' %}">
+                    {% csrf_token %}
+                    <input type="hidden" value="{{question.id}}" name="question_id">
+                    {% for choice in question.choices_set.all %}
+                    <li class="list-group-item">
+                        <input class="col-1" type="radio" value="{{choice.choice}}" id="{{choice.id}}" name="response">
+                        <span class='col-11'>{{choice.choice|safe}}</span>
+                    </li>
+                    {%endfor%}
+                    <li class="list-group-item">
+                        <button type="submit" class="btn btn-primary">See Results</button>
+                    </li>
+                </form>
+            </ul>
+
+        </div>
+
+    </div>
+</div>
+
+
+
+{%endblock%}

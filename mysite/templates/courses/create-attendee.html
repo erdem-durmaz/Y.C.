@@ -1,0 +1,12 @@
+{% extends '../base.html' %}
+
+{% block content %}
+
+<h2>Create New Attendee</h2>
+            <form action="{% url 'courses:create_attendee' course_id%}" method="post" class="form-group" novalidate>
+                {% csrf_token %}
+                {{ form2 }}
+                <input type="submit" value="Submit">
+            </form>
+
+{% endblock %}

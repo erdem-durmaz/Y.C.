@@ -1,0 +1,214 @@
+
+
+    <script type='text/javascript' defer="defer" src='/static/js/companion.bundle.min.js' id='companion-bundle-js'>
+    </script>
+    <script type='text/javascript' defer="defer" src='/static/js/imagesloaded.min.js' id='imagesloaded-js'>
+    </script>
+    <script type='text/javascript' defer="defer" src='/static/js/masonry.min.js' id='masonry-js'></script>
+    
+    {%if 'home' in request.path %}
+    <script type='text/javascript' id='mesmerize-theme-js-extra'>
+        /* <![CDATA[ */
+        var mesmerize_backstretch = {
+            "images": [
+                "https:\/\/yaraticicocugum.com\/anasayfa\/wp-content\/uploads\/2020\/10\/yaratici-cocugum-3.jpg",
+                "https:\/\/yaraticicocugum.com\/anasayfa\/wp-content\/uploads\/2020\/10\/yaratici-cocugum-2.jpg",
+                "https:\/\/yaraticicocugum.com\/anasayfa\/wp-content\/uploads\/2020\/10\/yaratici-cocugum-1.jpg"
+            ],
+            "duration": "3000",
+            "transitionDuration": "1000",
+            "animateFirst": ""
+        };
+        /* ]]> */
+    </script>
+        
+{%endif%}
+
+
+
+    <script type='text/javascript' defer="defer" src='/static/js/theme.bundle.min.js' id='mesmerize-theme-js'></script>
+    <script type='text/javascript' src='/static/js/theme-child.js' id='theme-child-js'></script>
+    <script type='text/javascript' defer="defer" src='/static/js/wp-embed.min.js' id='wp-embed-js'></script>
+    <script>
+        /(trident|msie)/i.test(navigator.userAgent) && document.getElementById && window.addEventListener && window
+            .addEventListener("hashchange", function () {
+                var t, e = location.hash.substring(1);
+                /^[A-z0-9_-]+$/.test(e) && (t = document.getElementById(e)) && (
+                    /^(?:a|select|input|button|textarea)$/i.test(t.tagName) || (t.tabIndex = -1), t.focus())
+            }, !1);
+    </script>
+
+    <script>
+        (function (exports, d) {
+            var _isReady = false,
+                _event,
+                _fns = [];
+
+            function onReady(event) {
+                d.removeEventListener("DOMContentLoaded", onReady);
+                _isReady = true;
+                _event = event;
+                _fns.forEach(function (_fn) {
+                    var fn = _fn[0],
+                        context = _fn[1];
+                    fn.call(context || exports, window.jQuery);
+                });
+            }
+
+            function onReadyIe(event) {
+                if (d.readyState === "complete") {
+                    d.detachEvent("onreadystatechange", onReadyIe);
+                    _isReady = true;
+                    _event = event;
+                    _fns.forEach(function (_fn) {
+                        var fn = _fn[0],
+                            context = _fn[1];
+                        fn.call(context || exports, event);
+                    });
+                }
+            }
+
+            d.addEventListener && d.addEventListener("DOMContentLoaded", onReady) ||
+                d.attachEvent && d.attachEvent("onreadystatechange", onReadyIe);
+
+            function domReady(fn, context) {
+                if (_isReady) {
+                    fn.call(context, _event);
+                }
+
+                _fns.push([fn, context]);
+            }
+
+            exports.mesmerizeDomReady = domReady;
+        })(window, document);
+    </script>
+
+    <script type="text/javascript">
+        window._wpemojiSettings = {
+            "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/13.0.0\/72x72\/",
+            "ext": ".png",
+            "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/13.0.0\/svg\/",
+            "svgExt": ".svg",
+            "source": {
+                "concatemoji": "https:\/\/yaraticicocugum.com\/anasayfa\/wp-includes\/js\/wp-emoji-release.min.js?ver=5.5.3"
+            }
+        };
+        ! function (e, a, t) {
+            var r, n, o, i, p = a.createElement("canvas"),
+                s = p.getContext && p.getContext("2d");
+
+            function c(e, t) {
+                var a = String.fromCharCode;
+                s.clearRect(0, 0, p.width, p.height), s.fillText(a.apply(this, e), 0, 0);
+                var r = p.toDataURL();
+                return s.clearRect(0, 0, p.width, p.height), s.fillText(a.apply(this, t), 0, 0), r === p.toDataURL()
+            }
+
+            function l(e) {
+                if (!s || !s.fillText) return !1;
+                switch (s.textBaseline = "top", s.font = "600 32px Arial", e) {
+                    case "flag":
+                        return !c([127987, 65039, 8205, 9895, 65039], [127987, 65039, 8203, 9895, 65039]) && (!c([55356,
+                            56826, 55356, 56819
+                        ], [55356, 56826, 8203, 55356, 56819]) && !c([55356, 57332, 56128, 56423, 56128, 56418,
+                            56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447
+                        ], [55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203,
+                            56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447
+                        ]));
+                    case "emoji":
+                        return !c([55357, 56424, 8205, 55356, 57212], [55357, 56424, 8203, 55356, 57212])
+                }
+                return !1
+            }
+
+            function d(e) {
+                var t = a.createElement("script");
+                t.src = e, t.defer = t.type = "text/javascript", a.getElementsByTagName("head")[0].appendChild(t)
+            }
+            for (i = Array("flag", "emoji"), t.supports = {
+                    everything: !0,
+                    everythingExceptFlag: !0
+                }, o = 0; o < i.length; o++) t.supports[i[o]] = l(i[o]), t.supports.everything = t.supports
+                .everything && t.supports[i[o]], "flag" !== i[o] && (t.supports.everythingExceptFlag = t.supports
+                    .everythingExceptFlag && t.supports[i[o]]);
+            t.supports.everythingExceptFlag = t.supports.everythingExceptFlag && !t.supports.flag, t.DOMReady = !1, t
+                .readyCallback = function () {
+                    t.DOMReady = !0
+                }, t.supports.everything || (n = function () {
+                    t.readyCallback()
+                }, a.addEventListener ? (a.addEventListener("DOMContentLoaded", n, !1), e.addEventListener("load",
+                    n, !1)) : (e.attachEvent("onload", n), a.attachEvent("onreadystatechange", function () {
+                    "complete" === a.readyState && t.readyCallback()
+                })), (r = t.source || {}).concatemoji ? d(r.concatemoji) : r.wpemoji && r.twemoji && (d(r.twemoji),
+                    d(r.wpemoji)))
+        }(window, document, window._wpemojiSettings);
+    </script>
+
+
+    <script type='text/javascript' src='/static/js/jquery.js' id='jquery-core-js'>
+    </script>
+    <script type='text/javascript' id='jquery-js-after'>
+        (function () {
+            function setHeaderTopSpacing() {
+
+                setTimeout(function () {
+                    var headerTop = document.querySelector('.header-top');
+                    var headers = document.querySelectorAll(
+                        '.header-wrapper .header,.header-wrapper .header-homepage');
+
+                    for (var i = 0; i < headers.length; i++) {
+                        var item = headers[i];
+                        item.style.paddingTop = headerTop.getBoundingClientRect().height + "px";
+                    }
+
+                    var languageSwitcher = document.querySelector('.mesmerize-language-switcher');
+
+                    if (languageSwitcher) {
+                        languageSwitcher.style.top = "calc( " + headerTop.getBoundingClientRect().height +
+                            "px + 1rem)";
+                    }
+
+                }, 100);
+
+
+            }
+
+            window.addEventListener('resize', setHeaderTopSpacing);
+            window.mesmerizeSetHeaderTopSpacing = setHeaderTopSpacing
+            mesmerizeDomReady(setHeaderTopSpacing);
+        })();
+    </script>
+
+
+    <script type="text/javascript" data-name="async-styles">
+        (function () {
+            var links = document.querySelectorAll('link[data-href]');
+            for (var i = 0; i < links.length; i++) {
+                var item = links[i];
+                item.href = item.getAttribute('data-href')
+            }
+        })();
+    </script>
+    
+    <div class='footer footer-simple'>
+        <div class='footer-content center-xs'>
+            <div class="gridContainer">
+                <div class="row middle-xs footer-content-row">
+                    <div class="footer-content-col col-xs-12">
+                        <p class="copyright">&copy;&nbsp;&nbsp;2021&nbsp;Yaratıcı Çocuğum.&nbsp;</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="side-navigation" class="side-navigation">
+
+
+    <ul data-type="active" data-preset="preset-2" data-after-scroll="true">
+        <li class="hero-bullet ">
+            <a href="#page-top">Üst</a>
+        </li>
+    </ul>
+</div>

@@ -1,0 +1,14 @@
+{% extends '../base.html' %}
+
+{% block content %}
+
+
+
+<form action="" method="post" class="form-group" novalidate>
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Update Attendee">
+</form>
+
+
+{% endblock %}

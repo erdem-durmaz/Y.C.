@@ -1,0 +1,33 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+
+<h1 class="display-4 text-center">Avaliable Quizzes</h1>
+<hr>
+
+<ul class="col-6 list-group mx-auto">
+  {%for quiz in quiz_list%}
+  <a href="{%url 'emailer:conduct_quiz' quiz.id %}"
+    class="list-group-item list-group-item-action text-center"><strong>{{quiz.name}} (ID: {{quiz.id}}) </strong> <br>
+    <em> Questions: {{quiz.question_set.all.count}}, Submitted:{{quiz.answers_set.all.count}}</em>
+    {%if quiz.question_set.all.count == quiz.answers_set.all.count %}
+    <br> <span class="badge badge-success">Completed</span>
+    {%else%}
+    <br><span class="badge badge-warning ">Not Complete</span>
+    {%endif%}
+  </a>
+  <a class="text-right" href="{%url 'emailer:delete_quiz' quiz_id=quiz.id%}"><i class="far fa-trash-alt"></i></a>
+  {%endfor%}
+</ul>
+
+<div class="container text-center mt-4">
+  <form action="{% url 'emailer:create_quiz' %}" method="GET">
+    <button class="btn btn-primary" type="submit">Generate Random Quiz</button>
+  </form>
+</div>
+
+
+
+
+{% endblock %}

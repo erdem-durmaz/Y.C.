@@ -1,0 +1,166 @@
+{%extends './base.html'%}
+{% block title %} Yaratıcı Çocuğum - Çocuğunuzun Yaratıcı Enerjisine Dokunun! {% endblock  %}
+{% block meta %} NLP Uzmanı Eğitimci Anneden, Çocuklarda Yaratıcılık Üzerine Paylaşımlar. Çocuklarımızla Düzenli Zaman Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
+
+{% block css %}{% endblock css %}
+
+{%block content %}
+
+
+<div id="page" class="site">
+
+    <div class="header-wrapper">
+        <div class='header-homepage  color-overlay  header-full-height' style=''>
+
+            <div class="header-description gridContainer content-on-center">
+                <div class="row header-description-row middle-sm">
+                    <div class="header-content header-content-centered col-md col-xs-12">
+                        <div class="align-holder center">
+                            <h1 class="hero-title">Yaratıcı Çocuğum</h1>
+                            <p class="header-subtitle">Çocuğunuzun Yaratıcı Enerjisine Dokunun</p>
+                            <div data-dynamic-mod-container class="header-buttons-wrapper"><a
+                                    class="button big color1 round" target="_self"
+                                    href="#">Etkinlikler</a><a
+                                    class="button big color-white round outline" target="_self"
+                                    href="{%url 'yaratici:posts'%}">Blog Yazıları</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                if (window.mesmerizeSetHeaderTopSpacing) {
+                    window.mesmerizeSetHeaderTopSpacing();
+                }
+            </script>
+
+            <div class="header-separator header-separator-bottom "><svg class="mesmerize" preserveAspectRatio="none"
+                    width="1000" height="100" viewBox="0 0 1000 100" xmlns="http://www.w3.org/2000/svg">
+                    <desc>Created with Sketch.</desc>
+                    <g fill="#000">
+                        <path class="svg-white-bg"
+                            d="M0 50.582c50.292 15.873 94.979 23.809 134.063 23.809 160.18 0 189.492-54.182 308.938-54.182 119.445 0 181.541 74.304 377.394 74.935 76.087.245 135.955-14.609 179.606-44.563v49.5h-1000v-49.5z" />
+                        <path class="svg-white-bg"
+                            d="M0 21.652c33.432 32.916 78.986 49.375 136.66 49.375 160.18 0 186.895-61.035 306.34-61.035 117.359-.152 223.758 80.344 376.938 83.09 76.087.245 136.107-21.467 180.063-65.137v72.136h-1000v-78.429z"
+                            fill-opacity=".5" />
+                        <path class="svg-white-bg"
+                            d="M0 1.082c28.932 45 74.518 67.5 136.758 67.5 160.18 0 158.211-67.5 306.707-67.5 128.447 0 255.178 91.772 376.555 89.852 64.97-1.896 124.964-26.374 179.98-73.434v82.582h-1000v-99z"
+                            fill-opacity=".3" />
+                    </g>
+                </svg></div>
+            <div class="header-homepage-arrow-c">
+                <span class="header-homepage-arrow move-down-bounce"> <i class="fa arrow fa-angle-down"
+                        aria-hidden="true"></i>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div id='page-content' class="page-content">
+        <div class="content">
+            <div data-label="Ben Kimim" data-id="about--2" data-export-id="about-9" data-category="about"
+                class="about-9 content-section content-section-spacing" id="ben-kimim"
+                style="background-color: rgb(255, 255, 255); background-image: none;">
+                <div class="gridContainer">
+                    <div class="row middle-sm text-center">
+                        <div class="col-sm-5 space-bottom-xs content-column content-right-sm" data-type="column">
+                            <h5 class="">Yaratıcı Çocuğum Nasıl Doğdu</h5>
+                            <h2 class=""><span href="{%url 'yaratici:show_post' slug=kimim.slug %}">Ben Kimim?</span></h2>
+                            <p class=""><span>Aslında yalnızca sizlerden biriyim!
+                                </span>
+                                <br>8 yaşındaki oğlunun doğumuyla birlikte anneliği ilk kez deneyimleyen, çocukları
+                                çok seven, çalışan bir anne!&nbsp;</p> <a class="button color1"
+                                href="{%url 'yaratici:show_post' slug=kimim.slug %}" target="_self"
+                                data-cp-link="1" rel="noopener noreferrer">DEVAMINI OKU</a>
+                        </div>
+                        <div class="col-sm-7 flexbox flexbox middle-xs center-xs space-bottom-xs">
+                            <div class="overlay-box flexbox middle-xs center-xs overlay-holder ">
+                                <div class="overlay-box-offset offset-background shadow-medium bg-color2 hide-xs">
+                                </div> <a data-cp-link="1" href="#"
+                                    target="_self" rel="noopener noreferrer"><img class="flexbox shadow-large img1"
+                                        src="{{kimim.photo.url}}"
+                                        data-size="600x400" alt=""
+                                        title="cropped-Yaratici_Cocugum_Anasayfa.jpg"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div data-label="Blog YAZILARI" data-id="latest_news--1" data-export-id="blog-section-mc"
+                data-category="latest_news"
+                class="blog-section-mc blog-section-standard content-section content-section-spacing"
+                id="blog-yazilari-1" style="background-color: rgb(255, 255, 255);">
+                <div class="gridContainer">
+                    <div class="row">
+                        <div data-type="column" class="section-title-col">
+                            <h5 class="">Çocuğunuzun Yaratıcı Enerjisine Dokunun!</h5>
+                            <h2 class="">Blog Yazıları</h2>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div data-type="row" data-dynamic-columns="handled"
+                            data-content-shortcode="mesmerize_latest_news posts=&quot;3&quot;">
+                            <div class="row center-sm content-left-sm">
+                                <!-- blog start -->
+                                {%for post in posts %}
+                                <div id="post-{{post.id}}" class="col-sm-6 col-md-4 space-bottom space-bottom-xs">
+                                    <div class="post-content card y-move bordered">
+                                        <div class="post-thumbnail">
+                                            <a href="{%url 'yaratici:show_post' slug=post.slug %}"
+                                                class="post-list-item-thumb ">
+                                                <img width="626" height="417"
+                                                    src="{{post.photo.url}}"
+                                                    class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                                                    alt="" loading="lazy"
+                                                    srcset="{{post.photo.url}} 626w, {{post.photo.url}} 300w"
+                                                    sizes="(max-width: 626px) 100vw, 626px" /> </a>
+                                        </div>
+                                        <div class="col-padding col-padding-xs">
+                                            <h3 class="post-title space-bottom-small">
+                                                <a href="{%url 'yaratici:show_post' slug=post.slug %}"
+                                                    rel="bookmark">
+                                                    {{post.title}} </a>
+                                            </h3>
+                                            <p>{{post.message|slice:':300'|safe}}</p>
+                                            <a class="read-more link"
+                                                href="{%url 'yaratici:show_post' slug=post.slug %}">
+                                                Devamını Oku... </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {%endfor%}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- diger yazılar -->
+                    <div class="row">
+                        <div class="text-center"> <a class="button color1"
+                                data-attr-shortcode="href:mesmerize_blog_link"
+                                href="{%url 'yaratici:posts' %}">Diğer Yazılar</a></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div data-label="Bizi Takipte KALIN" data-id="cta--1" data-export-id="cta-blue-section-mc"
+                data-category="cta"
+                class="cta-blue-section-mc content-section content-section-spacing le_cocktail white-text"
+                id="bizi-takipte-kalin"
+                style="background-color: rgb(245, 250, 253); background-image: url(&quot;https://yaraticicocugum.com/anasayfa/wp-content/uploads/2020/10/Anasayfa_bos.jpg&quot;); background-size: cover; background-position: center top;">
+                <div class="gridContainer">
+                    <div class="row middle-xs">
+                        <div class="col-sm-8 space-bottom-xs" data-type="column">
+                            <h2 class="">Bizi Takipte Kalın!</h2>
+                            <h6 class="">@yaratici_cocugum</h6>
+                        </div>
+                        <div class="col-sm-4 end-sm" data-type="column"> <a class="button blue"
+                                href="https://www.instagram.com/yaratici_cocugum" target="_self" data-cp-link="1"
+                                rel="noopener noreferrer">INSTAGRAM</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{%endblock %}

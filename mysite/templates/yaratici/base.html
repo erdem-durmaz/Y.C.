@@ -1,0 +1,216 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock  %}</title>
+    <meta name="description" content="{% block meta %}{% endblock  %}">
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-181247946-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-181247946-1');
+    </script>
+
+
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 .07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+
+    <style id='mesmerize-style-inline-css' type='text/css'>
+        img.logo.dark,
+        img.custom-logo {
+            width: auto;
+            max-height: 70px !important;
+        }
+
+        /** cached kirki style */
+        @media screen and (min-width: 768px) {
+            .header {
+                background-position: center center;
+            }
+        }
+
+        .header-homepage:not(.header-slide).color-overlay:before {
+            background: #7380C6;
+        }
+
+        .header-homepage:not(.header-slide) .background-overlay,
+        .header-homepage:not(.header-slide).color-overlay::before {
+            opacity: 0.76;
+        }
+
+        .header-homepage-arrow {
+            font-size: calc(50px * 0.84);
+            bottom: 20px;
+            background: rgba(255, 255, 255, 0);
+        }
+
+        .header-homepage-arrow>i.fa {
+            width: 50px;
+            height: 50px;
+        }
+
+        .header-homepage-arrow>i {
+            color: #ffffff;
+        }
+
+        .mesmerize-front-page .header-separator .svg-white-bg {
+            fill: rgb(255, 255, 255) !important;
+        }
+
+        .mesmerize-front-page .header-separator svg {
+            height: 165px !important;
+        }
+
+        .header-homepage .header-description-row {
+            padding-top: 20%;
+            padding-bottom: 20%;
+        }
+
+        .inner-header-description {
+            padding-top: 8%;
+            padding-bottom: 8%;
+        }
+
+        @media screen and (max-width:767px) {
+            .header-homepage .header-description-row {
+                padding-top: 15%;
+                padding-bottom: 15%;
+            }
+        }
+
+        @media only screen and (min-width: 768px) {
+            .header-content .align-holder {
+                width: 80% !important;
+            }
+
+            .inner-header-description {
+                text-align: center !important;
+            }
+        }
+    </style>
+
+    <style data-name="header-overlap-with">
+        @media screen and (min-width: 768px) {
+            .mesmerize-front-page.overlap-first-section:not(.mesmerize-front-page-with-slider) .header-homepage {
+                padding-bottom: 95px;
+            }
+
+            .mesmerize-front-page.overlap-first-section:not(.mesmerize-front-page-with-slider) .page-content div[data-overlap]:first-of-type>div:not([class*="section-separator"]) {
+                margin-top: -95px;
+            }
+        }
+    </style>
+
+    <style type="text/css" id="wp-custom-css">
+        * {
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6,
+        p.header-subtitle {
+            font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+            font-weight: 400;
+        }
+
+        h1.hero-title {
+            font-weight: 500;
+        }
+
+        .button {
+            font-family: "Ubuntu", Helvetica, Arial, sans-serif;
+            font-weight: 400;
+        }
+    </style>
+
+    <style id="page-content-custom-styles">
+        [data-id="about--2"] .overlay-box .overlay-box-offset {
+            transform: translate(31%, -8%);
+            width: 83%;
+            height: 113%;
+            background-color: rgb(195, 201, 232);
+
+        }
+    </style>
+
+    <style data-name="background-content-colors">
+        .mesmerize-inner-page .page-content,
+        .mesmerize-inner-page .content,
+        .mesmerize-front-page.mesmerize-content-padding .page-content {
+            background-color: #ffffff;
+        }
+    </style>
+
+
+    <link rel='stylesheet' id='companion-bundle-css' href="" data-href='/static/css/companion.bundle.min.css'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='companion-page-css-css' href={% static 'css/content.css' %} type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='wp-block-library-css' href='/static/css/style.min.css' type='text/css' media='all' />
+
+    <link rel='stylesheet' id='mesmerize-parent-css' href='/static/css/mesmerize-style.min.css' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='mesmerize-style-css' href='/static/css/highlight-style.min.css' type='text/css'
+        media='all' />
+
+    <link rel='stylesheet' id='wpb-google-fonts-css' href=""
+        data-href='https://fonts.googleapis.com/css2?family=Ubuntu%3Aital%2Cwght%400%2C300%3B0%2C400%3B0%2C500%3B0%2C700%3B1%2C300%3B1%2C400&#038;display=swap&#038;ver=5.5.3'
+        type='text/css' media='all' />
+
+    <link rel='stylesheet' id='mesmerize-style-bundle-css' href='/static/css/theme.bundle.min.css' type='text/css'
+        media='all' />
+    <link rel='stylesheet' id='mesmerize-fonts-css' href=""
+        data-href='https://fonts.googleapis.com/css?family=Open+Sans%3A300%2C400%2C600%2C700%7CMuli%3A300%2C300italic%2C400%2C400italic%2C600%2C600italic%2C700%2C700italic%2C900%2C900italic%7CPlayfair+Display%3A400%2C400italic%2C700%2C700italic&#038;subset=latin%2Clatin-ext&#038;display=swap'
+        type='text/css' media='all' />
+
+    <style data-name="header-gradient-overlay">
+        .header .background-overlay {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/8ca48c6d4e.js" crossorigin="anonymous"></script>
+
+    {% block css %}{% endblock css %}
+</head>
+
+<body
+    class="home page-template page-template-page-templates page-template-homepage page-template-page-templateshomepage-php page page-id-10 mesmerize-front-page mesmerize-content-no-padding ">
+
+    {% include "./header.html" %}
+
+    <div class="container mt-3">
+        {% block content %}
+        {% endblock  %}
+    </div>
+
+    {% include "./footer.html" %}
+</body>
+
+</html>

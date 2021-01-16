@@ -1,0 +1,73 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+<!--Course Details-->
+
+
+<div class="row">
+    <div class="col-lg-12 mx-auto">
+        <h1>Registered Courses
+            <a href="#"><button type="button" class="btn btn-success "> </button></a>
+
+        </h1>
+        <!--Registered Courses-->
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Ders</th>
+                    <th scope="col">Tarih</th>
+                    <th scope="col">Attendees</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for course in courses %}
+
+                <tr>
+                    <a href="{% url 'courses:show_course' course.id %}"></a>
+                    <td>
+                        <p style="margin:0px">{{ course.course_name }}</p>
+                    </td>
+
+                    <td>
+                        <p style="margin:0px">{{ course.pub_date | date:"D d M Y" }}</p>
+                    </td>
+                    <td>
+                        <p style="margin:0px">{{course.attendee_set.all.count}}</p>
+                    </td>
+                    <td>
+
+                        <a href="{% url 'courses:show_course' course.id %}"><button type="button"
+                                class="btn btn-warning btn-sm">Show <i class="fas fa-address-book"></i></button></a>
+                        <a href="{% url 'courses:areyousure' course.id %}"><button type="button"
+                                class="btn btn-danger btn-sm">Delete <i class="fas fa-trash-alt"></i></button></a>
+                        <a href="#"><button type="button" class="btn btn-outline-primary btn-sm">Email <i
+                                    class="fas fa-envelope-open"></i></button></a>
+                        <a href="{% url 'courses:create_attendee' course.id %}"><button type="button"
+                                class="btn btn-info btn-sm">Add User <i class="fas fa-user"></i></button></a>
+                    </td>
+
+                    {% endfor %}
+                </tr>
+        </table>
+    </div>
+    <hr>
+
+    <div class="col-lg-12">
+        <hr>
+        <h2>Create New Course</h2>
+        <h6>
+            <form action="{% url 'courses:courses'%}" method="post" class="form-group" novalidate>
+                {% csrf_token %}
+                {{ form }}
+                <input type="submit" value="Create New Course">
+            </form>
+        </h6>
+        <br>
+    </div>
+
+    {% if request.user.is_authenticated %}
+<i style="color:green" class="far fa-handshake"></i>
+{% endif %}
+    {% endblock %}

@@ -1,0 +1,41 @@
+body {
+font-family: 'Open Sans', sans-serif;
+font-size: 16px
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+font-family: 'Montserrat', sans-serif;
+font-weight:500;
+}
+
+h1 {
+font-size:2rem;
+font-weight: 800}
+
+h2 {
+font-size:1.5rem}
+
+h3 {
+font-family: 'Open Sans', sans-serif;
+font-size:1rem}
+
+h4 {
+    font-size:1.2rem
+}
+
+
+a{
+color: #fd3a69;
+}
+
+a:hover {
+text-decoration:none
+}
+
+.post-preview p{
+color: grey;
+font-size: 0.75rem}
+
+.display-4 {
+    font-size: 2rem
+}

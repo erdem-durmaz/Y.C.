@@ -1,0 +1,19 @@
+{% extends '../base.html' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="card w-50 mx-auto mt-5 text-center text-white bg-dark">
+      <div class="card-header">
+        Action Required
+      </div>
+      <div class="card-body bg-secondary">
+        <h5 class="card-title">Are you sure do you want to delete?</h5>
+        <h4><p class="card-text">Course: {{course.course_name}} <br> Date: {{course.pub_date|date}}</p></h4>
+        <a href="{% url 'courses:courses' %}" class="btn btn-warning mr-3">Go Back</a>
+          <a href="{% url 'courses:delete_course' course.id %}" class="btn btn-danger">Confirm</a>
+      </div>
+    </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+
+<!--Course Details-->
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-lg-12 mx-auto ">
+            <h1>Course: {{course.course_name}} - Date: {{course.pub_date|date}} Details
+                <a href="{% url 'courses:courses' %}"><button type="button" class="btn btn-success ">Go Back </button></a>
+            </h1>
+
+            <!--Registered Attendees-->
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th scope="col">İsim</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Course</th>
+                        <th scope="col">Votes</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for attendee in course.attendee_set.all %}
+                    <tr>
+                        <td>
+                            <p style="margin:0px">{{ attendee.name }}</p>
+                        </td>
+                        <td>
+                            <p style="margin:0px">{{ attendee.email }}</p>
+                        </td>
+                        <td>
+                            <p style="margin:0px">{{ course.course_name}}-{{ course.pub_date|date}}</p>
+                        </td>
+                        <td>
+                            <p style="margin:0px">{{ attendee.votes}}</p>
+                        </td>
+                        <td>
+                            <a href="{% url 'courses:update_attendee' attendee.id course.id %}"><button type="button"
+                                    class="btn btn-warning btn-sm">Edit <i class="fas fa-user-edit"></i></button></a>
+                            <a href="{% url 'courses:delete_attendee' attendee.id %}"><button type="button" class="btn btn-danger btn-sm">Delete <i
+                                        class="fas fa-trash-alt"></i></button></a>
+                            <a href="#"><button type="button" class="btn btn-outline-primary btn-sm">Email <i
+                                        class="fas fa-envelope-open"></i></button></a>
+                        </td>
+                    </tr>
+                    {%endfor %}
+            </table>
+        </div>
+    </div>
+    <hr>
+    
+
+    <div class="container mx-auto">
+        <h4 class="text-center"> Edit Course Date and Time </h4>
+            <h6 class="text-center"><form action="{% url 'courses:show_course' course.id %}" method="post" novalidate>
+                {% csrf_token %}
+                {{ form}}
+                <input type="submit" value="Update Course">
+            </form>
+        </h6>
+        <hr>
+        
+    </div>
+
+    {% endblock %}

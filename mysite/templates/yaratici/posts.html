@@ -1,0 +1,129 @@
+{% extends './base.html'%}
+
+{% block title %} Yaratıcı Çocuğum - Çocuğunuzun Yaratıcı Enerjisine Dokunun! {% endblock  %}
+{% block meta %} NLP Uzmanı Eğitimci Anneden, Çocuklarda Yaratıcılık Üzerine Paylaşımlar. Çocuklarımızla Düzenli Zaman Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
+
+
+{%block content%}
+
+
+
+
+<div id="page" class="site">
+    <div class="header-wrapper">
+        <div class='header  color-overlay  custom-mobile-image'
+        style='background-image:url("https://yaraticicocugum.com/anasayfa/wp-content/themes/highlight/assets/images/hero-inner.jpg"); background-color:#6a73da'
+        data-parallax-depth='20'>
+            <div class="background-overlay"></div>
+            <div class="inner-header-description gridContainer">
+                <div class="row header-description-row">
+                    <div class="col-xs col-xs-12">
+                        <h1 class="hero-title align-center">
+                            Blog Yazıları </h1>
+                        
+                    </div>
+                </div>
+            </div>
+            <script>
+                if (window.mesmerizeSetHeaderTopSpacing) {
+                    window.mesmerizeSetHeaderTopSpacing();
+                }
+            </script>
+        </div>
+    </div>
+
+    
+<br>
+<br>
+
+    <div id='page-content' class="content blog-page">
+        <div class="gridContainer gridContainer content">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-md-9">
+                    <div class="post-list row" data-no-masonry='1'>
+                        <!-- START OF BLOG POST -->
+                        {%for post in posts %}
+                        <div class="post-list-item col-xs-12 space-bottom col-sm-12 col-md-12"
+                            data-masonry-width="col-sm-12.col-md-12">
+                            <div id="post-{{post.id}}">
+                                <div class="post-container">
+                                    <div class="post-inner">
+                                        <div class="row">
+                                            <div class="col-md-4 thumb-col">
+                                                <div class="thumb-container">
+                                                    <div class="post-thumbnail">
+                                                        <a href="{%url 'yaratici:show_post' slug=post.slug %}"
+                                                            class="post-list-item-thumb ">
+                                                            <img width="626" height="417"
+                                                                src="{{post.photo.url}}"
+                                                                class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                                                                alt="" loading="lazy"
+                                                                srcset="{{post.photo.url}} 626w, {{post.photo.url}} 300w"
+                                                                sizes="(max-width: 626px) 100vw, 626px" /> </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-8 text-left item-content">
+                                                <div class="list-padding">
+                                                    <h2 class="post-title text-left h3">
+                                                        <a href="{%url 'yaratici:show_post' slug=post.slug %}"
+                                                            rel="bookmark">{{post.title}}</a>
+                                                    </h2>
+                                                    <div class="post-excerpt">
+                                                        <p>{{post.message|slice:':300'|safe}}<a class="read-more"
+                                                                href="{%url 'yaratici:show_post' slug=post.slug %}">Yazının Devamı...</a>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div><!-- /row -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {%endfor %}
+                        <!-- END OF BLOG POST -->
+                    </div>
+                    <div class="navigation-c">
+                    </div>
+                </div>
+
+                <!-- SİDEBAR -->
+                <div class="sidebar col-sm-4 col-md-3">
+                    <div class="panel bg-color-white">
+                        
+                        <div id="recent-posts-2" class="widget widget_recent_entries">
+                            <h5 class="widgettitle">Son Yazılar</h5>
+                            <ul>
+                                {%for post in posts%}
+                                <li>
+                                    <a href="{%url 'yaratici:show_post' slug=post.slug%}"
+                                        aria-current="page">{{post.title}}</a>
+                                </li>
+                                {%endfor%}
+                            </ul>
+
+                        </div>
+                       
+                        <div id="categories-2" class="widget widget_categories">
+                            <h5 class="widgettitle">Kategoriler</h5>
+                            <ul>
+                                <li class="cat-item cat-item-3"><a
+                                        href="#">Çocuklarda
+                                        Yaratıcılık</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+{%endblock%}

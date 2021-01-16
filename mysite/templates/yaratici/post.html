@@ -1,0 +1,88 @@
+{% extends './base.html'%}
+
+{% block title %} {{post.title}} {% endblock  %}
+{% block meta %} {{post.meta_description}} {% endblock  %}
+
+{% block css %}{% endblock css %}
+
+
+{%block content%}
+
+
+<div id="page" class="site">
+
+    <div class="header-wrapper">
+        {%if post.slug == 'ben-kimim' %}
+        <div class='header  color-overlay  custom-mobile-image'
+        style='background-image:url("media/blog_img/hero-inner.jpg"); background-color:#6a73da' data-parallax-depth='20'>
+        {%else%}
+        
+        <div class='header  color-overlay  custom-mobile-image'style='background-image:url("{{post.photo.url}}"); background-color:#6a73da' data-parallax-depth='20'>
+        {%endif%}   
+            <div class="background-overlay"></div>
+            <div class="inner-header-description gridContainer">
+                <div class="row header-description-row">
+                    <div class="col-xs col-xs-12">
+                        <h1 class="hero-title align-center">
+                            {{post.title}} </h1>
+
+                    </div>
+                </div>
+            </div>
+            <script>
+                if (window.mesmerizeSetHeaderTopSpacing) {
+                    window.mesmerizeSetHeaderTopSpacing();
+                }
+            </script>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div id='page-content' class="page-content">
+        <div class="gridContainer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-8 col-md-9">
+
+                <h2>{{post.title}}</h2>
+                    
+                    <img src="{{post.photo.url}}" style="max-width: 100%;width:100%" alt="">
+                    <br><br>
+                    {{post.message|safe}}
+                    <br>
+                    <b>Tags:</b>  {{post.tags}}
+
+                </div>
+               
+                <div class="sidebar col-sm-4 col-md-3">
+                    <div class="panel bg-color-white">
+                        
+                        <div id="recent-posts-2" class="widget widget_recent_entries">
+                            <h5 class="widgettitle">Son Yazılar</h5>
+                            <ul>
+                                {%for post in posts%}
+                                <li>
+                                    <a href="{%url 'yaratici:show_post' slug=post.slug%}"
+                                        aria-current="page">{{post.title}}</a>
+                                </li>
+                                {%endfor%}
+                            </ul>
+
+                        </div>
+                       
+                        <div id="categories-2" class="widget widget_categories">
+                            <h5 class="widgettitle">Kategoriler</h5>
+                            <ul>
+                                <li class="cat-item cat-item-3"><a
+                                        href="#">Çocuklarda
+                                        Yaratıcılık</a>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {%endblock%}

@@ -1,0 +1,51 @@
+{% extends './base.html' %}
+
+
+{% block content %}
+
+{% if course_list %}
+<ul>
+    {% for course in course_list %}
+    <li><a href="{% url 'courses:detail' course.id %}">{{ course.course_name }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No polls are available.</p>
+{% endif %}
+
+
+<!-- Main Content -->
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto py-5">
+            {% for course in course_list %}
+            <div class="post-preview">
+                <a href="{% url 'courses:detail' course.id %}">
+                    <h2 class="post-title">
+                        {{course.course_name}}
+                    </h2>
+                    <h3 class="post-subtitle">
+                        {{course.pub_date}}
+                    </h3>
+                </a>
+                <p class="post-meta">Posted by
+                    {{course.id}}
+                    add X for admin delete
+                    
+                </p>
+            </div>
+            <hr>
+            {% endfor %}
+
+
+            <!-- New Post -->
+
+            <div class="clearfix">
+                <a class="btn btn-primary float-right" href="#">Create New Post</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endblock  %}

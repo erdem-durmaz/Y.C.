@@ -1,0 +1,96 @@
+{% extends '../base.html' %}
+
+
+{% block content %}
+<!--Course Details-->
+
+<div class="container-md">
+    <h1>QUIZ: {{quiz_object}}</h1>
+</div>
+<div class="row">
+
+    <div class="container-md">
+        <br>
+        <ul class="list-group ">
+            {% for question in questions %}
+            <li id='question{{question.id}}' class="list-group-item p-1">
+                <div class="row">
+                    <div class="col-12 align-center">
+                        <h4 class="display-4">Question {{forloop.counter}}:</h4>
+                        <h4 >{{question.question|safe}}</h4>
+                    </div>
+                </div>
+            </li>
+            
+            <form method="POST"
+                action="{% url 'emailer:conduct_quiz' quiz_id=quiz_object.id %}#question{{question.id}}">
+                {% csrf_token %}
+                <input type="hidden" value="{{question.id}}" name="question_id">
+                {% for choice in question.choices_set.all %}
+                <li class="list-group-item">
+                    <input class="col-1" type="radio" value="{{choice.answer}}" id="{{choice.id}}" name="response">
+                    <span class='col-11'>{{choice.answer|safe}}</span>
+                </li>
+                {%endfor%}
+
+                {% if not question.answers_set.filter.first.response  %}
+            <li class="list-group-item bg-secondary text-light font-weight-lighter font-italic p-1">You
+                havent answered this question</li>
+            {%else%}
+            <li class="list-group-item bg-warning font-weight-lighter p-1">Your answer submitted as:
+                <strong>{{question.answers_set.filter.first.response}}</strong></li>
+            {%endif%}
+
+                <li class="list-group-item">
+                    {% if question.answers_set.filter.first.response  %}
+                    <button type="submit" class="btn btn-success">Update Answer</button>
+                    {%else%}
+                    
+                    <button type="submit" class="btn btn-primary">Submit Answer</button>
+                    {%endif%}
+                </li>
+            </form>
+        </ul>
+        <br>
+        {%endfor%}
+        <br>
+    </div>
+</div>
+
+<hr>
+<div class="container text-center">
+    <form action="{% url 'emailer:score' quiz_id=quiz_object.id %}" method="POST">
+        {% csrf_token %}
+        <button class="btn btn-success" type="submit">End Test / Show Score</button>
+    </form>
+</div>
+
+<!-- Modals -->
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-outline-light " data-toggle="modal" data-target="#exampleModal">
+    Reset Choices
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Are You Sure?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <a href="#"><button type="button" class="btn btn-success">Yes</button></a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- ModalsEnd -->
+{% endblock %}
