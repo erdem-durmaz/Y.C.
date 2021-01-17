@@ -28,7 +28,6 @@ class BlogPost(models.Model):
 from datetime import timedelta 
 
 
-
 class Question(models.Model):
     question = models.CharField(max_length=255)
     blogpost = models.ForeignKey('BlogPost',on_delete=models.PROTECT, blank=True, null=True)

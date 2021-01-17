@@ -1,7 +1,7 @@
 {% extends './base.html'%}
 
 {% block title %} {{post.title}} {% endblock  %}
-{% block meta %} {{post.meta_description}} {% endblock  %}
+{% block meta %} {{post.meta_title}} {% endblock  %}
 
 {% block css %}{% endblock css %}
 
@@ -51,6 +51,14 @@
                     <br>
                     <b>Tags:</b>  {{post.meta_tags}}
 
+                    <div class="row">
+                        <div class="text-center"> <a class="button color1"
+                                data-attr-shortcode="href:mesmerize_blog_link"
+                                href="{%url 'yaratici:posts' %}">Diğer Yazılar</a>
+                                <a
+                                class="button color1" target="_self"
+                                href="{%url 'yaratici:get_question'%}#question">Haftanın Sorusu <i class="far fa-smile-wink"></i> </a></div>
+                    </div>
                 </div>
                
                 <div class="sidebar col-sm-4 col-md-3">
