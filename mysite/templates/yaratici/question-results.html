@@ -358,7 +358,57 @@ body {
                             {%endfor%}
                             {%endfor%}
                             <br>
-    <a href="{% url 'yaratici:home' %}"><button type="submit" class="btn btn-primary mt-5">Geri Dön</button></a>
+    
+</div>
+
+<div class="related-question-post">
+  <div class="h3">Bu konuyla ilgili olan blog yazımızı okumuş muydunuz?</div>
+
+
+  <div class="related-question-post-container">
+      <div class="post-list-item col-xs-12 space-bottom col-sm-12 col-md-12 "
+          data-masonry-width="col-sm-12.col-md-12">
+          <div id="post-{{question.blogpost.id}}">
+              <div class="post-container">
+                  <div class="post-inner">
+                      <div class="row">
+                          <div class="col-md-2 thumb-col">
+                              <div class="thumb-container">
+                                  <div  class="post-thumbnail">
+                                      <a href="{%url 'yaratici:show_post' slug=question.blogpost.slug %}"
+                                          class="post-list-item-thumb ">
+                                          <img width="626" height="417"
+                                              src="{{question.blogpost.photo.url}}"
+                                              class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                                              alt="" loading="lazy"
+                                              srcset="{{question.blogpost.photo.url}} 626w, {{question.blogpost.photo.url}} 300w"
+                                              sizes="(max-width: 626px) 100vw, 626px" /> </a>
+                                  </div>
+                              </div>
+                          </div>
+                          <div class="col-md-10 text-left item-content">
+                              <div class="list-padding">
+                                  <h2 class="post-title text-left h4">
+                                      <a href="{%url 'yaratici:show_post' slug=question.blogpost.slug %}"
+                                          rel="bookmark">{{question.blogpost.title}}</a>
+                                  </h2>
+                                  <div class="post-excerpt">
+                                      <p>{{question.blogpost.message|truncatewords:20|safe}}<a
+                                              class="read-more"
+                                              href="{%url 'yaratici:show_post' slug=question.blogpost.slug %}">Yazının
+                                              Devamı...</a>
+                                      </p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div><!-- /row -->
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+  <a href="{% url 'yaratici:home' %}"><button type="submit" class="button big color-blue ">Anasayfaya Dön</button></a>
+  <br><br>
 </div>
 
 <script>
