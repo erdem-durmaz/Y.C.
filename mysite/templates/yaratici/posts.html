@@ -70,7 +70,7 @@
                                                             rel="bookmark">{{post.title}}</a>
                                                     </h2>
                                                     <div class="post-excerpt">
-                                                        <p>{{post.message|slice:':300'|safe}}<a class="read-more"
+                                                        <p>{{post.message|truncatewords:40|safe}}<a class="read-more"
                                                                 href="{%url 'yaratici:show_post' slug=post.slug %}">Yazının Devamı...</a>
                                                         </p>
                                                     </div>
