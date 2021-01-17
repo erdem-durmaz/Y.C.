@@ -9,6 +9,7 @@ urlpatterns = [
     path('question/', views.get_question, name='get_question'),
     path('results/<int:question_id>', views.question_results, name='question_results'),
     path('post/<slug:slug>', views.show_post, name='show_post'),
+    path('cerez-politikasi', views.cerez, name='cerez'),
     # path('add-message/', views.add_message, name='add_message'),
     # path('conduct-quiz/<int:quiz_id>', views.conduct_quiz, name='conduct_quiz'),
     # path('scores/<int:quiz_id>', views.score, name='score'),

@@ -10,6 +10,9 @@ from django.urls import reverse
 def landing_page(request):
     return render(request, 'yaratici/landing.html')
 
+def cerez(request):
+    posts = BlogPost.objects.all().exclude(id=1).order_by('-create_date')
+    return render(request, 'yaratici/cerez.html', {'posts': posts})
 
 def home(request):
     posts = BlogPost.objects.order_by('-create_date')[:3]
