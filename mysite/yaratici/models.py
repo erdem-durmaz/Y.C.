@@ -31,9 +31,10 @@ from datetime import timedelta
 
 class Question(models.Model):
     question = models.CharField(max_length=255)
+    blogpost = models.ForeignKey('BlogPost',on_delete=models.PROTECT, blank=True, null=True)
     create_date = models.DateTimeField(auto_now_add=True)
     is_Published = models.BooleanField(default=False)
-    publish_date = models.DateTimeField()
+    
     
     def __str__(self):
         return self.question

@@ -54,6 +54,7 @@ def question_results(request,question_id):
 def get_question(request):
     form = ChoiceForm()
     question = get_object_or_404(Question, is_Published=True)
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:10]
 
     if request.method == 'POST':
         print(request.POST)
@@ -70,6 +71,6 @@ def get_question(request):
             
         return redirect('yaratici:question_results', question_id= question.id)
 
-    return render(request, 'yaratici/show-question.html', {'question': question, 'form': form})
+    return render(request, 'yaratici/show-question.html', {'question': question, 'form': form, 'posts': posts})
 
 

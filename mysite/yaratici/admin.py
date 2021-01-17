@@ -20,7 +20,11 @@ class QuestionAdmin(admin.ModelAdmin):
     search_fields = ('question',)
     list_per_page = 20
 
+class ChoiceAdmin(admin.ModelAdmin):
+    list_display =('choice','question','counter')
+    list_per_page = 20
+
 
 admin.site.register(BlogPost,BlogPostAdmin)
 admin.site.register(Question,QuestionAdmin)
-admin.site.register(Choices)
+admin.site.register(Choices, ChoiceAdmin)
