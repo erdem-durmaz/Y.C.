@@ -121,7 +121,7 @@
                                                     rel="bookmark">
                                                     {{post.title}} </a>
                                             </h3>
-                                            <p>{{post.message|slice:':300'|safe}}</p>
+                                            <p>{{post.message|truncatewords:30|safe}}</p>
                                             <a class="read-more link"
                                                 href="{%url 'yaratici:show_post' slug=post.slug %}">
                                                 Devamını Oku... </a>
@@ -152,9 +152,12 @@
                             <h2 class="">Bizi Takipte Kalın!</h2>
                             <h6 class="">@yaratici_cocugum</h6>
                         </div>
-                        <div class="col-sm-4 end-sm" data-type="column"> <a class="button blue"
+                        <div class="col-sm-4 end-sm" data-type="column">  <a class="button blue"
                                 href="https://www.instagram.com/yaratici_cocugum" target="_self" data-cp-link="1"
-                                rel="noopener noreferrer">INSTAGRAM</a></div>
+                                rel="noopener noreferrer"> <i class="fab fa-1x fa-instagram"></i>INSTAGRAM </a>
+                                <a class="button blue"
+                                href="https://www.youtube.com/channel/UC5DKxGl8jlbNtWTW8LSCtqw" target="_self" data-cp-link="1"
+                                rel="noopener noreferrer"> <i class="fab fa-1x fa-youtube"></i>YOUTUBE </a></div>
                     </div>
                 </div>
             </div>

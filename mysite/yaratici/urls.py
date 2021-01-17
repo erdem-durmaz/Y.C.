@@ -4,7 +4,7 @@ from . import views
 app_name = 'yaratici'
 urlpatterns = [
     path('', views.landing_page, name='landing_page'),
-    path('home', views.home, name='home'),
+    path('anasayfa/', views.home, name='home'),
     path('posts/', views.posts, name='posts'),
     path('question/', views.get_question, name='get_question'),
     path('results/<int:question_id>', views.question_results, name='question_results'),
