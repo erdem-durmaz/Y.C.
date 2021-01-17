@@ -59,8 +59,9 @@ def get_question(request):
     if request.method == 'POST':
         print(request.POST)
         if 'response' not in request.POST:
-            messages.add_message(request, messages.WARNING, 'You Did Not Select Any Answer')
+            messages.add_message(request, messages.WARNING, 'Sonuçları görmek için öncesinde lütfen seçim yapınız')
             print('no selection')
+            return redirect('yaratici:get_question')
         else:
             print(f"selectedchoice: {request.POST['response']}")
             choice_object = get_object_or_404(Choices,choice=request.POST['response'])
@@ -69,7 +70,7 @@ def get_question(request):
             print(choice_object.counter)
             choice_object.save()
             
-        return redirect('yaratici:question_results', question_id= question.id)
+            return redirect('yaratici:question_results', question_id= question.id)
 
     return render(request, 'yaratici/show-question.html', {'question': question, 'form': form, 'posts': posts})
 

@@ -76,6 +76,18 @@
             </script>
         </div>
     </div>
+    
+
+    {% if messages %}
+    {% for message in messages %}
+    <div id="message"style="background-color:#F8D7DA; font-size:20px; color:#82333A; padding:20px"class="alert alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert">
+        <i class="fas fa-exclamation-triangle"></i>
+        {{ message }}
+        
+      
+    </div>
+    {% endfor %}
+    {% endif %}
 
     
     <br>
