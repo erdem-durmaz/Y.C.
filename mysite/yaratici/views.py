@@ -36,19 +36,24 @@ def calc_percentage(x,y):
 
 def question_results(request,question_id):
     question = get_object_or_404(Question,pk=question_id)
-    totalvotes = 0
-    dict = {}
+    if request.COOKIES.get('answer_status') == 'yes' and request.COOKIES.get('question_id') == str(question.id):
+        
+        totalvotes = 0
+        dict = {}
+        
+        for choice in question.choices_set.all():
+            totalvotes += choice.counter
+
+        for choice in question.choices_set.all():
+            perc = int(calc_percentage(choice.counter,totalvotes))
+            dict[choice.choice] = perc
+        print(dict)
     
-    for choice in question.choices_set.all():
-        totalvotes += choice.counter
+        return render(request, 'yaratici/question-results.html', {'question': question, 'dict':dict})
+    else:
+        messages.add_message(request, messages.WARNING, 'Sonuçları görmek için öncesinde lütfen seçim yapınız')
+        return redirect('yaratici:get_question')
 
-    for choice in question.choices_set.all():
-        perc = int(calc_percentage(choice.counter,totalvotes))
-        dict[choice.choice] = perc
-    print(dict)
- 
-
-    return render(request, 'yaratici/question-results.html', {'question': question, 'dict':dict})
 
 
 def get_question(request):
@@ -57,21 +62,27 @@ def get_question(request):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:10]
 
     if request.method == 'POST':
-        print(request.POST)
+        if request.COOKIES.get('answer_status') == 'yes' and request.COOKIES.get('question_id') == str(question.id):
+            messages.add_message(request, messages.SUCCESS, 'Anketi daha önce yanıtladınız, sonuçlar gösteriliyor')
+            print('already answered')
+            return redirect('yaratici:question_results', question_id= question.id)
+        # print(request.POST)
         if 'response' not in request.POST:
             messages.add_message(request, messages.WARNING, 'Sonuçları görmek için öncesinde lütfen seçim yapınız')
             print('no selection')
             return redirect('yaratici:get_question')
         else:
             print(f"selectedchoice: {request.POST['response']}")
+            messages.add_message(request, messages.WARNING, 'Oyunuz için teşekkürler, sonuçlar gösteriliyor')
             choice_object = get_object_or_404(Choices,choice=request.POST['response'])
-            
             choice_object.counter +=1
             print(choice_object.counter)
             choice_object.save()
             
-            return redirect('yaratici:question_results', question_id= question.id)
+            response= redirect('yaratici:question_results', question_id= question.id)
+            response.set_cookie('answer_status','yes',max_age=604800)
+            response.set_cookie('question_id',question.id,max_age=604800)
+            return response
 
     return render(request, 'yaratici/show-question.html', {'question': question, 'form': form, 'posts': posts})
-
 
