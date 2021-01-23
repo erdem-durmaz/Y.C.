@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import BlogPost, Question,Choices
+from .models import BlogPost, Question,Choices, Challange
 
 
 
@@ -24,7 +24,14 @@ class ChoiceAdmin(admin.ModelAdmin):
     list_display =('choice','question','counter')
     list_per_page = 20
 
+class ChallangeAdmin(admin.ModelAdmin):
+    list_display =('name','is_Published')
+    list_editable = ('is_Published',)
+
+
 
 admin.site.register(BlogPost,BlogPostAdmin)
 admin.site.register(Question,QuestionAdmin)
 admin.site.register(Choices, ChoiceAdmin)
+admin.site.register(Challange, ChallangeAdmin)
+

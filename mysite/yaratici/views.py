@@ -1,6 +1,6 @@
-from .models import BlogPost, Question,Choices
+from .models import BlogPost, Challange, Question,Choices
 from .forms import ChoiceForm
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.contrib import messages
 from django.urls import reverse
 
@@ -16,9 +16,9 @@ def cerez(request):
 
 def home(request):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
-    print(posts)
+    challanges = Challange.objects.filter(is_Published__exact=True).order_by('-create_date')[:3]
     kimim = BlogPost.objects.get(slug__iexact="ben-kimim")
-    return render(request, 'yaratici/home.html', {'kimim': kimim, 'posts': posts})
+    return render(request, 'yaratici/home.html', {'kimim': kimim, 'posts': posts,'challanges': challanges})
 
 
 def posts(request):
@@ -36,23 +36,18 @@ def calc_percentage(x,y):
 
 def question_results(request,question_id):
     question = get_object_or_404(Question,pk=question_id)
-    if request.COOKIES.get('answer_status') == 'yes' and request.COOKIES.get('question_id') == str(question.id):
-        
-        totalvotes = 0
-        dict = {}
-        
-        for choice in question.choices_set.all():
-            totalvotes += choice.counter
-
-        for choice in question.choices_set.all():
-            perc = int(calc_percentage(choice.counter,totalvotes))
-            dict[choice.choice] = perc
-        print(dict)
+    totalvotes = 0
+    dict = {}
     
-        return render(request, 'yaratici/question-results.html', {'question': question, 'dict':dict})
-    else:
-        messages.add_message(request, messages.WARNING, 'Sonuçları görmek için öncesinde lütfen seçim yapınız')
-        return redirect('yaratici:get_question')
+    for choice in question.choices_set.all():
+        totalvotes += choice.counter
+
+    for choice in question.choices_set.all():
+        perc = int(calc_percentage(choice.counter,totalvotes))
+        dict[choice.choice] = perc
+    print(dict)
+
+    return render(request, 'yaratici/question-results.html', {'question': question, 'dict':dict})
 
 
 
@@ -63,7 +58,7 @@ def get_question(request):
 
     if request.method == 'POST':
         if request.COOKIES.get('answer_status') == 'yes' and request.COOKIES.get('question_id') == str(question.id):
-            messages.add_message(request, messages.SUCCESS, 'Anketi daha önce yanıtladınız, sonuçlar gösteriliyor')
+            messages.add_message(request, messages.SUCCESS, 'Anketi daha önce yanıtladınız, güncel sonuçları aşağıda görebilirsiniz')
             print('already answered')
             return redirect('yaratici:question_results', question_id= question.id)
         # print(request.POST)
@@ -73,7 +68,7 @@ def get_question(request):
             return redirect('yaratici:get_question')
         else:
             print(f"selectedchoice: {request.POST['response']}")
-            messages.add_message(request, messages.WARNING, 'Oyunuz için teşekkürler, sonuçlar gösteriliyor')
+            messages.add_message(request, messages.WARNING, 'Ankete katılımınız için teşekkürler, güncel sonuçları aşağıda görebilirsiniz')
             choice_object = get_object_or_404(Choices,choice=request.POST['response'])
             choice_object.counter +=1
             print(choice_object.counter)
@@ -85,4 +80,5 @@ def get_question(request):
             return response
 
     return render(request, 'yaratici/show-question.html', {'question': question, 'form': form, 'posts': posts})
+
 

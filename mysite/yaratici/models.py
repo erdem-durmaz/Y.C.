@@ -47,6 +47,17 @@ class Choices(models.Model):
     def __str__(self):
         return self.choice
 
+class Challange(models.Model):
+    name = models.CharField(max_length = 250)
+    description = RichTextField(blank=True,null=True)
+    create_date = models.DateTimeField(auto_now_add=True)
+    is_Published = models.BooleanField(default=True)
+    photo = models.URLField(max_length=250)
+    youtube_link = models.CharField(max_length = 500)
+
+    def __str__(self):
+        return self.name
+
 
 
 

@@ -1228,7 +1228,7 @@ body #page p {
 
 .button {
     font-size: .75rem;
-    background-color: #03a9f4;
+    background-color: #7380C6;
     border-radius: 5px;
     min-width: 7rem;
     padding: .55rem 1.5rem;
@@ -1238,7 +1238,7 @@ body #page p {
     cursor: pointer;
     display: inline-block;
     line-height: 1.5rem;
-    border: 2px solid #03a9f4;
+    border: 2px solid #7380C6;
     vertical-align: middle;
     -webkit-appearance: none;
     margin-bottom: .75rem
