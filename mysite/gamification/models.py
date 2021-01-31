@@ -38,6 +38,7 @@ class Challenge(models.Model):
 
 class ImageNominate (models.Model):
     caption = models.CharField(max_length=150, blank=True, verbose_name="Fotoğrafınızın İsmi")
+    owner = models.CharField(max_length=150, blank=True, verbose_name="Eser Sahibi 😊")
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)

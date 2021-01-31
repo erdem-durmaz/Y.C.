@@ -13,7 +13,7 @@ Hello {{user.username|default:'Guest'}}!
         
     {% else %}
         <a href="{% url 'login' %}">Login</a>
-        <a href="{% url 'users:register' %}">Register</a>
+        <a href="{% url 'users:signup' %}">Register</a>
     {% endif %}
 </div>
 

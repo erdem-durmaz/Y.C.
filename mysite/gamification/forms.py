@@ -9,13 +9,18 @@ from django import forms
 class ImageNominateForm(ModelForm):
     class Meta:
         model = ImageNominate
-        fields = ['caption','photo']
+        fields = ['caption','owner','photo']
         widgets = {
             'caption': forms.TextInput(
 				attrs={
 					'class': 'form-control'
 					}
 				),
+            'owner': forms.TextInput(
+            attrs={
+                'class': 'form-control'
+                }
+            ),
 			}
 
 class CommentForm(ModelForm):

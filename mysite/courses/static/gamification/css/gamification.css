@@ -1,0 +1,78 @@
+body {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 16px
+    }
+    
+    .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+    font-family: 'Montserrat', sans-serif;
+    font-weight:500;
+    }
+    
+    h1 {
+    font-size:2rem;
+    font-weight: 800}
+    
+    h2 {
+    font-size:1.5rem}
+    
+    h3 {
+    font-size:1rem}
+    
+    h4 {
+        font-size:1.2rem
+    }
+
+    /* BOOTSTRAP NAVBAR */
+    .navbar {
+        font-family: 'Ubuntu';
+        padding-left: 5.5rem;
+        padding-right: 5.5rem;
+    }
+
+    .navbar-brand {
+        color: #000;
+        text-decoration: none;
+        font-size: 1.6rem;
+        line-height: 100%;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .nav-link {
+        font-weight: 600;
+        font-style: normal;
+        font-size: 14px;
+        line-height: 160%;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+    .nav-item {
+        padding: .85rem;
+    }
+    .navbar-light .navbar-nav .nav-link {
+        color: #000;
+    }
+    .footer {
+        color: #8E9DAE;
+    }
+
+    /* END NAVBAR */
+
+    .post-preview p{
+    color: grey;
+    font-size: 0.75rem}
+    
+    .display-4 {
+        font-size: 2rem
+    }
+
+    .btn-primary {
+        color: #fff;
+        background-color: #7380C6;
+        border-color: #7380C6;
+    }
+    .btn-primary:hover {
+        color: #fff;
+        background-color: #7380C6;
+        border-color: #7380C6;
+    }

@@ -4,37 +4,47 @@
 
 {%endblock%}
 {% block content %}
+<div class="container ">
+<h2 class="pt-3 pb-3 ">Login</h2>
 
-<h2 class="pt-3">Giriş Yap</h2>
-<br>
-  <form method="post">
+{% if form.errors %}
+    <p>Kullanıcı adı ve parola uyuşmadı, tekrar deneyin</p>
+  {% endif %}
+
+  {% if next %}
+    {% if user.is_authenticated %}
+      <p>Your account doesn't have access to this page. To proceed,
+      please login with an account that has access.</p>
+    {% else %}
+      <p>Please login to see this page.</p>
+    {% endif %}
+  {% endif %}
+
+  <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
-    {% for field in form %}
-      <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
-        {% endif %}
-        
-        {% for error in field.errors %}
-        <div class="alert alert-danger w-75" role="alert">
-            {{ error }}
-        </div>
-          
-        {% endfor %}
-      </p>
-    {% endfor %}
-    <button type="submit">Kayıt Ol</button>
+    <table>
+      <tr>
+        <td>{{ form.username.label_tag }}</td>
+        <td>{{ form.username }}</td>
+      </tr>
+      <tr>
+        <td>{{ form.password.label_tag }}</td>
+        <td>{{ form.password }}</td>
+      </tr>
+    </table>
+    <input class="btn btn-primary" type="submit" value="Giriş" />
+    <input type="hidden" name="next" value="{{ next }}" />
   </form>
 
-<div class="links mt-3">
-    <a class="pr-3"href="{% url 'users:register' %}">Register</a>
 
-    <a class="pr-3"href="{% url 'password_reset' %}">Reset password</a>
+
+<div class="links mt-3">
+    <a class="pr-3"href="{% url 'users:signup' %}">Yeni Kayıt</a>
+
+    <a class="pr-3"href="{% url 'password_reset' %}">Parola Yenileme</a>
 
     <a class="pr-3"href="{% url 'users:dashboard' %}">Dashboard</a>
 
 </div>
-
+</div>
 {% endblock %}

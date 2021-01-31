@@ -150,6 +150,6 @@ MEDIA_URL = "/media/"
 
 
 LOGIN_REDIRECT_URL = "gamification:main"
-LOGOUT_REDIRECT_URL = "gamification:main"
+LOGOUT_REDIRECT_URL = "users:dashboard"
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'
