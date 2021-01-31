@@ -22,6 +22,7 @@ class Profile(models.Model):
     
     def save(self):
         im = Image.open(self.profile_pic)
+        im = im.convert('RGB')
         output = BytesIO()
         im = im.resize( (500,500) )
         im.save(output, format='JPEG', quality=50)
@@ -52,6 +53,7 @@ class Challenge(models.Model):
 
     def save(self):
         im = Image.open(self.photo)
+        im = im.convert('RGB')
 		
         
         if im.width > 2000 and im.height> 2000:
@@ -85,7 +87,7 @@ class ImageNominate (models.Model):
 
     def save(self):
         im = Image.open(self.photo)
-		
+        im = im.convert('RGB')
         
         if im.width > 2000 and im.height> 2000:
             print('big picturee')

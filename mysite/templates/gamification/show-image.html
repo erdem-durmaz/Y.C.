@@ -87,6 +87,11 @@
   p {
     margin-bottom: 0px;
   }
+
+  .form-row{
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
 </style>
 {%endblock%}
 
@@ -108,7 +113,7 @@
 
       <div class="mt-3 mb-3">
         <div class="flex">
-          <img src="https://github.com/mugendinjue/instagram/blob/master/media/default.jpg?raw=true"
+          <img src="{{image.user.profile.profile_pic.url}}"
             class="rounded-circle border" alt="{{image.user.profile.profile_pic.url}}" width="80" height="80">
           <div class="ml-3">
             <h2 class=" ml-3 pt-2"><small><strong>{{image.caption}}</strong></small></h2>

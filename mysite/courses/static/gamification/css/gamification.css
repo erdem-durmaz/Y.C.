@@ -23,12 +23,20 @@ body {
     }
 
     /* BOOTSTRAP NAVBAR */
+
+    
     .navbar {
         font-family: 'Ubuntu';
         padding-left: 5.5rem;
         padding-right: 5.5rem;
     }
-
+    @media only screen and (max-width: 600px) {
+        .navbar {
+            font-family: 'Ubuntu';
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+        }
+      }
     .navbar-brand {
         color: #000;
         text-decoration: none;
