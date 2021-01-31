@@ -57,6 +57,21 @@
     .rounded {
         border-radius: 1.25rem!important;
     }
+    .card a {
+        color: #0167ff;
+        font-size: 12px;
+    }
+    #id_description{
+        margin-top: 2rem;
+        margin-bottom: 2rem;
+    }
+    #id_profile_pic{
+        margin-top: 1rem;
+       
+    }
+    p{
+        margin-bottom: 0rem;
+    }
 </style>
 
 
@@ -72,14 +87,7 @@
         
         <div class="card-body">
           <h4 class="card-title">
-            <div class="profile-pic-name">
-                {% if user.profile.profile_pic %}
-                  <img class="picture-circle--medium" src="{{ user.profile.profile_pic.url }}"class="rounded-circle border" alt="img" width="40" height="40">
-                {% else %}
-                  <img class="picture-circle--medium" src="https://github.com/mugendinjue/instagram/blob/master/media/default.jpg?raw=true"class="rounded-circle border" alt="img" width="40" height="40">
-                {% endif %}
-                <span class="username">{{ user.username }}</span>
-              </div>
+            
           </h4>
           
           <form enctype="multipart/form-data" method="post" action="{%url 'gamification:profile_settings' username=request.user %}">

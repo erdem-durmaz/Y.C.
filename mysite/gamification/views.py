@@ -14,19 +14,18 @@ from django.contrib.auth.decorators import login_required
 def profile_settings(request, username):
     user = User.objects.get(username=username)
 
-
     if request.user != user:
         messages.add_message(request, messages.ERROR,
-                                 '<i class="fas fa-error"></i> Yetkiniz Yok!, Anasayfaya Yönlendirildi')
+                                 '<i class="fas fa-error"></i> Yetkiniz bulunmuyor, Anasayfaya Yönlendirildi')
         return redirect('gamification:main')
 
     if request.method == 'POST':
-        current_profile_pic = os.path.join(settings.MEDIA_ROOT, user.profile.profile_pic.path)
+        # current_profile_pic = os.path.join(settings.MEDIA_ROOT, user.profile.profile_pic.path)
 
-        if user.profile.profile_pic.path:
-            pass
-            # os.remove(rf"{user.profile.profile_pic.path}")
-        print(request.POST)
+        # if user.profile.profile_pic.path:
+        #     pass
+        #     # os.remove(rf"{user.profile.profile_pic.path}")
+        # print(request.POST)
         if user.profile:
             form = ProfileForm(request.POST, instance=user.profile, files=request.FILES)
             if form.is_valid():

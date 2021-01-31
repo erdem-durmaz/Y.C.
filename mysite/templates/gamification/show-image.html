@@ -111,8 +111,8 @@
           <img src="https://github.com/mugendinjue/instagram/blob/master/media/default.jpg?raw=true"
             class="rounded-circle border" alt="{{image.user.profile.profile_pic.url}}" width="80" height="80">
           <div class="ml-3">
-            <h2 class=" ml-3 pt-2"><small><strong>{{image.user.username}}</strong></small></h2>
-            <h6 class=" ml-3">{{image.caption}}</h6>
+            <h2 class=" ml-3 pt-2"><small><strong>{{image.caption}}</strong></small></h2>
+            <h6 class=" ml-3"><strong>{{image.owner}}</strong> - {{image.user.username}} </h6>
           </div>
         </div>
 
@@ -130,7 +130,7 @@
         <div id=singlecomment{{comment.id}} class="flex">
           <div>
             <a href="% url 'others_profile' comment.user.id  %}">
-              <img src="https://github.com/mugendinjue/instagram/blob/master/media/default.jpg?raw=true"
+              <img src="{{comment.user.profile.profile_pic.url}}"
                 class="rounded-circle border" alt="img" width="40" height="40">
             </a>
           </div>

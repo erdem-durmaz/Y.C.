@@ -41,13 +41,20 @@ class CommentForm(ModelForm):
 			}
 
 class ProfileForm(ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(ProfileForm, self).__init__(*args, **kwargs)
-        self.fields['description'].label = ""
-
+        
     class Meta:
         model = Profile
         fields = ['description','profile_pic']
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['description'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['description'].widget.attrs['rows'] = 3
+        self.fields['description'].widget.attrs['placeholder'] = 'Hakkınızda'
+        self.fields['description'].label=''
+
+        self.fields['profile_pic'].label=''
+
        
 
 class ContactForm(forms.Form):
