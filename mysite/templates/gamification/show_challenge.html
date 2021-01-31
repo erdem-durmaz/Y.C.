@@ -2007,11 +2007,19 @@
         line-height: 1.2;
         letter-spacing: 1.2px;
     }
+
+    @media (max-width: 767px) {
+        .display-3 {
+            font-size: 1.5rem;
+        }
+    }
+    
     .flexcontainer{
         display: flex;
         align-items: baseline;
         vertical-align: middle;
     }
+
 
 </style>
 
@@ -2022,9 +2030,9 @@
 {%block content %}
 
 
-<div  class="d-flex justify-content-around align-items-center">
+<div  class="d-flex flex-column justify-content-around align-items-center">
     <div ><h1 style="color:#3C424F"class="display-3 text-center py-3">{{challenge.title}}</h1></div>
-    <div class="d-flex align-items-baseline ">
+    <div class="d-flex align-items-baseline mb-3">
         <a href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}"
             class="btn btn-primary btn-fill btn-round mr-2"> Detaylar</a>
         <a href="{%url 'gamification:send_challenge_photo' challenge_id=challenge.id %}"
