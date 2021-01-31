@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'users',
     'yaratici',
     'ckeditor',
+    'gamification',
 ]
 
 
@@ -148,7 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media')
 MEDIA_URL = "/media/"
 
 
-LOGIN_REDIRECT_URL = "users:dashboard"
-LOGOUT_REDIRECT_URL = "users:dashboard"
+LOGIN_REDIRECT_URL = "gamification:main"
+LOGOUT_REDIRECT_URL = "gamification:main"
 
 CKEDITOR_UPLOAD_PATH = 'uploads/'

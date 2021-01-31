@@ -1,0 +1,30 @@
+{% extends '../base.html' %}
+
+{%block css%}
+<style>
+    label, input {
+        display: block;
+    }
+    span.helptext {
+        display: block;
+    }
+</style>
+{%endblock%}
+
+{% block content %}
+
+
+{%if user.is_authenticated %}
+<h2>Farklı Bir Hesapla Kaydolmak İçin Lütfen Çıkış Yapın</h2>
+<a href="{% url 'logout' %}">Logout</a>
+{%else%}
+
+<form method="post">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit" value="Register">
+</form>
+<a href="{% url 'login' %}">Back to login</a>
+{%endif%}
+
+{% endblock %}

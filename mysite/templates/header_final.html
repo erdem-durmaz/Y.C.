@@ -1,0 +1,63 @@
+{%if 'anasayfa' in request.path %}
+
+                {%endif%}
+
+                
+
+
+            
+
+
+            <nav style="background-color:white" class="navbar navbar-expand-lg navbar-light ">
+                <a class="navbar-brand" href="{% url 'yaratici:home' %}">Yaratıcı <span style="font-weight: 300;"
+                        class="">
+                        Çocuğum</span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02"
+                    aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+                    <ul class="navbar-nav ml-auto  mt-lg-0">
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'yaratici:posts' %}">BlOG YAZILARI </a>
+                        </li>
+                        
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'yaratici:show_post' slug='ben-kimim' %}">bEN KİMİM </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gamification:contact_form'%}" tabindex="-1" aria-disabled="true">İLETİŞİM</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'gamification:main'%}">CHALLENGE's </a>
+                        </li>
+                        <li class="nav-item">
+                            {% if user.is_authenticated %}
+                            <a style="color:#03a9f4"class="nav-link" href="{% url 'gamification:profile' username=user.username %}" tabindex="-1" aria-disabled="true"><i class="fas fa-user"></i>{{user}}</a>
+                            
+                            {%else%}
+                            <a class="nav-link" href="{% url 'login' %}" tabindex="-1" aria-disabled="true"></i>Login</a>
+                            {%endif%}
+                        </li>
+                        {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> </a>
+                        </li>
+                        {%endif%}
+                    </ul>
+
+                </div>
+            </nav>
+
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show mb-0" role="alert">
+                {{ message|safe }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% endfor %}
+            {% endif %}

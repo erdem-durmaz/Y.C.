@@ -1,0 +1,358 @@
+{%extends '../base.html'%}
+{%block css%}
+
+<style>
+
+.progress {
+  width: 150px;
+  height: 150px;
+  background: none;
+  position: relative;
+}
+
+.progress::after {
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 6px solid #eee;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.progress>span {
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  z-index: 1;
+}
+
+.progress .progress-left {
+  left: 0;
+}
+
+.progress .progress-bar {
+  width: 100%;
+  height: 100%;
+  background: none;
+  border-width: 6px;
+  border-style: solid;
+  position: absolute;
+  top: 0;
+}
+
+.progress .progress-left .progress-bar {
+  left: 100%;
+  border-top-right-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-left: 0;
+  -webkit-transform-origin: center left;
+  transform-origin: center left;
+}
+
+.progress .progress-right {
+  right: 0;
+}
+
+.progress .progress-right .progress-bar {
+  left: -100%;
+  border-top-left-radius: 80px;
+  border-bottom-left-radius: 80px;
+  border-right: 0;
+  -webkit-transform-origin: center right;
+  transform-origin: center right;
+}
+
+.progress .progress-value {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+
+body {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+  min-height: 100vh;
+}
+
+.rounded-lg {
+  border-radius: 1rem;
+}
+
+.text-gray {
+  color: #aaa;
+}
+
+div.h4 {
+  line-height: 1rem;
+}
+</style>
+
+<style>
+    .header-name{
+        color: #FFF;
+        margin-bottom: 1.25rem;
+        font-size: 2rem;
+        font-weight: 300;
+        line-height: 1.14;
+        letter-spacing: .9px;
+        padding-left: 1rem;
+        font-weight: 600;
+        
+    }
+    .header-photo{
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        
+    }
+    #flexcontainer{
+        display: flex;
+        align-items:center;
+        padding: 2rem 1rem;
+        
+        word-wrap: break-word;
+        
+        
+    }
+    .editlink{
+        font-size: 1rem;
+        color: #37BFFC;
+        font-weight: 400;
+    }
+    .header-desc{
+        font-family: "Ubuntu";
+        font-size: 1.1rem;
+        font-weight: 300;
+        max-width: 500px;
+        letter-spacing: 0px;
+        padding-top: 5px;
+        
+    }
+</style>
+{%endblock%}
+
+{%block content %}
+
+<div class="container">
+    <div class="row">
+  
+        <div id="flexcontainer"class="col-xl-10 pl-5">
+            <div class="header-photo ">
+                <img class=" header-photo" src="{{profile.profile_pic.url}}" alt="card image">
+            </div>
+            <div class="header-name">
+                {{user}}
+            <a class="editlink "href="{%url 'gamification:profile_settings' username=user.username %}">Edit Profile </a>
+            <div class="header-desc">
+                {{profile.description}}
+            </div>
+            </div>
+            
+            
+        </div>
+
+  
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="bg-white rounded-lg p-5 shadow">
+          <h2 class="h6 font-weight-bold text-center mb-4">Yorumlar</h2>
+  
+          <!-- Progress bar 1 -->
+          <div class="progress mx-auto" data-value='100'>
+            <span class="progress-left">
+                          <span class="progress-bar border-primary"></span>
+            </span>
+            <span class="progress-right">
+                          <span class="progress-bar border-primary"></span>
+            </span>
+            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+              <div class="h2 font-weight-bold">{{user.comment_set.count}}</div>
+            </div>
+          </div>
+          <!-- END -->
+  
+          <!-- Demo info -->
+          <div class="row text-center mt-4">
+            <div class="col-6 border-right">
+              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
+            </div>
+            <div class="col-6">
+              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
+            </div>
+          </div>
+          <!-- END -->
+        </div>
+      </div>
+  
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="bg-white rounded-lg p-5 shadow">
+          <h2 class="h6 font-weight-bold text-center mb-4">Fotoğraflar</h2>
+  
+          <!-- Progress bar 2 -->
+          <div class="progress mx-auto" data-value='100'>
+            <span class="progress-left">
+                          <span class="progress-bar border-danger"></span>
+            </span>
+            <span class="progress-right">
+                          <span class="progress-bar border-danger"></span>
+            </span>
+            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+              <div class="h2 font-weight-bold">{{user.imagenominate_set.count}}</div>
+            </div>
+          </div>
+          <!-- END -->
+  
+          <!-- Demo info-->
+          <div class="row text-center mt-4">
+            <div class="col-6 border-right">
+              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
+            </div>
+            <div class="col-6">
+              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
+            </div>
+          </div>
+          <!-- END -->
+        </div>
+      </div>
+  
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="bg-white rounded-lg p-5 shadow">
+          <h2 class="h6 font-weight-bold text-center mb-4">Like</h2>
+  
+          <!-- Progress bar 3 -->
+          <div class="progress mx-auto" data-value='100'>
+            <span class="progress-left">
+                          <span class="progress-bar border-success"></span>
+            </span>
+            <span class="progress-right">
+                          <span class="progress-bar border-success"></span>
+            </span>
+            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+              <div class="h2 font-weight-bold">{{image_likes}}</div>
+            </div>
+          </div>
+          <!-- END -->
+  
+          <!-- Demo info -->
+          <div class="row text-center mt-4">
+            <div class="col-6 border-right">
+              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
+            </div>
+            <div class="col-6">
+              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
+            </div>
+          </div>
+          <!-- END -->
+        </div>
+      </div>
+  
+      <div class="col-xl-3 col-lg-6 mb-4">
+        <div class="bg-white rounded-lg p-5 shadow">
+          <h2 class="h6 font-weight-bold text-center mb-4">Toplam Puan</h2>
+  
+          <!-- Progress bar 4 -->
+          <div class="progress mx-auto" data-value='12'>
+            <span class="progress-left">
+                          <span class="progress-bar border-warning"></span>
+            </span>
+            <span class="progress-right">
+                          <span class="progress-bar border-warning"></span>
+            </span>
+            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+              <div class="h2 font-weight-bold">12<sup class="small">%</sup></div>
+            </div>
+          </div>
+          <!-- END -->
+  
+          <!-- Demo info -->
+          <div class="row text-center mt-4">
+            <div class="col-6 border-right">
+              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
+            </div>
+            <div class="col-6">
+              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
+            </div>
+          </div>
+          <!-- END -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+    $(function() {
+
+        $(".progress").each(function() {
+      
+          var value = $(this).attr('data-value');
+          var left = $(this).find('.progress-left .progress-bar');
+          var right = $(this).find('.progress-right .progress-bar');
+      
+          if (value > 0) {
+            if (value <= 50) {
+              right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+            } else {
+              right.css('transform', 'rotate(180deg)')
+              left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
+            }
+          }
+      
+        })
+      
+        function percentageToDegrees(percentage) {
+      
+          return percentage / 100 * 360
+      
+        }
+      
+      });
+</script>
+
+<script>
+    // AJAX CALL
+    $('.likin').click(function () {
+        console.log('click worked')
+        $.ajax({
+            type: "POST",
+            url: "% url 'gamification:like' %}",
+            data: {
+                'content_id': $(this).attr('name'),
+                'operation': 'like_submit',
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                selector = document.getElementsByName("likebtn" + response.content_id);
+                likecount = document.getElementById("likecounts" + response.content_id)
+                console.log(selector)
+                if (response.liked == true) {
+                    $(selector).attr("class", "fas fa-heart");
+                    $(likecount).text(response.likes_count)
+
+
+                } else if (response.liked == false) {
+                    $(selector).attr("class", "far fa-heart");
+                    $(likecount).text(response.likes_count)
+
+
+                }
+
+
+            }
+
+        });
+
+    })
+</script>
+
+{%endblock%}

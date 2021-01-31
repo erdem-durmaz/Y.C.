@@ -10,9 +10,6 @@
     }
 </style>
 
-
-<a class="skip-link screen-reader-text" href="#page-content">Skip to content</a>
-
 {%if 'anasayfa' in request.path %}
 <div id="page-top" class="header-top homepage">
     <div class="navigation-bar homepage">
@@ -39,6 +36,7 @@
                                 class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-130">
                                 <a href="{% url 'yaratici:posts' %}"
                                     aria-current="page">Blog YAZILARI</a></li>
+
                             <li id="menu-item-140"
                                 class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item current_page_item menu-item-home menu-item-140">
                                 <a href="{% url 'yaratici:show_post' slug='ben-kimim' %}" aria-current="page">Ben

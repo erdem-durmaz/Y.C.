@@ -28,5 +28,6 @@ urlpatterns = [
     path('users/', include('users.urls')),
     path('', include('yaratici.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('gamification/', include('gamification.urls')),
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
