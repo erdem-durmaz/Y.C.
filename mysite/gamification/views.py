@@ -217,6 +217,19 @@ def like_image(request):
             ctx={"likes_count":nominee.image_likes.count(),"liked":liked,"content_id":nominee_id}
             return HttpResponse(json.dumps(ctx), content_type='application/json')
 
+def delete_image(request,image_id):
+        image = get_object_or_404(ImageNominate,pk=image_id)
+        if request.user == image.user:
+
+            image.delete()
+            messages.add_message(request, messages.SUCCESS,
+                                 '<i class="fas fa-error"></i> Fotoğraf Silindi')
+            return HttpResponseRedirect(reverse('gamification:main'))
+        else:
+            messages.add_message(request, messages.ERROR,
+                                 '<i class="fas fa-error"></i> Yetkiniz bulunmuyor, Anasayfaya Yönlendirildi')
+            return HttpResponseRedirect(reverse('gamification:main'))
+
 
 def send_challenge_photo(request, challenge_id):
     print(request.POST)

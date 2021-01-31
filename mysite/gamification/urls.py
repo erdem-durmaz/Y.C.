@@ -8,7 +8,9 @@ urlpatterns = [
     path('challenge/<slug:slug>', views.show_challenge, name='show_challenge'),
     path('challenge/<slug:slug>/details', views.get_challenge_details, name='get_challenge_details'),
     path('challenge/<slug:slug>/<int:image_id>', views.show_image, name='show_image'),
+    path('delete-image/<int:image_id>', views.delete_image, name='delete_image'),
     path('send-challenge-photo/<int:challenge_id>', views.send_challenge_photo, name='send_challenge_photo'),
+
     # likes
     path('like/', views.like, name='like'),
     path('like-image/', views.like_image, name='like_image'),

@@ -162,7 +162,7 @@
         <form id="post-form" enctype="multipart/form-data" method="post" action="">
           {% csrf_token %}
           <div class="form-row">
-            <div class="col-9">{{form.as_p}}</div>
+            <div class="col-9 mb-3">{{form.as_p}}</div>
             <div class="col-"><input id="imageid" name="{{image.id}}" class="btn btn-primary sendcomment " type="submit"
                 value="Gönder"></div>
           </div>

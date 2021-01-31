@@ -2020,6 +2020,12 @@
         vertical-align: middle;
     }
 
+    #deletebutton{
+        width: 100%;
+        padding: 0px;
+        border-color:#7380C6;
+        color:#ff918e
+    }
 
 </style>
 
@@ -2031,7 +2037,7 @@
 
 
 <div  class="d-flex flex-column justify-content-around align-items-center">
-    <div ><h1 style="color:#3C424F"class="display-3 text-center py-3">{{challenge.title}}</h1></div>
+    <div ><h1 style="color:#3C424F"class="display-3 text-center py-3"><strong> {{challenge.title}}</strong></h1></div>
     <div class="d-flex align-items-baseline mb-3">
         <a href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}"
             class="btn btn-primary btn-fill btn-round mr-2"> Detaylar</a>
@@ -2054,13 +2060,14 @@
                 <div class="category">
                     <a class=""href="#">
                         <h6 class="label label-info">{{nominee.user}}</h6>
+                        
                     </a>
                 </div>
 
             </div>
 
             <div class="content text-center">
-                <a href="{{nominee.photo.url}}" class="stretched-link" data-lightbox="image-1" data-title="{{nominee.caption}}">
+                <a href="{%url 'gamification:show_image' slug=nominee.challenge.slug image_id=nominee.id %}" class="stretched-link"  data-title="{{nominee.caption}}">
                     <h4 class="title">{{nominee.caption}}</h4>
                 </a>
                 <p class="description">{{nominee.owner}}</p>
@@ -2083,8 +2090,17 @@
                         <i class="far fa-comment"></i>
                         <span id="commentcount{{ nominee.id }}">{{nominee.comment_set.count}}</span>
                     </button>
+                    
                 </a>
-                
+
+                {%if user == nominee.user %}
+                <a href="{%url 'gamification:delete_image'  image_id=nominee.id %}">
+                    <button id="deletebutton"class="btn btn-danger">
+                        <i class="fas fa-times"></i>
+                        <span id="commentcount{{ nominee.id }}">Sil</span>
+                    </button>
+                </a>
+                {%endif %}
                 <div class="content">
                     <p></p>
                 </div>

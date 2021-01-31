@@ -5,7 +5,7 @@ from django.urls import reverse
 from ckeditor.fields import RichTextField
 
 import sys
-from PIL import Image
+from PIL import Image,ImageOps
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
@@ -22,6 +22,7 @@ class Profile(models.Model):
     
     def save(self):
         im = Image.open(self.profile_pic)
+        im = ImageOps.exif_transpose(im)
         im = im.convert('RGB')
         output = BytesIO()
         print(im.width)
