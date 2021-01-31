@@ -65,6 +65,11 @@ def profile(request, username):
         if user in i.image_likes.all():
             likes +=1
 
+    if not Profile.objects.filter(user=user).exists() :
+        new_profile = Profile(
+            user=user,
+        )
+        new_profile.save()
     profile = Profile.objects.get(user=user)
     context = {
         'username': username,
