@@ -526,8 +526,8 @@
     .btn-warning.active,
     .open>.btn-warning.dropdown-toggle {
         background-color: transparent;
-        color: #ED8D00;
-        border-color: #ED8D00;
+        color: #F8A6A3;
+        border-color:#F8A6A3;
     }
 
     .btn-warning.disabled,

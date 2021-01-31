@@ -24,6 +24,8 @@ class Profile(models.Model):
         im = Image.open(self.profile_pic)
         im = im.convert('RGB')
         output = BytesIO()
+        print(im.width)
+        print(im.height)
         im = im.resize( (500,500) )
         im.save(output, format='JPEG', quality=50)
         output.seek(0)

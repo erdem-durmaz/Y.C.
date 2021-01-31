@@ -319,8 +319,8 @@
     }
 
     .btn-primary {
-        border-color: #3472F7;
-        color: #3472F7;
+        border-color: #7380C6;
+        color: #7380C6;
     }
 
     .btn-primary:hover,
@@ -329,8 +329,8 @@
     .btn-primary.active,
     .open>.btn-primary.dropdown-toggle {
         background-color: transparent;
-        color: #1D62F0;
-        border-color: #1D62F0;
+        color: #7380C6;
+        border-color: #7380C6;
     }
 
     .btn-primary.disabled,
@@ -363,7 +363,7 @@
 
     .btn-primary.btn-fill {
         color: #FFFFFF;
-        background-color: #3472F7;
+        background-color: #7380C6;
         opacity: 1;
         filter: alpha(opacity=100);
     }
@@ -373,7 +373,7 @@
     .btn-primary.btn-fill:active,
     .btn-primary.btn-fill.active,
     .open>.btn-primary.btn-fill.dropdown-toggle {
-        background-color: #1D62F0;
+        background-color: #7380C6;
         color: #FFFFFF;
     }
 
@@ -520,8 +520,8 @@
     }
 
     .btn-warning {
-        border-color: #FF9500;
-        color: #FF9500;
+        border-color:#F8A6A3;
+        color: #F8A6A3;
     }
 
     .btn-warning:hover,
@@ -530,9 +530,10 @@
     .btn-warning.active,
     .open>.btn-warning.dropdown-toggle {
         background-color: transparent;
-        color: #ED8D00;
-        border-color: #ED8D00;
+        color: #F8A6A3;
+        border-color:#F8A6A3;
     }
+
 
     .btn-warning.disabled,
     .btn-warning.disabled:hover,
@@ -559,12 +560,12 @@
     fieldset[disabled] .btn-warning:active,
     fieldset[disabled] .btn-warning.active {
         background-color: transparent;
-        border-color: #FF9500;
+        border-color: #F8A6A3;
     }
 
     .btn-warning.btn-fill {
         color: #FFFFFF;
-        background-color: #FF9500;
+        background-color: #F8A6A3;
         opacity: 1;
         filter: alpha(opacity=100);
     }
@@ -574,7 +575,7 @@
     .btn-warning.btn-fill:active,
     .btn-warning.btn-fill.active,
     .open>.btn-warning.btn-fill.dropdown-toggle {
-        background-color: #ED8D00;
+        background-color: #F8A6A3;
         color: #FFFFFF;
     }
 
@@ -2006,6 +2007,12 @@
         line-height: 1.2;
         letter-spacing: 1.2px;
     }
+    .flexcontainer{
+        display: flex;
+        align-items: baseline;
+        vertical-align: middle;
+    }
+
 </style>
 
 
@@ -2014,7 +2021,19 @@
 
 {%block content %}
 
-<h1 class="display-3 text-center py-3">{{challenge.title}}</h1>
+
+<div  class="d-flex justify-content-around align-items-center">
+    <div ><h1 style="color:#3C424F"class="display-3 text-center py-3">{{challenge.title}}</h1></div>
+    <div class="d-flex align-items-baseline ">
+        <a href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}"
+            class="btn btn-primary btn-fill btn-round mr-2"> Detaylar</a>
+        <a href="{%url 'gamification:send_challenge_photo' challenge_id=challenge.id %}"
+            class="btn btn-warning btn-fill btn-round"><i class="fas fa-user-plus"></i> Katıl</a>
+    
+    </div>
+</div>
+
+
 
 
 <div class="row">
