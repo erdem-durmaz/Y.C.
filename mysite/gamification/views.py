@@ -232,6 +232,7 @@ def send_challenge_photo(request, challenge_id):
                 user =request.user,
                 challenge = challenge,
                 photo=form.cleaned_data['photo'],
+                owner = form.cleaned_data['owner']
             )
             new_photo.save()
 
