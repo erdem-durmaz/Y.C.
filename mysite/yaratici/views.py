@@ -1,4 +1,4 @@
-from .models import BlogPost, Challange, Question,Choices
+from .models import BlogPost, Category, Challange, Question,Choices
 from .forms import ChoiceForm
 from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.contrib import messages
@@ -23,13 +23,37 @@ def home(request):
 
 def posts(request):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
-    return render(request, 'yaratici/posts.html', {'posts': posts})
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    dates = BlogPost.objects.dates('create_date','month')
+    years = [i.year for i in dates]
+    categories = Category.objects.all()
+
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+
+def posts_byyear(request,year):
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(create_date__year=str(year)).order_by('-create_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    dates = BlogPost.objects.dates('create_date','month')
+    years = [i.year for i in dates]
+    categories = Category.objects.all()
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+
+def posts_bytag(request,slug):
+    print(slug)
+    category = Category.objects.get(slug=slug)
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(category__exact=category).order_by('-create_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    dates = BlogPost.objects.dates('create_date','month')
+    years = [i.year for i in dates]
+    categories = Category.objects.all()
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
 
 
 def show_post(request, slug):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:10]
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
     post = get_object_or_404(BlogPost, slug=slug)
-    return render(request, 'yaratici/post.html', {'post': post, 'posts': posts})
+    return render(request, 'yaratici/post.html', {'post': post, 'posts': posts,'sidebarposts':sidebar_posts})
 
 def calc_percentage(x,y):
     return x/y*100
