@@ -53,7 +53,10 @@ def show_post(request, slug):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:10]
     sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
     post = get_object_or_404(BlogPost, slug=slug)
-    return render(request, 'yaratici/post.html', {'post': post, 'posts': posts,'sidebarposts':sidebar_posts})
+    dates = BlogPost.objects.dates('create_date','month')
+    years = [i.year for i in dates]
+    categories = Category.objects.all()
+    return render(request, 'yaratici/post.html', {'post': post, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
 
 def calc_percentage(x,y):
     return x/y*100
