@@ -150,7 +150,7 @@
     /*     General overwrite     */
     body {
         font-family: 'Open Sans', sans-serif;
-        background-color: #cccccc;
+        background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
     }
 
     a {

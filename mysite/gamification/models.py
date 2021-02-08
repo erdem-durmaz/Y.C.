@@ -1,4 +1,4 @@
-
+from yaratici.models import BlogPost, Question, ImagineQuestion
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -10,10 +10,16 @@ from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 # Create your models here.
+def user_directory_path(instance,filename):
+    return f'user_{instance.user.username}/{filename}'
+
+def profile_directory_path(instance,filename):
+    return f'user_{instance.user.username}/profilepics/{filename}'
+
 
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,)
-    profile_pic = models.ImageField(upload_to='ProfilePicture/',default="default_img.jpg")
+    profile_pic = models.ImageField(upload_to=profile_directory_path,default="default_img.jpg")
     date = models.DateTimeField(auto_now_add=True, null= True)
     description = models.CharField(max_length=200, null=True, blank=True)  
 
@@ -38,7 +44,7 @@ class Profile(models.Model):
 class Challenge(models.Model):
     user = models.ForeignKey(User, on_delete= models.CASCADE )
     title = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to='challenge_img')
+    photo = models.ImageField(upload_to=user_directory_path)
     create_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)
     is_Published = models.BooleanField(default=False)
@@ -116,16 +122,38 @@ class Comment (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, blank=True, null=True)
     image = models.ForeignKey(ImageNominate, on_delete=models.CASCADE, blank=True, null=True)
+    imaginequestion = models.ForeignKey(ImagineQuestion, on_delete=models.CASCADE, blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.comment
 
+class ScoringActivities(models.Model):
+    title = models.CharField(max_length=255)
+    score = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.title
+
 class ScoreBoard (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
+    activity = models.ForeignKey(ScoringActivities, on_delete=models.CASCADE,null=True)
     date = models.DateTimeField(auto_now_add=True)
-    score = models.IntegerField(default=0)
+    challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE, null=True)
+    imagenominate = models.ForeignKey(ImageNominate, on_delete=models.SET_NULL, null=True)
+    comment = models.ForeignKey(Comment, on_delete=models.SET_NULL, null=True)
+    deleted = models.BooleanField(default=False)
+    weeklyquestion = models.ForeignKey(Question, on_delete=models.SET_NULL, null=True)
+    blogpost = models.ForeignKey(BlogPost, on_delete=models.SET_NULL, null=True)
+    imaginequestion = models.ForeignKey(ImagineQuestion, on_delete=models.SET_NULL, null=True)
+    totalscore = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.id)+str(self.user)+str(self.activity)
+
+
+
+
 
 
 

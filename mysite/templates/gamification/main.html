@@ -5,8 +5,6 @@
 <link rel="stylesheet" type="text/css" href="{% static 'gamification/css/cards.css' %}">
 
 <style>
-   
-
     .media-comment {
         margin-top: 20px
     }
@@ -44,15 +42,14 @@
 {%block content %}
 
 
-
-
-<div class="row mt-5" >
+<div class="row mt-5">
     {%for challenge in challenges %}
     <div class="card-box col-lg-4 col-md-6 col-sm-12">
         <div class="card">
             <div style=" background-image: url('{{challenge.photo.url}}'); background-position: center center; background-size: cover;"
-                class="header">
+                class="header"> <a class="stretched-link"href="{%url 'gamification:show_challenge' slug=challenge.slug %}"></a>
                 <div class="social-line social-line-visible" data-buttons="4">
+                    
                     <button name="{{ challenge.id }}" class="likin btn btn-social btn-facebook">
                         {%if user in challenge.image_likes.all %}
                         <i name="likebtn{{ challenge.id }}" style="color: red;" class=" fas fa-heart"></i>
@@ -68,13 +65,18 @@
                             <span id="likecounts{{ challenge.id }}">{{challenge.comment_set.count}}</span>
                         </button></a>
                     <button class="btn btn-social btn-twitter">
-                        <i style="color: #C0E218" class="fas fa-list-ul"></i>
+                        <a href="{%url 'gamification:leaderboard' %}"><i style="color: #C0E218"
+                                class="fas fa-list-ul"></i></a>
+
                     </button>
                     <button class="btn btn-social btn-twitter">
-                        <i style="color: #222831" class="fas fa-user-plus"></i>
+                        <a href="{%url 'gamification:send_challenge_photo' challenge_id=challenge.id %}"><i
+                                style="color: #222831" class="fas fa-user-plus"></i></a>
+
                     </button>
 
                 </div>
+                
             </div>
             <div id="fixedheight" class="content">
 
@@ -84,26 +86,25 @@
                 </a>
 
                 <p class="description "> {{challenge.message|truncatewords:10|safe}} <a
-                        style="color: #1769ff;font-weight:300"
-                        href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}"> Detaylar</a>
+                        style="font-size:14px; color: #7380C6; font-weight:bold"
+                        href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}">Devamı</a>
                 </p>
 
 
                 <div class="commentbox">
                     {%if challenge.comment_set.all %}
                     <p><span class="bold">{{challenge.comment_set.first.user}}</span> <span
-                            class="description">{{challenge.comment_set.first.comment|truncatechars:10|safe}}</span></p>
+                            class="description">{{challenge.comment_set.first.comment|slice:"20"}}</span></p>
                     <p class="description"><a
                             href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}">{{challenge.comment_set.count}}
                             Yorumun tümünü gör</a></p>
-                            {%if challenge.comment_set.all > 1 %}
+                    {%if challenge.comment_set.all.count > 1 %}
                     <p><span class="bold">{{challenge.comment_set.last.user}}</span> <span
-                            class="description">{{challenge.comment_set.last.comment|truncatechars:10|safe}}</span></p>
-                            {%endif%}
+                            class="description">{{challenge.comment_set.last.comment|slice:"20"}}</span></p>
+                    {%endif%}
                     {%else%}
-                    <p><span class="bold">Henüz Yorum Yapılmamış </span> <span
-                        class="description"></span></p>
-                        {%endif%}
+                    <p><span class="bold">Henüz Yorum Yapılmamış </span> <span class="description"></span></p>
+                    {%endif%}
                 </div>
 
             </div>
@@ -112,9 +113,9 @@
                     class="btn btn-info btn-fill btn-round"> Fotoğraflar</a>
                 <a href="{%url 'gamification:send_challenge_photo' challenge_id=challenge.id %}"
                     class="btn btn-warning btn-fill btn-round"><i class="fas fa-user-plus"></i> Katıl</a>
-
             </div>
         </div> <!-- end card -->
+        
     </div>
     {%endfor %}
 
@@ -160,10 +161,12 @@
                     $(selector).attr("class", "far fa-heart");
                     $(likecount).text(response.likes_count)
 
-
                 }
 
 
+            },
+            error: function (response) {
+                alert('Beğenmek için lütfen giriş yapınız')
             }
 
         });

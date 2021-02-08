@@ -96,7 +96,7 @@
             <br>
     
             <input  class="btn btn-primary btn-fill" type="submit" value="Gönder"> 
-            <a class="btn btn-danger "href="{%url 'gamification:main' %}">İptal</a>
+            <a class="btn btn-secondary btn-fill "href="{%url 'gamification:main' %}">İptal</a>
             
         </form>
         
@@ -142,6 +142,9 @@
                 }
 
 
+            },
+            error : function (response) {
+                alert('Beğeni için Lütfen Giriş Yapınız')
             }
 
         });

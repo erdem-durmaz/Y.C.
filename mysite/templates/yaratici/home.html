@@ -1,8 +1,25 @@
 {%extends './base.html'%}
 {% block title %} Yaratıcı Çocuğum - Çocuğunuzun Yaratıcı Enerjisine Dokunun! {% endblock  %}
-{% block meta %} NLP Uzmanı Eğitimci Anneden, Çocuklarda Yaratıcılık Üzerine Paylaşımlar. Çocuklarımızla Düzenli Zaman Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
+{% block meta %} NLP Uzmanı Eğitimci Anneden, Çocuklarda Yaratıcılık Üzerine Paylaşımlar. Çocuklarımızla Düzenli Zaman
+Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
 
-{% block css %}{% endblock css %}
+{% block css %}
+<style>
+    .content-2 .bg-image, .content-3 .bg-image {
+        background: url(https://www.yaraticicocugum.com/media/mainpage1.jpg) center center/cover;
+        background-image: url(https://www.yaraticicocugum.com/media/mainpage1.jpg);
+        background-position-x: center;
+        background-position-y: center;
+        background-size: cover;
+        background-repeat-x: initial;
+        background-repeat-y: initial;
+        background-attachment: initial;
+        background-origin: initial;
+        background-clip: initial;
+        background-color: initial;
+        min-height: 450px;
+    }
+</style>{% endblock css %}
 
 {%block content %}
 
@@ -20,10 +37,11 @@
                             <p class="header-subtitle">Çocuğunuzun Yaratıcı Enerjisine Dokunun</p>
                             <div data-dynamic-mod-container class="header-buttons-wrapper"><a
                                     class="button big color1 round" target="_self"
-                                    href="{%url 'yaratici:get_question'%}#newquestion">Haftanın Sorusu <i class="far fa-smile-wink"></i> </a><a
+                                    href="{%url 'yaratici:get_question'%}#newquestion">Haftanın Sorusu <i
+                                        class="far fa-smile-wink"></i> </a><a
                                     class="button big color-white round outline" target="_self"
                                     href="{%url 'yaratici:posts'%}">Blog Yazıları</a>
-                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -66,27 +84,27 @@
                     <div class="row middle-sm text-center">
                         <div class="col-sm-5 space-bottom-xs content-column content-right-sm" data-type="column">
                             <h5 class="">Yaratıcı Çocuğum Nasıl Doğdu</h5>
-                            <h2 class=""><span href="{%url 'yaratici:show_post' slug=kimim.slug %}">Ben Kimim?</span></h2>
+                            <h2 class=""><span href="{%url 'yaratici:show_post' slug=kimim.slug %}">Ben Kimim?</span>
+                            </h2>
                             <p class=""><span>Aslında yalnızca sizlerden biriyim!
                                 </span>
                                 <br>8 yaşındaki oğlunun doğumuyla birlikte anneliği ilk kez deneyimleyen, çocukları
                                 çok seven, çalışan bir anne!&nbsp;</p> <a class="button color1"
-                                href="{%url 'yaratici:show_post' slug=kimim.slug %}" target="_self"
-                                data-cp-link="1" rel="noopener noreferrer">DEVAMINI OKU</a>
+                                href="{%url 'yaratici:show_post' slug=kimim.slug %}" target="_self" data-cp-link="1"
+                                rel="noopener noreferrer">DEVAMINI OKU</a>
                         </div>
                         <div class="col-sm-7 flexbox flexbox middle-xs center-xs space-bottom-xs">
                             <div class="overlay-box flexbox middle-xs center-xs overlay-holder ">
                                 <div class="overlay-box-offset offset-background shadow-medium bg-color2 hide-xs">
-                                </div> <a data-cp-link="1" href="#"
-                                    target="_self" rel="noopener noreferrer"><img class="flexbox shadow-large img1"
-                                        src="{{kimim.photo.url}}"
-                                        data-size="600x400" alt=""
-                                        title="cropped-Yaratici_Cocugum_Anasayfa.jpg"></a>
+                                </div> <a data-cp-link="1" href="#" target="_self" rel="noopener noreferrer"><img
+                                        class="flexbox shadow-large img1" src="{{kimim.photo.url}}" data-size="600x400"
+                                        alt="" title="cropped-Yaratici_Cocugum_Anasayfa.jpg"></a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+
             <div data-label="Blog YAZILARI" data-id="latest_news--1" data-export-id="blog-section-mc"
                 data-category="latest_news"
                 class="blog-section-mc blog-section-standard content-section content-section-spacing"
@@ -109,17 +127,16 @@
                                         <div class="post-thumbnail">
                                             <a href="{%url 'yaratici:show_post' slug=post.slug %}"
                                                 class="post-list-item-thumb ">
-                                                <img width="626" height="417"
-                                                    src="{{post.photo.url}}"
-                                                    style="height: 250px;" class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
+                                                <img width="626" height="417" src="{{post.photo.url}}"
+                                                    style="height: 250px;"
+                                                    class="attachment-post-thumbnail size-post-thumbnail wp-post-image"
                                                     alt="" loading="lazy"
                                                     srcset="{{post.photo.url}} 626w, {{post.photo.url}} 300w"
                                                     sizes="(max-width: 626px) 100vw, 626px" /> </a>
                                         </div>
                                         <div class="col-padding col-padding-xs">
                                             <h3 class="post-title space-bottom-small">
-                                                <a href="{%url 'yaratici:show_post' slug=post.slug %}"
-                                                    rel="bookmark">
+                                                <a href="{%url 'yaratici:show_post' slug=post.slug %}" rel="bookmark">
                                                     {{post.title}} </a>
                                             </h3>
                                             <p>{{post.message|truncatewords:30|safe}}</p>
@@ -136,59 +153,58 @@
                     <!-- diger yazılar -->
                     <div class="row">
                         <div class="text-center"> <a class="button color1"
-                                data-attr-shortcode="href:mesmerize_blog_link"
-                                href="{%url 'yaratici:posts' %}">Diğer Yazılar</a>
-                                <a
-                                class="button color1" target="_self"
-                                href="{%url 'yaratici:get_question'%}#question">Haftanın Sorusu <i class="far fa-smile-wink"></i> </a></div>
+                                data-attr-shortcode="href:mesmerize_blog_link" href="{%url 'yaratici:posts' %}">Diğer
+                                Yazılar</a>
+                            <a class="button color1" target="_self"
+                                href="{%url 'yaratici:get_question'%}#question">Haftanın Sorusu <i
+                                    class="far fa-smile-wink"></i> </a></div>
                     </div>
                 </div>
             </div>
 
 
-            <div data-label="Youtube" data-id="cta--2" data-export-id="cta-blue-section-mc"
-            data-category="cta"
-            class="cta-blue-section-mc content-section content-section-spacing le_cocktail white-text"
-            id="bizi-takipte-kalin"
-            style="background: rgb(116,129,199);
+            <div data-label="Youtube" data-id="cta--2" data-export-id="cta-blue-section-mc" data-category="cta"
+                class="cta-blue-section-mc content-section content-section-spacing le_cocktail white-text"
+                id="bizi-takipte-kalin" style="background: rgb(116,129,199);
             background: linear-gradient(152deg, rgba(116,129,199,1) 0%, rgba(255,168,162,1) 49%);">
-            <div class="gridContainer">
-                <div class="row middle-xs">
-                    <div class="col-sm-4 space-bottom-xs" data-type="column">
-                        <h2 class="">Challenges</h2>
-                        
-                    </div>
-                    <div class="col-sm-8 end-sm" data-type="column"> 
-                        {%for challenge in challanges %}
-                         <a class="button blue"
-                            href="{{challenge.youtube_link}}" target="_self" data-cp-link="1"
-                            rel="noopener noreferrer"> {{challenge.name}} </a>
+                <div class="gridContainer">
+                    <div class="row middle-xs">
+                        <div class="col-sm-4 space-bottom-xs" data-type="column">
+                            <h2 class="">Challenges</h2>
+
+                        </div>
+                        <div class="col-sm-8 end-sm" data-type="column">
+                            {%for challenge in challanges %}
+                            <a class="button blue" href="{{challenge.youtube_link}}" target="_self" data-cp-link="1"
+                                rel="noopener noreferrer"> {{challenge.name}} </a>
                             {%endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-            
+
             <br>
             <div data-label="Bizi Takipte KALIN" data-id="cta--1" data-export-id="cta-blue-section-mc"
                 data-category="cta"
                 class="cta-blue-section-mc content-section content-section-spacing le_cocktail white-text"
-                id="bizi-takipte-kalin"
-                style="background: rgb(255,255,255);
+                id="bizi-takipte-kalin" style="background: rgb(255,255,255);
                 background: linear-gradient(93deg, rgba(255,255,255,1) 100%, rgba(255,168,162,1) 100%);">
                 <div class="gridContainer">
                     <div class="row middle-xs">
                         <div class="col-sm-8 space-bottom-xs" data-type="column">
-                            <h2 style="color:#5E636D"class="">Bizi Takipte Kalın!</h2>
+                            <h2 style="color:#5E636D" class="">Bizi Takipte Kalın!</h2>
                             <h6 style="color:#5E636D" class="">@yaratici_cocugum</h6>
                         </div>
-                        <div class="col-sm-4 end-sm" data-type="column">  <a style="border:0px; background: rgb(238,155,43);
-                            background: linear-gradient(32deg, rgba(238,155,43,1) 0%, rgba(241,59,81,1) 18%, rgba(230,49,129,1) 39%, rgba(206,54,163,1) 61%, rgba(159,58,178,1) 87%);" class="button blue"
-                                href="https://www.instagram.com/yaratici_cocugum" target="_self" data-cp-link="1"
-                                rel="noopener noreferrer"> <i class="fab fa-1x fa-instagram"></i>INSTAGRAM </a>
-                                <a style="color:#5E636D; background-color:#DCDCDC; border:0px" class="button blue"
-                                href="https://www.youtube.com/channel/UC5DKxGl8jlbNtWTW8LSCtqw" target="_self" data-cp-link="1"
-                                rel="noopener noreferrer"> <i style="color:#F60000" class="fab fa-1x fa-youtube"></i>YOUTUBE </a></div>
+                        <div class="col-sm-4 end-sm" data-type="column"> <a
+                                style="border:0px; background: rgb(238,155,43);
+                            background: linear-gradient(32deg, rgba(238,155,43,1) 0%, rgba(241,59,81,1) 18%, rgba(230,49,129,1) 39%, rgba(206,54,163,1) 61%, rgba(159,58,178,1) 87%);"
+                                class="button blue" href="https://www.instagram.com/yaratici_cocugum" target="_self"
+                                data-cp-link="1" rel="noopener noreferrer"> <i
+                                    class="fab fa-1x fa-instagram"></i>INSTAGRAM </a>
+                            <a style="color:#5E636D; background-color:#DCDCDC; border:0px" class="button blue"
+                                href="https://www.youtube.com/channel/UC5DKxGl8jlbNtWTW8LSCtqw" target="_self"
+                                data-cp-link="1" rel="noopener noreferrer"> <i style="color:#F60000"
+                                    class="fab fa-1x fa-youtube"></i>YOUTUBE </a></div>
                     </div>
                 </div>
             </div>
@@ -197,4 +213,4 @@
 
 
 
-{%endblock %}
+    {%endblock %}

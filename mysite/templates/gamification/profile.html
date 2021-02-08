@@ -2,298 +2,446 @@
 {%block css%}
 
 <style>
+  .progress {
+    width: 150px;
+    height: 150px;
+    background: none;
+    position: relative;
+  }
 
-.progress {
-  width: 150px;
-  height: 150px;
-  background: none;
-  position: relative;
-}
+  .progress::after {
+    content: "";
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 6px solid #eee;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 
-.progress::after {
-  content: "";
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  border: 6px solid #eee;
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+  .progress>span {
+    width: 50%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    z-index: 1;
+  }
 
-.progress>span {
-  width: 50%;
-  height: 100%;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
-  z-index: 1;
-}
+  .progress .progress-left {
+    left: 0;
+  }
 
-.progress .progress-left {
-  left: 0;
-}
+  .progress .progress-bar {
+    width: 100%;
+    height: 100%;
+    background: none;
+    border-width: 6px;
+    border-style: solid;
+    position: absolute;
+    top: 0;
+  }
 
-.progress .progress-bar {
-  width: 100%;
-  height: 100%;
-  background: none;
-  border-width: 6px;
-  border-style: solid;
-  position: absolute;
-  top: 0;
-}
+  .progress .progress-left .progress-bar {
+    left: 100%;
+    border-top-right-radius: 80px;
+    border-bottom-right-radius: 80px;
+    border-left: 0;
+    -webkit-transform-origin: center left;
+    transform-origin: center left;
+  }
 
-.progress .progress-left .progress-bar {
-  left: 100%;
-  border-top-right-radius: 80px;
-  border-bottom-right-radius: 80px;
-  border-left: 0;
-  -webkit-transform-origin: center left;
-  transform-origin: center left;
-}
+  .progress .progress-right {
+    right: 0;
+  }
 
-.progress .progress-right {
-  right: 0;
-}
+  .progress .progress-right .progress-bar {
+    left: -100%;
+    border-top-left-radius: 80px;
+    border-bottom-left-radius: 80px;
+    border-right: 0;
+    -webkit-transform-origin: center right;
+    transform-origin: center right;
+  }
 
-.progress .progress-right .progress-bar {
-  left: -100%;
-  border-top-left-radius: 80px;
-  border-bottom-left-radius: 80px;
-  border-right: 0;
-  -webkit-transform-origin: center right;
-  transform-origin: center right;
-}
-
-.progress .progress-value {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+  .progress .progress-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
 
 
-body {
+  body {
     background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
-  min-height: 100vh;
-}
+    min-height: 100vh;
+  }
 
-.rounded-lg {
-  border-radius: 1rem;
-}
+  .rounded-lg {
+    border-radius: 1rem;
+  }
 
-.text-gray {
-  color: #aaa;
-}
+  .text-gray {
+    color: #aaa;
+  }
 
-div.h4 {
-  line-height: 1rem;
-}
+  div.h4 {
+    line-height: 1rem;
+  }
 </style>
 
 <style>
-    .header-name{
-        color: #FFF;
-        margin-bottom: 1.25rem;
-        font-size: 2rem;
-        font-weight: 300;
-        line-height: 1.14;
-        letter-spacing: .9px;
-        padding-left: 1rem;
-        font-weight: 600;
-        
+  .header-name {
+    color: #FFF;
+    margin-bottom: 1.25rem;
+    font-size: 2rem;
+    font-weight: 300;
+    line-height: 1.14;
+    letter-spacing: .9px;
+    padding-left: 1rem;
+    font-weight: 600;
+
+  }
+
+  .header-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: center center;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2), 0 1rem 1rem -0.5rem rgba(0, 0, 0, 0.3);
+
+  }
+
+  #flexcontainer {
+    display: flex;
+    align-items: center;
+    padding: 2rem 0.5rem;
+
+    word-wrap: break-word;
+
+
+  }
+
+  .editlink {
+    font-size: 1rem;
+    color: #37BFFC;
+    font-weight: 400;
+  }
+
+  .header-desc {
+    font-family: "Ubuntu";
+    font-size: 1.1rem;
+    font-weight: 300;
+    max-width: 500px;
+    letter-spacing: 0px;
+    padding-top: 5px;
+
+  }
+
+  @media only screen and (max-width: 600px) {
+    .header-name {
+      color: #FFF;
+      margin-bottom: 1.25rem;
+      font-size: 1.5rem;
+      line-height: 1.14;
+      letter-spacing: .9px;
+      padding-left: 0.1rem;
+      font-weight: 600;
+
     }
-    .header-photo{
-        width: 120px;
-        height: 120px;
-        border-radius: 50%;
-        object-fit: cover;
-        
-    }
-    #flexcontainer{
-        display: flex;
-        align-items:center;
-        padding: 2rem 1rem;
-        
-        word-wrap: break-word;
-        
-        
-    }
-    .editlink{
-        font-size: 1rem;
-        color: #37BFFC;
-        font-weight: 400;
-    }
-    .header-desc{
-        font-family: "Ubuntu";
-        font-size: 1.1rem;
-        font-weight: 300;
-        max-width: 500px;
-        letter-spacing: 0px;
-        padding-top: 5px;
-        
-    }
-    @media only screen and (max-width: 600px) {
-      .header-name{
-        color: #FFF;
-        margin-bottom: 1.25rem;
-        font-size: 1.5rem;
-        line-height: 1.14;
-        letter-spacing: .9px;
-        padding-left: 0.1rem;
-        font-weight: 600;
-        
-    }
-    }
+  }
+
+  #pointcard {
+    min-height: 360px;
+  }
+
+  #summarybox {
+    background-color: #FFF;
+    border-radius: 1rem;
+    padding: 0.5rem;
+  }
+
+  .pic {
+    position: absolute;
+    top: -2rem;
+    left: 2.5rem;
+    width: 8rem;
+    height: 8rem;
+    border-radius: 50%;
+    background-size: cover;
+    background-position: center;
+    margin-right: 1rem;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2), 0 1rem 1rem -0.5rem rgba(0, 0, 0, 0.3);
+  }
+
+  a:hover {
+    color: #37BFFC;
+    text-decoration: none;
+  }
+  .points{
+    padding: 10px 0px;
+    margin: auto;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    font-size: 0.9rem;
+    background-color: #F8A6A3;
+    text-align: center;
+    border-radius: 10px;
+    min-width: 300px;
+    color: #FFF;
+    
+  }
+  .point-header{
+    font-weight: bold;
+  }
 </style>
 {%endblock%}
 
 {%block content %}
 
 <div class="container">
-    <div class="row">
-  
-        <div id="flexcontainer"class="col-xl-10 pl-5">
-            <div class="header-photo ">
-                <img class=" header-photo" src="{{profile.profile_pic.url}}" alt="card image">
-            </div>
-            <div class="header-name">
-                {{user}}
-            <a class="editlink "href="{%url 'gamification:profile_settings' username=user.username %}">Edit Profile </a>
-            <div class="header-desc">
-                {{profile.description}}
-            </div>
-            </div>
+  <div class="row">
+
+    <div id="flexcontainer" class="col-xl-10 pl-5">
+      <div class="header-photo ">
+        <img class=" header-photo" src="{{profile.profile_pic.url}}" alt="card image">
+      </div>
+      <div class="header-name">
+        {{username}}
+        {% if username == user %}
+        <a class="editlink " href="{%url 'gamification:profile_settings' username=username.username %}">Profili düzenle
+        </a>
+        {%endif%}
+        <div class="header-desc mt-1">
+          {{profile.description|default:""}}
+        </div>
+      </div>
+
+
+    </div>
+
+    <h2 id="summarybox" class="col-xl-12 mb-3 text-center">{{month|date:'F'}} Ayı İstatistikleri</h2>
+
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+
+        <h2 class="h6 font-weight-bold text-center mb-4">Challenge</h2>
+
+        <!-- Progress bar 1 -->
+        <div class="progress mx-auto" data-value='100'>
+          <span class="progress-left">
+            <span class="progress-bar border-primary"></span>
+          </span>
+          <span class="progress-right">
+            <span class="progress-bar border-primary"></span>
+          </span>
+          <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+            <div class="h2 font-weight-bold text-center">{{results.challenges}} <br><small>Puan</small></div>
+          </div>
+
+        </div>
+        <!-- END -->
+
+        <!-- Demo info -->
+        <div class="row text-center mt-4">
+          <div class="col-4 border-right">
+            <div class="h4 font-weight-bold mb-0">{{results.likes}}</div><span class="small text-gray">Like</span>
+          </div>
+          <div class="col-4 border-right">
+            <div class="h4 font-weight-bold mb-0">{{results.comments}}</div><span class="small text-gray">Yorum</span>
+          </div>
+          <div class="col-4">
+            <div class="h4 font-weight-bold mb-0">{{results.images}}</div><span class="small text-gray">Fotoğraf</span>
+          </div>
+
+        </div>
+        <!-- END -->
+        <a class="stretched-link" href="{%url 'gamification:main' %}"></a>
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+        <h2 class="h6 font-weight-bold text-center mb-4">Haftanın Sorusu</h2>
+
+        <!-- Progress bar 2 -->
+        <div class="progress mx-auto" data-value='100'>
+          <span class="progress-left">
+            <span class="progress-bar border-danger"></span>
+          </span>
+          <span class="progress-right">
+            <span class="progress-bar border-danger"></span>
+          </span>
+          <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+            <div class="h2 font-weight-bold text-center">{{results.weeklyquestion}} <br><small>Puan</small> </div>
+          </div>
+        </div>
+        <!-- END -->
+        <!-- Demo info -->
+
+        <div class="row text-center mt-4">
+          {%if results.weeklyquestionid == question.id %}
+          <div class="col-12">
+            <span class="small text-gray">Tebrikler! Haftanın <a class="stretched-link"
+                href="{%url 'yaratici:get_question'%}#newquestion"> sorusunu</a> yanıtladınız😊 Takipte kalın!</span>
+          </div>
+          {%else%}
+          <div class="col-12">
+            <span class="small text-gray">Henüz ankete katılmadınız, yanıtlamak için <a
+                href="{%url 'yaratici:get_question'%}#newquestion"> tıklayınız</a></span>
+          </div>
+          {%endif%}
+          <a class="stretched-link" href="{%url 'yaratici:get_question'%}#newquestion"></a>
+        </div>
+        <!-- END -->
+      </div>
+    </div>
+
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+        <h2 class="h6 font-weight-bold text-center mb-4"> Blog </h2>
+        <a class="stretched-link" href="{%url 'yaratici:posts'%}"></a>
+        <!-- Progress bar 3 -->
+        <div class="progress mx-auto" data-value='100'>
+          <span class="progress-left">
+            <span class="progress-bar border-success"></span>
+          </span>
+          <span class="progress-right">
+            <span class="progress-bar border-success"></span>
+          </span>
+          <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+            <div class="h2 font-weight-bold text-center">{{results.blog_points}} <br><small>Puan</small></div>
+          </div>
+          <a class="stretched-link" href="{%url 'yaratici:posts'%}"></a>
+        </div>
+        <!-- END -->
+        <div class="row text-center mt-4">
+          <div class="col-6">
+            <div class="h4 font-weight-bold mb-0">{{results.blog_read}}</div><span class="small text-gray">Okunan</span>
+          </div>
+          <div class="col-6">
+            <div class="h4 font-weight-bold mb-0"> {{results.blog_postcount}}</div><span class="small text-gray"><a
+                href="{% url 'yaratici:posts' %}">Toplam Post</a></span>
+          </div>
+
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="col-xl-3 col-lg-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+        <h2 class="h6 font-weight-bold text-center mb-4">Hayalgücü Sorusu</h2>
+
+        <!-- Progress bar 2 -->
+        <div class="progress mx-auto" data-value='100'>
+          <span class="progress-left">
+            <span class="progress-bar border-danger"></span>
+          </span>
+          <span class="progress-right">
+            <span class="progress-bar border-danger"></span>
+          </span>
+          <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
+            <div class="h2 font-weight-bold text-center">{{results.imaginequestion}} <br><small>Puan</small> </div>
+          </div>
+        </div>
+        <!-- END -->
+        <!-- Demo info -->
+
+        <div class="row text-center mt-4">
+
+          {%if results.imaginequestionid == imaginequestion.id %}
+          <div class="col-12">
+            <span class="small text-gray">Haftanın <a class="stretched-link"
+                href="{%url 'yaratici:imaginequestion'%}"> hayalgücü sorusuna</a> yorum eklediniz 😊 Takipte kalın!</span>
+          </div>
+          {%else%}
+          <div class="col-12">
+            <span class="small text-gray">Henüz sorumuza yorum eklemediniz, eklemek için <a
+                href="{%url 'yaratici:imaginequestion'%}"> tıklayınız</a></span>
+          </div>
+          {%endif%}
+          <a class="stretched-link" href="{%url 'yaratici:imaginequestion'%}"></a>
+        </div>
+        <!-- END -->
+      </div>
+    </div>
+
+    <div class="col-xl-6 col-lg-6 mb-4 mx-auto">
+      <div style="min-height:200px"id="pointcard" class="bg-white rounded-lg p-3 pt-1 shadow">
+        
+        <!-- Progress bar 4 -->
+        <div class="progress mx-auto" data-value='100'>
+          <span class="progress-left">
+            <span class="progress-bar border-warning"></span>
+          </span>
+          <span class="progress-right">
+            <span class="progress-bar border-warning"></span>
+          </span>
+          <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
             
-            
+            <div class="h2 font-weight-bold text-center"><h2 class="h6 font-weight-bold text-center">Toplam</h2><span class="ml-3">{{results.total_point}}</span><small style="font-size: 12px;">Puan</small></div>
+          </div>
+        </div>
+        <!-- END -->
+        <div class="row text-center mt-4">
+          <div class="col-12">
+            <div style="background-color: #FFC107" class="h3 font-weight-bold mb-0">{{position.current}}.<span
+                style="font-size:10px; color:#fff" class="small text-gray"> sıradasın </span></div>
+            <div><span class="small text-gray">Tüm liste</span></div>
+            <a class="stretched-link" href="{%url 'gamification:leaderboard'%}"></a>
+          </div>
+
         </div>
 
-  
-      <div class="col-xl-3 col-lg-6 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">Yorumlar</h2>
-  
-          <!-- Progress bar 1 -->
-          <div class="progress mx-auto" data-value='100'>
-            <span class="progress-left">
-                          <span class="progress-bar border-primary"></span>
-            </span>
-            <span class="progress-right">
-                          <span class="progress-bar border-primary"></span>
-            </span>
-            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-              <div class="h2 font-weight-bold">{{user.comment_set.count}}</div>
-            </div>
-          </div>
-          <!-- END -->
-  
-          <!-- Demo info -->
-          <div class="row text-center mt-4">
-            <div class="col-6 border-right">
-              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
-            </div>
-            <div class="col-6">
-              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
-            </div>
-          </div>
-          <!-- END -->
-        </div>
       </div>
-  
-      <div class="col-xl-3 col-lg-6 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">Fotoğraflar</h2>
-  
-          <!-- Progress bar 2 -->
-          <div class="progress mx-auto" data-value='100'>
-            <span class="progress-left">
-                          <span class="progress-bar border-danger"></span>
-            </span>
-            <span class="progress-right">
-                          <span class="progress-bar border-danger"></span>
-            </span>
-            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-              <div class="h2 font-weight-bold">{{user.imagenominate_set.count}}</div>
-            </div>
+    </div>
+
+  </div>
+  <div class="row">
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-primary mx-auto" data-toggle="modal" data-target="#exampleModal">
+      Nasıl puan kazanabilirim?
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Nasıl Puan Kazanabilirim?</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
           </div>
-          <!-- END -->
-  
-          <!-- Demo info-->
-          <div class="row text-center mt-4">
-            <div class="col-6 border-right">
-              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
+          <div class="modal-body">
+            <p> Yorum yapmaktan challengelara katılmaya kadar pek çok aktivitenden puan kazanabilirsin. Nerelerden puan kazanabileceğini
+            aşağıda görebilirsin. </p>
+            <div class="d-flex flex-wrap">
+              {%for score in scores %}
+              <div class="points mx-auto"><span class="point-header">{{score.title}}</span> <br> {{score.score}} puan </div>
+              {%endfor%}
             </div>
-            <div class="col-6">
-              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
-            </div>
+            
+
+
           </div>
-          <!-- END -->
-        </div>
-      </div>
-  
-      <div class="col-xl-3 col-lg-6 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">Like</h2>
-  
-          <!-- Progress bar 3 -->
-          <div class="progress mx-auto" data-value='100'>
-            <span class="progress-left">
-                          <span class="progress-bar border-success"></span>
-            </span>
-            <span class="progress-right">
-                          <span class="progress-bar border-success"></span>
-            </span>
-            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-              <div class="h2 font-weight-bold">{{image_likes}}</div>
-            </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+
           </div>
-          <!-- END -->
-  
-          <!-- Demo info -->
-          <div class="row text-center mt-4">
-            <div class="col-6 border-right">
-              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
-            </div>
-            <div class="col-6">
-              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
-            </div>
-          </div>
-          <!-- END -->
-        </div>
-      </div>
-  
-      <div class="col-xl-3 col-lg-6 mb-4">
-        <div class="bg-white rounded-lg p-5 shadow">
-          <h2 class="h6 font-weight-bold text-center mb-4">Toplam Puan</h2>
-  
-          <!-- Progress bar 4 -->
-          <div class="progress mx-auto" data-value='12'>
-            <span class="progress-left">
-                          <span class="progress-bar border-warning"></span>
-            </span>
-            <span class="progress-right">
-                          <span class="progress-bar border-warning"></span>
-            </span>
-            <div class="progress-value w-100 h-100 rounded-circle d-flex align-items-center justify-content-center">
-              <div class="h2 font-weight-bold">12<sup class="small">%</sup></div>
-            </div>
-          </div>
-          <!-- END -->
-  
-          <!-- Demo info -->
-          <div class="row text-center mt-4">
-            <div class="col-6 border-right">
-              <div class="h4 font-weight-bold mb-0">28%</div><span class="small text-gray">Last week</span>
-            </div>
-            <div class="col-6">
-              <div class="h4 font-weight-bold mb-0">60%</div><span class="small text-gray">Last month</span>
-            </div>
-          </div>
-          <!-- END -->
         </div>
       </div>
     </div>
+
   </div>
+</div>
+
+
+
 
 
 
@@ -301,70 +449,70 @@ div.h4 {
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
 <script>
-    $(function() {
+  $(function () {
 
-        $(".progress").each(function() {
-      
-          var value = $(this).attr('data-value');
-          var left = $(this).find('.progress-left .progress-bar');
-          var right = $(this).find('.progress-right .progress-bar');
-      
-          if (value > 0) {
-            if (value <= 50) {
-              right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
-            } else {
-              right.css('transform', 'rotate(180deg)')
-              left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
-            }
-          }
-      
-        })
-      
-        function percentageToDegrees(percentage) {
-      
-          return percentage / 100 * 360
-      
+    $(".progress").each(function () {
+
+      var value = $(this).attr('data-value');
+      var left = $(this).find('.progress-left .progress-bar');
+      var right = $(this).find('.progress-right .progress-bar');
+
+      if (value > 0) {
+        if (value <= 50) {
+          right.css('transform', 'rotate(' + percentageToDegrees(value) + 'deg)')
+        } else {
+          right.css('transform', 'rotate(180deg)')
+          left.css('transform', 'rotate(' + percentageToDegrees(value - 50) + 'deg)')
         }
-      
-      });
+      }
+
+    })
+
+    function percentageToDegrees(percentage) {
+
+      return percentage / 100 * 360
+
+    }
+
+  });
 </script>
 
 <script>
-    // AJAX CALL
-    $('.likin').click(function () {
-        console.log('click worked')
-        $.ajax({
-            type: "POST",
-            url: "% url 'gamification:like' %}",
-            data: {
-                'content_id': $(this).attr('name'),
-                'operation': 'like_submit',
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            dataType: "json",
-            success: function (response) {
-                console.log(response)
-                selector = document.getElementsByName("likebtn" + response.content_id);
-                likecount = document.getElementById("likecounts" + response.content_id)
-                console.log(selector)
-                if (response.liked == true) {
-                    $(selector).attr("class", "fas fa-heart");
-                    $(likecount).text(response.likes_count)
+  // AJAX CALL
+  $('.likin').click(function () {
+    console.log('click worked')
+    $.ajax({
+      type: "POST",
+      url: "% url 'gamification:like' %}",
+      data: {
+        'content_id': $(this).attr('name'),
+        'operation': 'like_submit',
+        'csrfmiddlewaretoken': '{{ csrf_token }}'
+      },
+      dataType: "json",
+      success: function (response) {
+        console.log(response)
+        selector = document.getElementsByName("likebtn" + response.content_id);
+        likecount = document.getElementById("likecounts" + response.content_id)
+        console.log(selector)
+        if (response.liked == true) {
+          $(selector).attr("class", "fas fa-heart");
+          $(likecount).text(response.likes_count)
 
 
-                } else if (response.liked == false) {
-                    $(selector).attr("class", "far fa-heart");
-                    $(likecount).text(response.likes_count)
+        } else if (response.liked == false) {
+          $(selector).attr("class", "far fa-heart");
+          $(likecount).text(response.likes_count)
 
 
-                }
+        }
 
 
-            }
+      }
 
-        });
+    });
 
-    })
+  })
 </script>
 
 {%endblock%}

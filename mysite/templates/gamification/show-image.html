@@ -134,7 +134,7 @@
         {% for comment in image.comment_set.all reversed %}
         <div id=singlecomment{{comment.id}} class="flex">
           <div>
-            <a href="% url 'others_profile' comment.user.id  %}">
+            <a href="{% url 'gamification:profile' username=comment.user  %}">
               <img src="{{comment.user.profile.profile_pic.url}}"
                 class="rounded-circle border" alt="img" width="40" height="40">
             </a>
@@ -158,7 +158,9 @@
       </div>
 
       <!-- comment form -->
+      
       <div class=" comments ">
+        {%if user.is_authenticated %}
         <form id="post-form" enctype="multipart/form-data" method="post" action="">
           {% csrf_token %}
           <div class="form-row">
@@ -167,7 +169,10 @@
                 value="Gönder"></div>
           </div>
         </form>
+        {%else%}
+        <div>Yorum yapmak için lütfen giriş yapınız. <a href="{%url 'login' %}?next={{request.path}}"> Giriş Yap</a></div>
       </div>
+      {%endif%}
       <!-- comment for end -->
 
     </div>
@@ -204,19 +209,15 @@
         $('#post-text').val(''); // remove the value from the input
         console.log(json); // log the returned json to the console
         $("#commentarea").prepend(
-          '<div class="flex ">          <div>            <a href="% url "others_profile" comment.user.id  %}">              <img src="https://github.com/mugendinjue/instagram/blob/master/media/default.jpg?raw=true"                class="rounded-circle border" alt="img" width="40" height="40">            </a></div>          <div>            <p class="ml-2"><span class="font-weight-bold">' +
-          json.user + '</span>' + json.text + '</p>          </div>        </div><hr>');
+          '<div class="flex ">          <div>            <a href="#">              <img src="'+json.imgpath +'"                class="rounded-circle border" alt="img" width="40" height="40">            </a></div>          <div>            <p class="ml-2"><span class="font-weight-bold">' +
+          json.user + '</span>' + ' ' + json.text + '<br><span class="g-color-gray-dark-v4 g-font-size-12">0 dakika</span></p>          </div>        </div><hr>');
       },
 
       // handle a non-successful response
-      error: function (xhr, errmsg, err) {
-        $('#results').html(
-          "<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " +
-          errmsg +
-          " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-        console.log(xhr.status + ": " + xhr
-          .responseText); // provide a bit more info about the error to the console
+      error: function(err){
+        alert('Yorum Yapmak İçin Lütfen Giriş Yapınız')
       }
+
     });
   };
 </script>
@@ -239,7 +240,7 @@
         success: function (json) {
           console.log(json)
           $("#singlecomment"+json.comment_id).remove();
-          alert('Silindi!')
+          
         },
   
         // handle a non-successful response

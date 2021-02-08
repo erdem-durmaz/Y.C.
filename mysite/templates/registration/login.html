@@ -1,50 +1,123 @@
 {% extends '../base.html' %}
+{%load static   %}
 
 {%block css%}
+<link rel="stylesheet" type="text/css" href="{% static 'gamification/css/cards.css' %}">
+<style>
+  ul {
+      list-style-type: none;
 
+  }
+
+  li {
+      padding-left: 10px;
+      padding-top: 3px;
+  }
+
+  .card-title {
+      font-size: 2rem;
+      line-height: 1.2;
+
+  }
+
+  #question {
+      border-radius: 50px;
+      border: 20px solid transparent;
+      border-color: #7380C6;
+      padding: 15px;
+
+  }
+
+  .related-question-post {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      margin-top: 20px;
+      font-size: medium;
+
+  }
+
+  .related-question-post-container {
+      margin-top: 20px;
+  }
+  .card-title{
+      padding-left: 0px;
+  }
+
+  body{
+      text-align: left;
+  }
+  .card{
+      max-width: 500px;
+  }
+  .card-body {
+      padding: 2px;
+  }
+  .rounded {
+      border-radius: 1.25rem!important;
+  }
+
+
+
+
+</style>
 {%endblock%}
+
 {% block content %}
-<div class="container ">
-<h2 class="pt-3 pb-3 ">Login</h2>
-
-{% if form.errors %}
-    <p>Kullanıcı adı ve parola uyuşmadı, tekrar deneyin</p>
-  {% endif %}
-
-  {% if next %}
-    {% if user.is_authenticated %}
-      <p>Your account doesn't have access to this page. To proceed,
-      please login with an account that has access.</p>
-    {% else %}
-      <p>Please login to see this page.</p>
-    {% endif %}
-  {% endif %}
-
-  <form method="post" action="{% url 'login' %}">
-    {% csrf_token %}
-    <table>
-      <tr>
-        <td>{{ form.username.label_tag }}</td>
-        <td>{{ form.username }}</td>
-      </tr>
-      <tr>
-        <td>{{ form.password.label_tag }}</td>
-        <td>{{ form.password }}</td>
-      </tr>
-    </table>
-    <input class="btn btn-primary" type="submit" value="Giriş" />
-    <input type="hidden" name="next" value="{{ next }}" />
-  </form>
 
 
+<div class="col-lg-6 mx-auto mt-3">
+  <div id="question" class="card text-center">
+    <img class="rounded"
+      src="https://images.unsplash.com/photo-1466838931486-92f3b5ff31a6?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=1187&q=80"
+      class="card-img-top" alt="...">
+    <div class="ml-3 card-body text-left">
+      <h4 class="card-title">{{challenge.title}}</h4>
 
-<div class="links mt-3">
-    <a class="pr-3"href="{% url 'users:signup' %}">Yeni Kayıt</a>
+      <h2 class=" ">Giriş Yap</h2>
 
-    <a class="pr-3"href="{% url 'password_reset' %}">Parola Yenileme</a>
+      {% if form.errors %}
+      <p>Kullanıcı adı ve parola uyuşmadı, tekrar deneyin</p>
+      {% endif %}
 
-    <a class="pr-3"href="{% url 'users:dashboard' %}">Dashboard</a>
+      {% if next %}
+      {% if user.is_authenticated %}
+      <p>Bu sayfayı görüntülemeye yetkiniz bulunmuyor</p>
+      {% else %}
+      <p>Sayfayı görüntülemek için lütfen giriş yapın</p>
+      {% endif %}
+      {% endif %}
 
+      <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <table>
+          <tr>
+            <td>{{ form.username.label_tag }}</td>
+            <td>{{ form.username }}</td>
+          </tr>
+          <tr>
+            <td>{{ form.password.label_tag }}</td>
+            <td>{{ form.password }}</td>
+          </tr>
+        </table>
+        <input class="btn btn-primary btn-fill mt-3" type="submit" value="Giriş" />
+        <input type="hidden" name="next" value="{{ next }}" />
+      </form>
+
+
+
+      <div class="links mt-3">
+        <a class="btn btn-info pr-3" href="{% url 'users:signup' %}">Yeni Kayıt</a>
+
+        <a class="btn btn-info pr-3" href="{% url 'password_reset' %}">Parola Yenileme</a>
+
+
+
+      </div>
+
+    </div>
+  </div>
 </div>
-</div>
+
+
 {% endblock %}

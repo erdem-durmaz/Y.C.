@@ -21,6 +21,8 @@ urlpatterns = [
     # profile
     path('profile/<username>', views.profile, name='profile'),
     path('profile-settings/<username>', views.profile_settings, name='profile_settings'),
+    # leaderboard
+    path('leaderboard/', views.leaderboard, name='leaderboard'),
     # contact form
     path('contact-form', views.contact_form, name='contact_form'),
     

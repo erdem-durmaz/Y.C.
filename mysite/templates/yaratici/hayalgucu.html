@@ -1,0 +1,337 @@
+  
+{% extends '../base.html' %}
+{%load static   %}
+
+{%block css%}
+
+<style>
+    ul {
+        list-style-type: none;
+
+    }
+
+    li {
+        padding-left: 10px;
+        padding-top: 3px;
+    }
+
+    .card-title {
+        font-size: 2rem;
+        line-height: 1.2;
+
+    }
+
+    #question {
+        border-radius: 50px;
+        border: 20px solid transparent;
+        border-color: #7380C6;
+        padding: 15px;
+
+    }
+
+    .related-question-post {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        margin-top: 20px;
+        font-size: medium;
+
+    }
+
+    .related-question-post-container {
+        margin-top: 20px;
+    }
+    .card-title{
+        padding-left: 0px;
+    }
+
+    body{
+        text-align: left;
+    }
+    .card{
+        max-width: 500px;
+    }
+    .card-body {
+        padding: 2px;
+    }
+    .rounded {
+        border-radius: 1.25rem!important;
+    }
+
+
+
+
+</style>
+<style>
+    .head,
+    .flex {
+      display: flex;
+    }
+  
+    .dots {
+      float: right;
+  
+    }
+  
+    #text {
+      text-align: center;
+    }
+  
+  
+  
+    .user_stories {
+      border-style: solid;
+      border-color: lightgray;
+      border-radius: 5px;
+      border-width: thin;
+    }
+  
+    .jumbotron {
+      background-color: white;
+      text-align: center;
+    }
+  
+    #md {
+      float: right;
+      color: red;
+    }
+  
+    .dots {
+      padding-left: 600px;
+      padding-top: 20px;
+    }
+  
+    #fix {
+      position: sticky;
+    }
+  </style>
+  
+  <style>
+    body {
+      font-family: 'Ubuntu', sans-serif;
+      background: linear-gradient(135deg, rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+    }
+  
+    .side,
+    .flex {
+      display: flex;
+    }
+  
+    .row {
+      border-radius: 5px;
+      background-color: white;
+    }
+  
+    .bord {
+      border-style: solid;
+      border-color: lightgray;
+      border-left: none;
+      border-top: none;
+      border-radius: 5px;
+      border-width: thin;
+    }
+  
+    #side {
+      overflow: auto;
+      max-height: 520px;
+    }
+  
+    .g-color-gray-dark-v4 {
+      color: #777 !important;
+    }
+  
+    .g-font-size-12 {
+      font-size: 0.85714rem !important;
+    }
+  
+    p {
+      margin-bottom: 0px;
+    }
+  
+    .form-row{
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+    }
+  </style>
+{% endblock %}
+ 
+{% block content %}
+
+
+    
+    <div class="container-fluid mt-4">
+        <div class="row">
+          <div class=""></div>
+          <div class="col-lg-5  mx-auto pt-3">
+            <div
+              style="border-radius: 30px;height:400px; width:400px; background-image: url('{{question.photo.url}}'); background-position: center center; background-size: cover;"
+              class="card card-with-border mt-4" data-background="image" data-src="">
+              <a href="{{question.photo.url}}" class="stretched-link" data-lightbox="image-1" data-title="{{question.message}}">
+      
+              </a>
+      
+            </div>
+      
+      
+            <div class="mt-3 mb-3">
+              <div class="flex">
+                <img src="{{question.user.profile.profile_pic.url}}"
+                  class="rounded-circle border" alt="{{image.user.profile.profile_pic.url}}" width="80" height="80">
+                <div class="ml-3">
+                  <h2 class=" ml-3 pt-2"><small><strong>{{question.title}}</strong></small></h2>
+                  
+                </div>
+              </div>
+      
+      
+            </div>
+          </div>
+          <div class="col-lg-7 mt-3 pt-3 bord">
+            <div class="ml-3">
+                <h2 class="mb-3"><small><strong>{{question.message|safe}}</strong></small></h2>
+                <!-- comment form -->
+            
+            <div class=" comments ">
+                {%if user.is_authenticated %}
+                <form id="post-form" enctype="multipart/form-data" method="post" action="">
+                  {% csrf_token %}
+                  <div class="form-row">
+                    <div class="col-9 mb-3">{{form.as_p}}</div>
+                    <div class="col-"><input id="imageid" name="{{question.id}}" class="btn btn-primary sendcomment " type="submit"
+                        value="Gönder"></div>
+                  </div>
+                </form>
+                {%else%}
+                <div>Yorum yapmak için lütfen giriş yapınız. <a href="{%url 'login' %}?next={{request.path}}"> Giriş Yap</a></div>
+              </div>
+              {%endif%}
+              <!-- comment for end -->
+              </div>
+            <div id="side">
+            
+
+              <div id="commentarea">
+              </div>
+              {% if question.comment_set.count >= 1 %}
+      
+              {% for comment in question.comment_set.all reversed %}
+              <div id=singlecomment{{comment.id}} class="flex">
+                <div>
+                  <a href="{% url 'gamification:profile' username=comment.user  %}">
+                    <img src="{{comment.user.profile.profile_pic.url}}"
+                      class="rounded-circle border" alt="img" width="40" height="40">
+                  </a>
+                </div>
+                <div>
+                  <p class="ml-2"><span class="font-weight-bold">{{comment.user.username}}</span> {{comment.comment}}
+                      <br><span class="g-color-gray-dark-v4 g-font-size-12">{{comment.date|timesince }}</span>
+                      {% if request.user == comment.user %}
+                      <span><a class="deletecomment" name={{comment.id}} href=""
+                        class="  mr-2"> <i class="fas fa-trash"></i> </a></span>
+                        {%endif%}
+                  </p>
+                </div>
+              </div>
+              <hr>
+              {% endfor %}
+              {% else %}
+      
+              <h6 class=" flex text-center">Aşağıdaki bölümden yorum ekleyebilirsiniz</h6>
+              {% endif %}
+            </div>
+      
+            
+      
+          </div>
+      
+      
+          <div class="col-md-1"></div>
+        </div>
+      </div>
+
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  $('#post-form').on('submit', function (event) {
+    event.preventDefault();
+    create_image_comment();
+    console.log($('#imageid').attr('name'))
+  });
+
+  function create_image_comment() {
+    $.ajax({
+      url: "{% url 'yaratici:imaginequestion_save_comment' %}", // the endpoint
+      type: "POST", // http method
+      data: {
+        'content_id': $('#imageid').attr('name'),
+        'comment': $('#post-text').val(),
+        'operation': 'send_comment',
+        'csrfmiddlewaretoken': '{{ csrf_token }}'
+      }, // data sent with the post request
+        
+      // handle a successful response
+      success: function (json) {
+        $('#post-text').val(''); // remove the value from the input
+        console.log(json); // log the returned json to the console
+        $("#commentarea").prepend(
+          '<div class="flex ">          <div>            <a href="#">              <img src="'+json.imgpath +'"                class="rounded-circle border" alt="img" width="40" height="40">            </a></div>          <div>            <p class="ml-2"><span class="font-weight-bold">' +
+          json.user + '</span>' + ' ' + json.text + '<br><span class="g-color-gray-dark-v4 g-font-size-12">0 dakika</span></p>          </div>        </div><hr>');
+      },
+
+      // handle a non-successful response
+      error: function(err){
+        alert('Yorum Yapmak İçin Lütfen Giriş Yapınız')
+      }
+
+    });
+  };
+</script>
+
+<!-- deletecomment -->
+<script>
+  $('.deletecomment').on('click', function (event) {
+    event.preventDefault();
+    if (confirm("Silmek istediğinizden emin misiniz?")) {
+      $.ajax({
+        url: "{% url 'yaratici:delete_comment' %}", // the endpoint
+        type: "POST", // http method
+        data: {
+          'content_id': $(this).attr('name'),
+          'operation': 'delete_comment',
+          'csrfmiddlewaretoken': '{{ csrf_token }}'
+        }, // data sent with the post request
+  
+        // handle a successful response
+        success: function (json) {
+          console.log(json)
+          $("#singlecomment"+json.comment_id).remove();
+          
+        },
+  
+        // handle a non-successful response
+        error: function (xhr, errmsg, err) {
+          $('#results').html(
+            "<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " +
+            errmsg +
+            " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+          console.log(xhr.status + ": " + xhr
+            .responseText); // provide a bit more info about the error to the console
+        }
+      });
+    } else {
+      txt = "You pressed Cancel!";
+    }
+    
+  });
+
+  
+</script>
+
+{% endblock %}
+
+{%block script%}
+
+
+    {%endblock%}

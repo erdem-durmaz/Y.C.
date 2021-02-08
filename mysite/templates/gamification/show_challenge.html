@@ -154,8 +154,10 @@
 
     /*     General overwrite     */
     body {
-        background-color: #cccccc;
+        background: rgb(255,255,255);
+background: linear-gradient(180deg, rgba(255,255,255,1) 5%, rgba(204,204,204,1) 32%);
     }
+    
 
     a {
         color: #2CA8FF;
@@ -2157,14 +2159,9 @@
             },
 
             // handle a non-successful response
-            error: function (xhr, errmsg, err) {
-                $('#results').html(
-                    "<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " +
-                    errmsg +
-                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
-                console.log(xhr.status + ": " + xhr
-                    .responseText); // provide a bit more info about the error to the console
-            }
+            error: function(response){
+                alert('Yorum Yapmak İçin Lütfen Giriş Yapınız')
+              }
         });
     };
 </script>
@@ -2201,6 +2198,9 @@
                 }
 
 
+            },
+            error : function (response) {
+                alert('Beğenmek için lütfen giriş yapınız')
             }
 
         });
