@@ -32,7 +32,7 @@ def leaderboard(request):
     for player in leaderboard[:3]:
         currentuser = get_object_or_404(User,pk=player['user'])
         print(currentuser)
-        board = dict()
+        board = dict()  
         board['place'] = place
         board['username'] = currentuser.username
         board['imgpath'] = currentuser.profile.profile_pic.url

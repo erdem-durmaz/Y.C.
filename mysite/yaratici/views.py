@@ -70,14 +70,16 @@ def show_post(request, slug):
     #add Score
     activity = get_object_or_404(ScoringActivities,pk=9) # Blog Read
    
-    if not ScoreBoard.objects.filter(user=request.user).filter(blogpost=post).exists():
-        score = ScoreBoard(
+   
+    if request.user.is_authenticated:
+         if not ScoreBoard.objects.filter(user=request.user).filter(blogpost=post).exists():
+            score = ScoreBoard(
             user=request.user,
             activity=activity,
             blogpost = post,
             totalscore = ScoringActivities.objects.get(pk=9).score
         )
-        score.save()      
+            score.save()      
 
     return render(request, 'yaratici/post.html', {'post': post, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
 
