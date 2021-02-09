@@ -39,6 +39,7 @@ class BlogPost(models.Model):
 
     def save(self):
         im = Image.open(self.photo)
+        im = ImageOps.exif_transpose(im)
         im = im.convert('RGB')
         
         if im.width > 2000 and im.height> 2000:
@@ -110,6 +111,7 @@ class ImagineQuestion(models.Model):
 
     def save(self):
         im = Image.open(self.photo)
+        im = ImageOps.exif_transpose(im)
         im = im.convert('RGB')
         
         if im.width > 2000 and im.height> 2000:

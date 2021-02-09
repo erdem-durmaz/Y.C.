@@ -31,8 +31,8 @@ class Profile(models.Model):
         output = BytesIO()
         print(im.width)
         print(im.height)
-        im = im.resize( (500,500) )
-        im.save(output, format='JPEG', quality=50)
+        # im = im.resize( (500,500) )
+        im.save(output, format='JPEG', quality=30)
         output.seek(0)
         self.profile_pic = InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.profile_pic.name.split('.')[0], 'image/jpeg', sys.getsizeof(output), None)
         super(Profile,self).save()
@@ -60,8 +60,8 @@ class Challenge(models.Model):
 
     def save(self):
         im = Image.open(self.photo)
-        im = im.convert('RGB')
-		
+        im = ImageOps.exif_transpose(im)
+        im = im.convert('RGB')		
         
         if im.width > 2000 and im.height> 2000:
             print('big picturee')
@@ -69,7 +69,7 @@ class Challenge(models.Model):
             half = 0.5
             im = im.resize( [int(half * s) for s in im.size] )
         # im = im.resize( (1000,1000) )
-            im.save(output, format='JPEG', quality=50)
+            im.save(output, format='JPEG', quality=40)
             output.seek(0)
             self.photo = InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.photo.name.split('.')[0], 'image/jpeg', sys.getsizeof(output), None)
             super(Challenge,self).save()
@@ -94,6 +94,7 @@ class ImageNominate (models.Model):
 
     def save(self):
         im = Image.open(self.photo)
+        im = ImageOps.exif_transpose(im)
         im = im.convert('RGB')
         
         if im.width > 2000 and im.height> 2000:
@@ -102,7 +103,7 @@ class ImageNominate (models.Model):
             half = 0.5
             im = im.resize( [int(half * s) for s in im.size] )
         # im = im.resize( (1000,1000) )
-            im.save(output, format='JPEG', quality=50)
+            im.save(output, format='JPEG', quality=40)
             output.seek(0)
             self.photo = InMemoryUploadedFile(output,'ImageField', "%s.jpg" %self.photo.name.split('.')[0], 'image/jpeg', sys.getsizeof(output), None)
             super(ImageNominate,self).save()
