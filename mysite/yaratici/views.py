@@ -37,9 +37,11 @@ def posts(request):
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
-    notreadposts = []
+    
+    
     if request.user.is_authenticated:
-        readpostids = ScoreBoard.objects.filter(user=request.user).filter(activity__exact=9).values("blogpost")
+        readpostids = ScoreBoard.objects.filter(user=request.user).filter(activity__exact=9).values("blogpost", "date")
+        
         posts= BlogPost.objects.exclude(id=1).filter(is_Published__exact=True)
         notreadpostids = [i.id for i in posts]
         readpostid = [x["blogpost"] for x in readpostids ]
@@ -47,8 +49,8 @@ def posts(request):
             notreadpostids.remove(id)
             notreadposts = notreadpostids
     
-
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'notreadpostids':notreadposts})
+    
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,})
 
 def posts_byyear(request,year):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(create_date__year=str(year)).order_by('-create_date')
