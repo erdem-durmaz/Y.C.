@@ -221,14 +221,7 @@ def calculate_score(user):
         id=1).filter(is_Published__exact=True).count()
     readpost = ScoreBoard.objects.filter(
         user=user).filter(activity__exact=9).count()
-    readpostids = ScoreBoard.objects.filter(user=user).filter(activity__exact=9).values("blogpost")
-    posts= BlogPost.objects.exclude(id=1).filter(is_Published__exact=True)
-    notreadpostids = [i.id for i in posts]
-    readpostid = [x["blogpost"] for x in readpostids ]
 
- 
-    for id in readpostid:
-        notreadpostids.remove(id)
 
 
     # calculate blog points seperately (outside monthly calc)
