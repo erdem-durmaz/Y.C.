@@ -76,7 +76,13 @@ Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
                                                         <a href="{%url 'yaratici:show_post' slug=post.slug %}"
                                                             rel="bookmark">{{post.title}}</a>
                                                     </h2>
-                                                    
+                                                    {%for readpost in readposts%}
+                                                    {%if post.id == readpost.blogpost.id %}
+                                                    <div style="font-size:11px;margin:0px"> 
+                                                        <i style="color:#0BD537"class="fas fa-check-circle"></i> Bu yazıyı
+                                                        {{readpost.date|date}} tarihinde okudunuz </div>
+                                                    {%endif%}
+                                                    {%endfor%}
                                                     <div class="post-excerpt">
                                                         <p>{{post.message|truncatewords:35|safe}}<a class="read-more"
                                                                 href="{%url 'yaratici:show_post' slug=post.slug %}">Yazının

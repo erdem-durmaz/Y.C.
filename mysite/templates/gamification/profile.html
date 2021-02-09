@@ -318,7 +318,9 @@
         <!-- END -->
         <div class="row text-center mt-4">
           <div class="col-6">
-            <div class="h4 font-weight-bold mb-0">{{results.blog_read}}</div><span class="small text-gray">Okunan</span>
+            <div class="h4 font-weight-bold mb-0">{{results.blog_read}}</div><span class="small text-gray"><a
+              href="{% url 'yaratici:posts' %}">Okunan</a></span>
+            
           </div>
           <div class="col-6">
             <div class="h4 font-weight-bold mb-0"> {{results.blog_postcount}}</div><span class="small text-gray"><a

@@ -31,26 +31,26 @@ def home(request):
     return render(request, 'yaratici/home.html', {'kimim': kimim, 'posts': posts,'challanges': challanges})
 
 
+def get_read_posts(request):
+    if request.user.is_authenticated:
+            readpostids = ScoreBoard.objects.filter(user=request.user).filter(activity__exact=9)
+            print(readpostids)
+            return readpostids
+    else:
+        return None
+    
+
 def posts(request):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
     sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
+    readposts= get_read_posts(request)
     
     
-    if request.user.is_authenticated:
-        readpostids = ScoreBoard.objects.filter(user=request.user).filter(activity__exact=9).values("blogpost", "date")
-        
-        posts= BlogPost.objects.exclude(id=1).filter(is_Published__exact=True)
-        notreadpostids = [i.id for i in posts]
-        readpostid = [x["blogpost"] for x in readpostids ]
-        for id in readpostid:
-            notreadpostids.remove(id)
-            notreadposts = notreadpostids
     
-    
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,})
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'readposts':readposts})
 
 def posts_byyear(request,year):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(create_date__year=str(year)).order_by('-create_date')
