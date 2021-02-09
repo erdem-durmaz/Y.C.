@@ -239,7 +239,7 @@ def calculate_score(user):
     results['images'] = images
     results['weeklyquestion'] = weeklyquestion
     results['imaginequestion'] = imaginequestion
-    results['notreadpostsids'] = notreadpostids
+    
     print(results)
     return results
 
