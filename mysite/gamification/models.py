@@ -23,8 +23,6 @@ class Profile(models.Model):
     date = models.DateTimeField(auto_now_add=True, null= True)
     description = models.CharField(max_length=200, null=True, blank=True)  
 
-    def __str__(self):
-        return self.profile.user
     
     def save(self):
         im = Image.open(self.profile_pic)

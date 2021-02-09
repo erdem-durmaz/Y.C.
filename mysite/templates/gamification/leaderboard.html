@@ -227,6 +227,7 @@ margin: auto;
     <h2 id="summarybox"class="col-xl-12 text-center w-75 mx-auto">{{month|date:'F'}} Ayı Sıralaması</h2>
 <div class="center">
     <div class="top3">
+      {%if leaders.count < 3 %}
         {%for player in leaders %}
         {%if player.place == 2%}
       <div class="two item">
@@ -273,7 +274,9 @@ margin: auto;
       {%endif%}
       {%endfor%}
     </div>
-    
+    {%else%}
+    <h6 id="summarybox"class="col-xl-12 text-center w-75 mx-auto">Liste için henüz yeterli puan oluşmadı</h6>
+    {%endif%}
     <div class="list">
         {%for player in rest %}
       <div class="item">

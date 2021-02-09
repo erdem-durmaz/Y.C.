@@ -37,8 +37,18 @@ def posts(request):
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
+    notreadposts = []
+    if request.user.is_authenticated:
+        readpostids = ScoreBoard.objects.filter(user=request.user).filter(activity__exact=9).values("blogpost")
+        posts= BlogPost.objects.exclude(id=1).filter(is_Published__exact=True)
+        notreadpostids = [i.id for i in posts]
+        readpostid = [x["blogpost"] for x in readpostids ]
+        for id in readpostid:
+            notreadpostids.remove(id)
+            notreadposts = notreadpostids
+    
 
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'notreadpostids':notreadposts})
 
 def posts_byyear(request,year):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(create_date__year=str(year)).order_by('-create_date')
@@ -46,7 +56,7 @@ def posts_byyear(request,year):
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'year':year })
 
 def posts_bytag(request,slug):
     print(slug)
@@ -56,7 +66,7 @@ def posts_bytag(request,slug):
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'category':category})
 
 
 def show_post(request, slug):
@@ -137,17 +147,18 @@ def imaginequestion_save_comment(request):
 
                 #add Score
                 activity = get_object_or_404(ScoringActivities,pk=10) # Comment by Others
-                if not ScoreBoard.objects.filter(user=request.user).filter(imaginequestion = imaginequestion).exists():
-                    score = ScoreBoard(
-                    user=request.user,
-                    activity=activity,
-                    comment = new_comment,
-                    imaginequestion = imaginequestion,
-                    totalscore = ScoringActivities.objects.get(pk=10).score
-                    )
-                    score.save()
-                    messages.add_message(request, messages.SUCCESS,
-                                    f'<i class="fas fa-success"></i> Tebrikler Yorumunuz için {activity.score} Puan kazandınız!')
+                if request.user.is_authenticated:
+                    if not ScoreBoard.objects.filter(user=request.user).filter(imaginequestion = imaginequestion).exists():
+                        score = ScoreBoard(
+                        user=request.user,
+                        activity=activity,
+                        comment = new_comment,
+                        imaginequestion = imaginequestion,
+                        totalscore = ScoringActivities.objects.get(pk=10).score
+                        )
+                        score.save()
+                        messages.add_message(request, messages.SUCCESS,
+                                        f'<i class="fas fa-success"></i> Tebrikler Yorumunuz için {activity.score} Puan kazandınız!')
                 
 
                 ctx={"user":str(request.user),"imgpath":str(request.user.profile.profile_pic.url),"content_id":content_id,"text":form.cleaned_data['comment']}
@@ -179,7 +190,7 @@ def get_question(request):
 
 
     if request.method == 'POST':
-        if request.COOKIES.get('answer_status') == 'yes' and request.COOKIES.get('question_id') == str(question.id):
+        if request.COOKIES.get('answer_status') == 'yes' and request.COOKIES.get('question_id') == str(question.id) and request.COOKIES.get("question_username")==request.user.username :
             messages.add_message(request, messages.SUCCESS, 'Anketi daha önce yanıtladınız, güncel sonuçları aşağıda görebilirsiniz')
             print('already answered')
             return redirect('yaratici:question_results', question_id= question.id)
@@ -193,24 +204,26 @@ def get_question(request):
             messages.add_message(request, messages.WARNING, 'Ankete katılımınız için teşekkürler, güncel sonuçları aşağıda görebilirsiniz')
             choice_object = get_object_or_404(Choices,choice=request.POST['response'])
             choice_object.counter +=1
-            print(choice_object.counter)
             choice_object.save()
 
             #add Score
             activity = get_object_or_404(ScoringActivities,pk=8) # Comment by Others
-            if not ScoreBoard.objects.filter(user=request.user).filter(weeklyquestion=question).exists():
-                print('yes')
-                score = ScoreBoard(
-                    user=request.user,
-                    activity=activity,
-                    weeklyquestion = question,
-                    totalscore = ScoringActivities.objects.get(pk=8).score
-                )
-                score.save()      
+
+            if request.user.is_authenticated:
+                if not ScoreBoard.objects.filter(user=request.user).filter(weeklyquestion=question).exists():
+                    print('yes')
+                    score = ScoreBoard(
+                        user=request.user,
+                        activity=activity,
+                        weeklyquestion = question,
+                        totalscore = ScoringActivities.objects.get(pk=8).score
+                    )
+                    score.save()      
                 
             response= redirect('yaratici:question_results', question_id= question.id)
             response.set_cookie('answer_status','yes',max_age=604800)
             response.set_cookie('question_id',question.id,max_age=604800)
+            response.set_cookie('question_username',request.user.username,max_age=604800)
             return response
 
     return render(request, 'yaratici/show-question.html', {'question': question, 'form': form, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
