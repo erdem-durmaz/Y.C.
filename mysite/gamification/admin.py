@@ -19,8 +19,8 @@ class ScoringActivitiesAdmin(admin.ModelAdmin):
     list_editable = ('score',)
 
 class ScoreBoardAdmin(admin.ModelAdmin):
-    list_display =('user','activity','challenge',)
-    list_filter = ('date',)
+    list_display =('user','activity','challenge','totalscore','date')
+    list_filter = ('date','user')
     
 
 

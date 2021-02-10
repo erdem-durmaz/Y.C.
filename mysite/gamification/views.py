@@ -41,7 +41,7 @@ def dailymood(request):
 
 def contact_form(request):
     form = ContactForm()
-
+    update_scoreboard_points()
     if request.method == "POST":
         print(request.POST)
         form = ContactForm(request.POST)
@@ -83,12 +83,12 @@ def leaderboard(request):
     restlst = list()
     leaderboard = ScoreBoard.objects.values('user').annotate(
         sum=Sum('totalscore')).order_by('-sum')
-
+    print(leaderboard)
     if len(leaderboard) >= 3:
 
         for player in leaderboard[:3]:
             currentuser = get_object_or_404(User, pk=player['user'])
-            print(currentuser)
+            
             board = dict()
             board['place'] = place
             board['username'] = currentuser.username
@@ -163,6 +163,26 @@ def profile_settings(request, username):
     }
     return render(request, 'gamification/profile-settings.html', context)
 
+# only use when point list is changed
+def update_scoreboard_points():
+    points = ScoringActivities.objects.values('id', 'score')
+    scoreboard = ScoreBoard.objects.filter(date__month=NOW.month)
+    for scoreobj in scoreboard:
+        if scoreobj.deleted == False:
+            activitynum = scoreobj.activity.id
+            print(activitynum)
+            for pointobj in points:
+                    if activitynum == pointobj['id']:
+                        scoreobj.totalscore = pointobj['score']
+                        scoreobj.save()
+        else:
+            activitynum = scoreobj.activity.id
+            for pointobj in points:
+                    if activitynum == pointobj['id']:
+                        scoreobj.totalscore = pointobj['score'] * -1
+                        scoreobj.save()
+
+
 
 def calculate_score(user):
     # Calculate Challenge Like Sum
@@ -188,6 +208,7 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         likes += pointobj['score']
+                        
             else:
                 activitynum = scoreobj['activity']
                 for pointobj in points:
@@ -195,6 +216,7 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         likes -= pointobj['score']
+                        
 
         elif scoreobj['activity'] == 5 or scoreobj['activity'] == 6:  # comments
             if scoreobj['deleted'] == False:
@@ -204,6 +226,7 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         comments += pointobj['score']
+                        
             else:
                 activitynum = scoreobj['activity']
                 for pointobj in points:
@@ -211,6 +234,7 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         comments -= pointobj['score']
+                        
 
         elif scoreobj['activity'] == 2:  # img upload
             if scoreobj['deleted'] == False:
@@ -220,6 +244,7 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         images += pointobj['score']
+                        
 
             else:
                 activitynum = scoreobj['activity']
@@ -228,6 +253,7 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         images -= pointobj['score']
+                        
 
         elif scoreobj['activity'] == 8:  # weeklyquestion
             if scoreobj['deleted'] == False:
@@ -237,6 +263,7 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         weeklyquestion += pointobj['score']
                         results['weeklyquestionid'] = scoreobj['weeklyquestion']
+                        
 
         elif scoreobj['activity'] == 10:  # imaginequestion
             if scoreobj['deleted'] == False:
@@ -246,12 +273,14 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         imaginequestion += pointobj['score']
                         results['imaginequestionid'] = scoreobj['imaginequestion']
+                        
             else:
                 activitynum = scoreobj['activity']
                 for pointobj in points:
                     if activitynum == pointobj['id']:
                         total_point -= pointobj['score']
                         imaginequestion -= pointobj['score']
+                        
 
     postcount = BlogPost.objects.exclude(
         id=1).filter(is_Published__exact=True).count()
@@ -264,6 +293,7 @@ def calculate_score(user):
     blogpoint = ScoringActivities.objects.get(pk=9).score
     blog_points = readpost * blogpoint
     total_point += blog_points
+
 
     results['blog_points'] = blog_points
     results['blog_read'] = readpost
@@ -594,6 +624,7 @@ def delete_image(request, image_id):
 def send_challenge_photo(request, challenge_id):
     activity = get_object_or_404(ScoringActivities, pk=2)
     challenge = get_object_or_404(Challenge, pk=challenge_id)
+
 
     if request.method == 'POST':
         challenge = get_object_or_404(Challenge, pk=challenge_id)
