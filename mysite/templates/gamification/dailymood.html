@@ -1,0 +1,272 @@
+{% extends '../base.html'%}
+
+
+{% block title %} {% endblock  %}
+{% block meta %} {% endblock  %}
+
+{% block css %}
+<style>
+    ul {
+        list-style-type: none;
+
+    }
+
+    li {
+        padding-left: 10px;
+        padding-top: 3px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        line-height: 1.2;
+        text-align: center;
+
+    }
+
+    #question {
+        border-radius: 50px;
+        border: 20px solid transparent;
+        border-color: #F3A5A5;
+        padding: 15px;
+
+    }
+
+    .related-question-post {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        margin-top: 20px;
+        font-size: medium;
+
+    }
+
+    .related-question-post-container {
+        margin-top: 20px;
+    }
+
+
+    body{
+        text-align: left;
+    }
+
+     /* WRAPPER */
+    
+    .site {
+        display: flex;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 1 auto;
+        -moz-box-flex: 0;
+        -moz-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    .header-wrapper {
+        position: relative;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 auto;
+        -moz-box-flex: 0;
+        -moz-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        flex-grow: 0;}
+
+        .header-wrapper>div[class*=header] {
+            flex-grow: 1;
+        }
+        
+        [data-parallax-depth] {
+            background-attachment: fixed;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+        }
+        .header, .header-homepage {
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            z-index: 0;
+        }
+        .header-description, .inner-header-description {
+            position: relative;
+            z-index: 50;
+        }
+        
+        .gridContainer {
+            max-width: 1232px;
+            margin: 0 auto;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        *, .col-xs, .gridContainer, .row {
+            box-sizing: border-box;
+        }
+        .inner-header-description {
+            padding-top: 5%;
+            padding-bottom: 5%;
+        }
+        #offcanvas-wrapper, .site {
+            -webkit-box-direction: normal;
+            -webkit-box-orient: vertical;
+        }
+        .header .background-overlay {
+            background: linear-gradient(
+        135deg
+        , rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        }
+        .background-overlay {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: absolute;
+            z-index: 1;
+            display: inline-block;
+            content: "";
+        }
+        .form-check-label {
+            color: #6B7C93;
+        }
+
+        /* PAGE CONTENTS */
+
+
+        .mesmerize-content-no-padding .page-content {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        .site>.content, .site>.page-content {
+            z-index: 1;
+            -webkit-box-flex: 0;
+            -webkit-flex: 0 0 auto;
+            -moz-box-flex: 0;
+            -moz-flex: 0 0 auto;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            flex-grow: 1;
+            background-color: #fff;
+        }
+
+        .sidebar .panel {
+            border: 1px solid #ececec;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 0.5625rem 2.8125rem 0 rgb(35 69 152 / 15%);
+            box-shadow: 0 0.5625rem 2.8125rem 0 rgb(35 69 152 / 15%);
+
+        }
+
+        .sidebar .widget:first-child {
+            padding-top: 1.5rem;
+        }
+        
+        .sidebar .widget {
+            background-color: transparent;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            border: none;
+            padding: 1rem 1.6rem;
+            margin: 0;
+        }
+        .sidebar .widget .widgettitle {
+            letter-spacing: normal;
+            text-transform: capitalize;
+            font-size: 120%;
+        }
+        .sidebar .widget>ul {
+            list-style: none;
+            margin: 0;
+            padding-inline-start: 0px;
+        }
+        .sidebar .widget>ul>li {
+            padding: .4rem 0rem;
+            border-top: 1px solid #ececec;
+        }
+
+        .weeklycard-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            
+        }
+
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: .75rem 1.25rem;
+            background-color: #fff;
+            border: 0px;
+        }
+        .smileys{
+            background-color: #6B7C93;
+            color: #FFE132;
+            position: absolute;
+            left: 8px;
+            bottom: -7px;
+        }
+</style>
+{% endblock css %}
+
+
+{%block content%}
+{{form}}
+
+<div id="page" class="site">
+
+    
+    <br>
+    <br>
+
+    <div id='page-content' class="content blog-page">
+        <div class="gridContainer gridContainer content">
+            <div class="row">
+                <div class="col-sm-12 col-lg-9 mt-2 ">
+                    <div id=question class="card">
+                        <div class="weeklycard-header text-center">
+                            Bugün Nasıl Hissediyorsun?
+                        </div>
+                        <div class="card-body">
+                            <h6 class="card-title">{{question}}</h6>
+                            <ul class="list-group text-left ">
+                                
+
+                                <form class="form-check form-check-inline"method="POST" action="{% url 'gamification:dailymood' %}">
+                                    {% csrf_token %}
+                                    <input type="hidden" value="{% now 'j / n' %}" name="user_id">
+                                    {% for id, mood in moods.items %}
+                                    <li class="list-group-item list-group-item-action">
+                                        <input class="form-check-input" type="radio" value="{{id}}"
+                                            id="{{id}}" name="response">
+                                            <label class="form-check-label smileys" for="{{id}}"> {{mood|safe}}</label>
+                                        
+                                    </li>
+                                    {%endfor%}
+                                    <br>
+                                    <button style="background-color: #6977DF; border:0px" type="submit"
+                                        class="btn btn-primary button">Tamam</button>
+                                </form>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
+
+{%endblock%}
+
+
+
+

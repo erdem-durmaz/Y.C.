@@ -2,7 +2,7 @@ from django.db.models import Avg, Sum, Max
 from yaratici.models import Question, BlogPost, ImagineQuestion, Category, Choices
 from yaratici.forms import ChoiceForm
 from django.conf import settings
-from .forms import CommentForm, ContactForm, ImageNominateForm, ProfileForm
+from .forms import CommentForm, ContactForm, ImageNominateForm, MoodForm, ProfileForm
 from .models import Challenge, Comment, ImageNominate, Profile, ScoreBoard, ScoringActivities
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
@@ -17,18 +17,26 @@ from django.core.mail import send_mail, BadHeaderError
 
 NOW = datetime.now()
 
-POINTS = [
-    {'id': 2, 'score': 1, 'title': 'Challenge - Fotoğraf Yükle'},
-    {'id': 3, 'score': 1, 'title': 'Challenge - Yaptığın Like'},
-    {'id': 4, 'score': 1, 'title': 'Challenge - Fotoğrafına gelen like'},
-    {'id': 5, 'score': 1, 'title': 'Challenge - Fotoğraflara yaptığın yorum'},
-    {'id': 6, 'score': 1, 'title': 'Challenge - Fotoğrafına gelen yorum'},
-    {'id': 7, 'score': 1, 'title': 'Challenge - Ana Aktivite Like'},
-    {'id': 8, 'score': 1, 'title': 'Haftalık Soru'},
-    {'id': 9, 'score': 1, 'title': 'Blog Yazı Okuma'},
-    {'id': 10, 'score': 1, 'title': 'Yaratıcı Soru'}
-]
 # Create your views here.
+def dailymood(request):
+    if request.method == "POST":
+        print(request.POST)
+        return redirect('gamification:dailymood')
+    else:
+        form = MoodForm()
+        MOOD_TYPES = {
+            "1": '<i class="fas fa-4x fa-laugh-beam"></i>',
+            "2": '<i class="fas fa-4x fa-smile"></i>',
+            "3": '<i class="fas fa-4x fa-meh"></i>',
+            "4": '<i class="fas fa-4x fa-frown"></i>',
+            "5": '<i class="fas fa-4x fa-sad-tear"></i>',
+        }
+        context = {
+                'form': form,
+                'moods': MOOD_TYPES
+            }
+
+        return render(request, 'gamification/dailymood.html', context)
 
 
 def contact_form(request):

@@ -1,7 +1,7 @@
 from django.forms import ModelForm
 from django.forms import widgets
 from django.forms.widgets import Select
-from .models import  Challenge, Comment, ImageNominate, Profile
+from .models import  Challenge, Comment, ImageNominate, Mood, Profile
 from django import forms
 
 
@@ -79,3 +79,14 @@ class ContactForm(forms.Form):
         self.fields['Mesajınız'].widget.attrs['placeholder'] = 'Mesajınız'
         self.fields['Mesajınız'].label=''
 
+
+class MoodForm(ModelForm):
+        
+    class Meta:
+        model = Mood
+        fields = ['mood']
+
+    def __init__(self, *args, **kwargs):
+        super(MoodForm, self).__init__(*args, **kwargs)
+        self.fields['mood'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['mood'].widget.attrs['placeholder'] = 'Hakkınızda'

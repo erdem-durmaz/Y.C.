@@ -2,7 +2,7 @@ body {
     font-family: 'Ubuntu', sans-serif;
     font-size: 16px;
     color: #6B7C93;
-    -webkit-font-smoothing: antialised;
+    -webkit-font-smoothing: antialiased;
     }
     
     .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
@@ -33,13 +33,13 @@ body {
 
     
     .navbar {
-        font-family: 'Ubuntu';
+        font-family: 'Ubuntu', sans-serif;
         padding-left: 5.5rem;
         padding-right: 5.5rem;
     }
     @media only screen and (max-width: 600px) {
         .navbar {
-            font-family: 'Ubuntu';
+            font-family: 'Ubuntu', sans-serif;
             padding-left: 0.5rem;
             padding-right: 0.5rem;
         }
