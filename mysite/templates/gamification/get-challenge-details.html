@@ -98,18 +98,19 @@
   <div class="row">
     <div class=""></div>
 
-    <div class="col-lg-12 mt-3 pt-3 bord">
+    <div class="col-lg-8 mx-auto mt-3 pt-3 bord">
 
       <div id="side">
 
         {% if challenge %}
 
-        <div class="d-flex justify-content-around mb-4">
+        <div class="d-flex justify-content-left  mb-4">
           <img src="{{challenge.photo.url}}" class="rounded-circle border" alt="{{image.user.profile.profile_pic.url}}"
             width="80" height="80">
           <div class="ml-3">
             <h2 class=" ml-3 pt-2"><small><strong>{{challenge.title}}</strong></small></h2>
             <p class=" ml-3">{{challenge.message|safe}}</p>
+            
 
           </div>
 
@@ -129,8 +130,8 @@
           <form id="post-form" enctype="multipart/form-data" method="post" action="">
             {% csrf_token %}
             <div class="form-row">
-              <div class="col-md-8 mb-3">{{form.as_p}}</div>
-              <div class="col-2 "><input id="challengeid" name="{{challenge.id}}" class="btn btn-primary sendcomment "
+              <div class="col-sm-9 mb-3">{{form.as_p}}</div>
+              <div class="col-sm-2 "><input id="challengeid" name="{{challenge.id}}" class="btn btn-primary sendcomment "
                   type="submit" value="Gönder"></div>
             </div>
           </form>
@@ -142,7 +143,7 @@
         <div id="commentarea">
         </div>
         {% for comment in challenge.comment_set.all reversed%}
-        <div id=singlecomment{{comment.id}} class="flex ">
+        <div id=singlecomment{{comment.id}} class="flex pt-3 ">
           <div>
             <a href="{% url 'gamification:profile' username=comment.user  %}">
               <img src="{{comment.user.profile.profile_pic.url}}" class="rounded-circle border" alt="img" width="40"

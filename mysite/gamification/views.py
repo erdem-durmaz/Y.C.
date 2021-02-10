@@ -1,5 +1,6 @@
 from django.db.models import Avg, Sum, Max
-from yaratici.models import Question, BlogPost, ImagineQuestion
+from yaratici.models import Question, BlogPost, ImagineQuestion, Category, Choices
+from yaratici.forms import ChoiceForm
 from django.conf import settings
 from .forms import CommentForm, ContactForm, ImageNominateForm, ProfileForm
 from .models import Challenge, Comment, ImageNominate, Profile, ScoreBoard, ScoringActivities
@@ -12,6 +13,7 @@ import json
 import os
 from django.contrib.auth.decorators import login_required
 from datetime import datetime
+from django.core.mail import send_mail, BadHeaderError
 
 NOW = datetime.now()
 
@@ -31,13 +33,39 @@ POINTS = [
 
 def contact_form(request):
     form = ContactForm()
-    points = ScoringActivities.objects.values('id', 'score', 'title')
-    print(points)
 
-    context = {
-        'form': form,
-    }
-    return render(request, 'gamification/contact-form.html', context)
+    if request.method == "POST":
+        print(request.POST)
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            isim = form.cleaned_data["İsminiz"]
+            email = form.cleaned_data["Email"]
+            mesaj = form.cleaned_data["Mesajınız"]
+            subject = f"{isim}'den mesaj var"
+            messagetext = f"{isim} kişisinden gelen mesaj: {mesaj}\n Email Adresi: \n{email}"
+            sender = "erdemdur.mailer@gmail.com"
+            recipients = ['berdushwile@gmail.com', 'yaraticicocugum@gmail.com']
+            try:
+                send_mail(subject, messagetext, sender, recipients)            
+            except:
+                print("errorrr"),
+                messages.add_message(request, messages.ERROR,
+                                     f'Bir hata oluştu, daha sonra tekrar deneyin')
+                return redirect('gamification:main')
+            else:
+                messages.add_message(request, messages.SUCCESS,
+                                     f'<i class="fas fa-trophy"></i> Mesajını aldık, en kısa sürede dönüş yapacağız')
+                return redirect('gamification:main')
+
+            
+
+
+    else:
+        form = ContactForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'gamification/contact-form.html', context)
 
 
 def leaderboard(request):
@@ -602,3 +630,66 @@ def send_challenge_photo(request, challenge_id):
         form = ImageNominateForm()
 
     return render(request, 'gamification/send-challenge-photo.html', {'form': form, 'challenge': challenge})
+
+def get_question(request):
+    form = ChoiceForm()
+    question = get_object_or_404(Question, is_Published=True)
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    dates = BlogPost.objects.dates('create_date','month')
+    years = [i.year for i in dates]
+    categories = Category.objects.all()
+
+
+    if request.method == 'POST':
+        if request.COOKIES.get('answer_status') == 'yes' and request.COOKIES.get('question_id') == str(question.id) and request.COOKIES.get("question_username")==request.user.username :
+            messages.add_message(request, messages.SUCCESS, 'Anketi daha önce yanıtladınız, güncel sonuçları aşağıda görebilirsiniz')
+            print('already answered')
+            return redirect('yaratici:question_results', question_id= question.id)
+        # print(request.POST)
+        if 'response' not in request.POST:
+            messages.add_message(request, messages.WARNING, 'Sonuçları görmek için öncesinde lütfen seçim yapınız')
+            print('no selection')
+            return redirect('yaratici:get_question')
+        else:
+            print(f"selectedchoice: {request.POST['response']}")
+            messages.add_message(request, messages.WARNING, 'Ankete katılımınız için teşekkürler, güncel sonuçları aşağıda görebilirsiniz')
+            choice_object = get_object_or_404(Choices,choice=request.POST['response'])
+            choice_object.counter +=1
+            choice_object.save()
+
+            #add Score
+            activity = get_object_or_404(ScoringActivities,pk=8) # Comment by Others
+
+            if request.user.is_authenticated:
+                if not ScoreBoard.objects.filter(user=request.user).filter(weeklyquestion=question).exists():
+                    print('yes')
+                    score = ScoreBoard(
+                        user=request.user,
+                        activity=activity,
+                        weeklyquestion = question,
+                        totalscore = ScoringActivities.objects.get(pk=8).score
+                    )
+                    score.save()      
+                
+            response= redirect('yaratici:question_results', question_id= question.id)
+            response.set_cookie('answer_status','yes',max_age=604800)
+            response.set_cookie('question_id',question.id,max_age=604800)
+            response.set_cookie('question_username',request.user.username,max_age=604800)
+            return response
+
+    return render(request, 'gamification/showdailyquestion.html', {'question': question, 'form': form, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+
+
+def imaginequestion(request):
+
+    form = CommentForm()
+    imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
+    
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    dates = BlogPost.objects.dates('create_date','month')
+    years = [i.year for i in dates]
+    categories = Category.objects.all()
+
+    return render(request, 'gamification/hayalgucu.html', {'form':form, 'question': imaginequestion, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})

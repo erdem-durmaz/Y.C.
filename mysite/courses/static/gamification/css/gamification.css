@@ -1,11 +1,15 @@
 body {
     font-family: 'Ubuntu', sans-serif;
-    font-size: 16px
+    font-size: 16px;
+    color: #6B7C93;
+    -webkit-font-smoothing: antialised;
     }
     
     .h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
     font-family: 'Montserrat', sans-serif;
     font-weight:500;
+    color:#3C424F;
+    
     }
     
     h1 {
@@ -104,3 +108,16 @@ body {
         background-color: #7380C6;
         border-color: #7380C6;
     }
+
+    /* BLOG */
+
+    h1.hero-title {
+        color: #FFF;
+        margin-bottom: 1.25rem;
+        font-size: 2.5rem;
+        font-weight: 400;
+        line-height: 1.14;
+        letter-spacing: .9px;
+        padding: 20px;
+    }
+

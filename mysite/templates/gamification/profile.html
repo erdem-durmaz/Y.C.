@@ -284,15 +284,15 @@
           {%if results.weeklyquestionid == question.id %}
           <div class="col-12">
             <span class="small text-gray">Tebrikler! Haftanın <a class="stretched-link"
-                href="{%url 'yaratici:get_question'%}#newquestion"> sorusunu</a> yanıtladınız😊 Takipte kalın!</span>
+                href="{%url 'gamification:weeklyquestion'%}#newquestion"> sorusunu</a> yanıtladınız😊 Takipte kalın!</span>
           </div>
           {%else%}
           <div class="col-12">
             <span class="small text-gray">Henüz ankete katılmadınız, yanıtlamak için <a
-                href="{%url 'yaratici:get_question'%}#newquestion"> tıklayınız</a></span>
+                href="{%url 'gamification:weeklyquestion'%}#newquestion"> tıklayınız</a></span>
           </div>
           {%endif%}
-          <a class="stretched-link" href="{%url 'yaratici:get_question'%}#newquestion"></a>
+          <a class="stretched-link" href="{%url 'gamification:weeklyquestion'%}#newquestion"></a>
         </div>
         <!-- END -->
       </div>
@@ -357,15 +357,15 @@
           {%if results.imaginequestionid == imaginequestion.id %}
           <div class="col-12">
             <span class="small text-gray">Haftanın <a class="stretched-link"
-                href="{%url 'yaratici:imaginequestion'%}"> hayalgücü sorusuna</a> yorum eklediniz 😊 Takipte kalın!</span>
+                href="{%url 'gamification:imaginequestion'%}"> hayalgücü sorusuna</a> yorum eklediniz 😊 Takipte kalın!</span>
           </div>
           {%else%}
           <div class="col-12">
             <span class="small text-gray">Henüz sorumuza yorum eklemediniz, eklemek için <a
-                href="{%url 'yaratici:imaginequestion'%}"> tıklayınız</a></span>
+                href="{%url 'gamification:imaginequestion'%}"> tıklayınız</a></span>
           </div>
           {%endif%}
-          <a class="stretched-link" href="{%url 'yaratici:imaginequestion'%}"></a>
+          <a class="stretched-link" href="{%url 'gamification:imaginequestion'%}"></a>
         </div>
         <!-- END -->
       </div>

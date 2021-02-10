@@ -140,3 +140,7 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+mysite/gamification/__pycache__/urls.cpython-38.pyc
+mysite/gamification/__pycache__/views.cpython-38.pyc
+

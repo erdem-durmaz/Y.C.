@@ -64,3 +64,18 @@ class ContactForm(forms.Form):
         required=True,
         widget=forms.Textarea
     )
+    def __init__(self, *args, **kwargs):
+        super(ContactForm, self).__init__(*args, **kwargs)
+        self.fields['İsminiz'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['İsminiz'].widget.attrs['rows'] = 3
+        self.fields['İsminiz'].widget.attrs['placeholder'] = 'İsminiz'
+        self.fields['İsminiz'].label=''
+
+        self.fields['Email'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['Email'].widget.attrs['placeholder'] = 'Email adresiniz'
+        self.fields['Email'].label=''
+
+        self.fields['Mesajınız'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['Mesajınız'].widget.attrs['placeholder'] = 'Mesajınız'
+        self.fields['Mesajınız'].label=''
+

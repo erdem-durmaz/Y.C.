@@ -25,6 +25,10 @@ urlpatterns = [
     path('leaderboard/', views.leaderboard, name='leaderboard'),
     # contact form
     path('contact-form', views.contact_form, name='contact_form'),
+    # weeklyquestion
+    path('question/', views.get_question, name='weeklyquestion'),
+    # imaginequestion
+    path('imaginequestion/', views.imaginequestion, name='imaginequestion'),
     
     
 
