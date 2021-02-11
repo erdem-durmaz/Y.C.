@@ -143,4 +143,6 @@ cython_debug/
 
 mysite/gamification/__pycache__/urls.cpython-38.pyc
 mysite/gamification/__pycache__/views.cpython-38.pyc
-
+mysite/gamification/__pycache__/views.cpython-38.pyc
+mysite/gamification/__pycache__/admin.cpython-38.pyc
+mysite/gamification/__pycache__/views.cpython-38.pyc

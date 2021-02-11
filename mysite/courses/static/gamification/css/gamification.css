@@ -31,6 +31,10 @@ body {
     a {
         color: #03a9f4;
     }
+    a:hover {
+        color: #0056b3;
+        text-decoration: none;
+    }
 
     /* BOOTSTRAP NAVBAR */
 
@@ -78,6 +82,8 @@ body {
         padding-right: 0rem;
         padding-left: 0rem;
     }
+    .navbar-light .navbar-nav .nav-link:hover {
+    color: #6877E0;}
     .footer {
         color: #8E9DAE;
     }
@@ -103,13 +109,15 @@ body {
 
     .btn-primary {
         color: #fff;
-        background-color: #7380C6;
+        background: rgb(103,122,228);
+                        background: linear-gradient(137deg, rgba(103,122,228,1) 0%, rgba(115,83,173,1) 80%);
         border-color: #7380C6;
     }
     .btn-primary:hover {
         color: #fff;
-        background-color: #7380C6;
-        border-color: #7380C6;
+        background: rgb(255,168,162);
+        background: linear-gradient(131deg, rgba(255,168,162,1) 0%, rgba(104,119,223,1) 80%);
+        border-color: none;
     }
 
     /* BLOG */
@@ -124,3 +132,23 @@ body {
         padding: 20px;
     }
 
+    .dropdown-toggle{
+        color: #7454AE
+    }
+
+    #miobutton{
+        padding:1rem;
+        border-radius:1rem; 
+        color:white; 
+        text-transform: none;
+        background: rgb(103,122,228);
+                        background: linear-gradient(137deg, rgba(103,122,228,1) 0%, rgba(115,83,173,1) 80%);
+    }
+
+    #miobuttonbottom{
+        padding:1rem;
+        border-radius:1rem; 
+        color:white; 
+        text-transform: none;
+        background: rgb(255,168,162);
+        background: linear-gradient(131deg, rgba(255,168,162,1) 0%, rgba(104,119,223,1) 80%);

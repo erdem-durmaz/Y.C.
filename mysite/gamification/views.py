@@ -41,7 +41,7 @@ def dailymood(request):
 
 def contact_form(request):
     form = ContactForm()
-    update_scoreboard_points()
+    # update_scoreboard_points()
     if request.method == "POST":
         print(request.POST)
         form = ContactForm(request.POST)
@@ -77,11 +77,12 @@ def contact_form(request):
 
 
 def leaderboard(request):
+    update_scoreboard_points()
     winnerlst = list()
     place = 1
     top213 = []
     restlst = list()
-    leaderboard = ScoreBoard.objects.values('user').annotate(
+    leaderboard = ScoreBoard.objects.filter(date__month=NOW.month).values('user').annotate(
         sum=Sum('totalscore')).order_by('-sum')
     print(leaderboard)
     if len(leaderboard) >= 3:
@@ -100,7 +101,7 @@ def leaderboard(request):
         top213.append(winnerlst[0])
         top213.append(winnerlst[2])
 
-        rest = ScoreBoard.objects.values('user').annotate(
+        rest = ScoreBoard.objects.filter(date__month=NOW.month).values('user').annotate(
             sum=Sum('totalscore')).order_by('-sum')
         for player in rest[3:]:
             currentuser = get_object_or_404(User, pk=player['user'])
@@ -208,6 +209,9 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         likes += pointobj['score']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score']
+                        scoremodel.save()
                         
             else:
                 activitynum = scoreobj['activity']
@@ -216,6 +220,9 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         likes -= pointobj['score']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score'] * -1
+                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 5 or scoreobj['activity'] == 6:  # comments
@@ -226,6 +233,9 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         comments += pointobj['score']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score']
+                        scoremodel.save()
                         
             else:
                 activitynum = scoreobj['activity']
@@ -234,6 +244,9 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         comments -= pointobj['score']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score'] * -1
+                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 2:  # img upload
@@ -244,6 +257,9 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         images += pointobj['score']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score']
+                        scoremodel.save()
                         
 
             else:
@@ -253,6 +269,9 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         images -= pointobj['score']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score'] * -1
+                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 8:  # weeklyquestion
@@ -263,6 +282,9 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         weeklyquestion += pointobj['score']
                         results['weeklyquestionid'] = scoreobj['weeklyquestion']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score']
+                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 10:  # imaginequestion
@@ -273,6 +295,9 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         imaginequestion += pointobj['score']
                         results['imaginequestionid'] = scoreobj['imaginequestion']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score']
+                        scoremodel.save()
                         
             else:
                 activitynum = scoreobj['activity']
@@ -280,6 +305,10 @@ def calculate_score(user):
                     if activitynum == pointobj['id']:
                         total_point -= pointobj['score']
                         imaginequestion -= pointobj['score']
+                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
+                        scoremodel.totalscore = pointobj['score'] * -1
+                        scoremodel.save()
+                        
                         
 
     postcount = BlogPost.objects.exclude(
@@ -624,7 +653,15 @@ def delete_image(request, image_id):
 def send_challenge_photo(request, challenge_id):
     activity = get_object_or_404(ScoringActivities, pk=2)
     challenge = get_object_or_404(Challenge, pk=challenge_id)
+    upload_count = ScoreBoard.objects.filter(user=request.user, challenge=challenge, activity=activity).count() % 2
 
+    def check_uploaded_photo():
+        uploaded_photo = ImageNominate.objects.filter(user=request.user, challenge=challenge)
+        if uploaded_photo.exists:
+            return uploaded_photo
+        else:
+            return "nophoto"
+ 
 
     if request.method == 'POST':
         challenge = get_object_or_404(Challenge, pk=challenge_id)
@@ -640,35 +677,21 @@ def send_challenge_photo(request, challenge_id):
                 owner=form.cleaned_data['owner']
             )
             new_photo.save()
-            # Add Score
-            x = ScoreBoard.objects.filter(
-                user=request.user, challenge=challenge, activity=activity, deleted=False)
-            total = 0
-            for i in x:
-                if i.imagenominate != None:
-                    total += 1
-                    print(i.imagenominate)
-            print(total)
-            if total < 1:
-                score = ScoreBoard(
-                    user=request.user,
-                    activity=activity,
-                    imagenominate=new_photo,
-                    challenge=challenge
-                )
-                print("total 0dan kucuk")
-                score.save()
-                print('saved')
-                messages.add_message(request, messages.SUCCESS,
-                                     f'<i class="fas fa-trophy"></i> Tebrikler! Fotoğrafınız yüklendi, {activity.score} puan kazandınız')
-            else:
-                messages.add_message(request, messages.INFO,
-                                     f'<i class="fas fa-trophy"></i> Tebrikler! Fotoğrafınız yüklendi!  Her challenge için maksimum {activity.score} puan kazanabilirsiniz')
+            
+            score = ScoreBoard(
+                user=request.user,
+                activity=activity,
+                imagenominate=new_photo,
+                challenge=challenge
+            )
+            score.save()
+            messages.add_message(request, messages.SUCCESS,
+                                    f'<i class="fas fa-trophy"></i> Tebrikler! Fotoğrafınız yüklendi, {activity.score} puan kazandınız')
             return HttpResponseRedirect(reverse('gamification:show_challenge', args=(challenge.slug,)))
     else:
         form = ImageNominateForm()
 
-    return render(request, 'gamification/send-challenge-photo.html', {'form': form, 'challenge': challenge})
+    return render(request, 'gamification/send-challenge-photo.html', {'form': form, 'challenge': challenge,'upload_count':upload_count,'upphoto':check_uploaded_photo})
 
 def get_question(request):
     form = ChoiceForm()

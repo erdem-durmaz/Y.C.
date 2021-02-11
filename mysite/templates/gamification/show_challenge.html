@@ -164,8 +164,8 @@
       }
 
     body {
-
-background-color: #cccccc;
+        background: rgb(103,122,228);
+        background: linear-gradient(137deg, rgba(103,122,228,1) 0%, rgba(115,83,173,1) 80%);
     }
     
 
@@ -2049,7 +2049,7 @@ background-color: #cccccc;
 
 
 <div  class="d-flex flex-column justify-content-around align-items-center">
-    <div ><h1 style="color:#3C424F"class="display-3 text-center py-3"><strong> {{challenge.title}}</strong></h1></div>
+    <div ><h1 style="color:white"class="text-center py-3"><strong> {{challenge.title}}</strong></h1></div>
     <div class="d-flex align-items-baseline mb-3">
         <a href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}"
             class="btn btn-primary btn-fill btn-round mr-2"> Detaylar</a>

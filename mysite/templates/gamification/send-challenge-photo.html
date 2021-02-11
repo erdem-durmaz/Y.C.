@@ -65,6 +65,7 @@
     <img src="{{challenge.photo.url}}" class="card-img-top" alt="...">
     <div class="card-body">
       <h4 class="card-title">{{challenge.title}}</h4>
+      {%if upload_count == 0 %}
       <p class="card-text">Challenge'a katılmak için fotoğrafınızı gönderin!</p>
       <form enctype="multipart/form-data" method="post" action="{% url 'gamification:send_challenge_photo' challenge_id=challenge.id %}">
         {% csrf_token %}
@@ -75,7 +76,15 @@
         <a class="btn btn-warning btn-fill"href="{%url 'gamification:main' %}">İptal</a>
         
     </form>
-    
+        {%else%}
+        <p class="card-text">Bu challenge için zaten fotoğrafınızı yüklediniz </p>
+
+        {%for photo in upphoto%}
+        
+        <a style="color:#109CFF"href="{{photo.photo.url}}" class="stretched-link" data-lightbox="image-1" data-title="{{photo.caption}}">Fotoğrafınızı görmek için tıklayın</a>
+        {%endfor%}
+        {%endif%}
+
     </div>
   </div>
 </div>
