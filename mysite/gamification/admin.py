@@ -31,7 +31,7 @@ class ScoringActivitiesAdmin(admin.ModelAdmin):
 
 class ScoreBoardAdmin(admin.ModelAdmin):
     list_display =('user','activity','challenge','totalscore','date')
-    list_filter = ('date','user')
+    list_filter = ('date','user','activity')
     
 
 

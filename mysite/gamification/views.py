@@ -39,43 +39,6 @@ def dailymood(request):
         return render(request, 'gamification/dailymood.html', context)
 
 
-def contact_form(request):
-    form = ContactForm()
-    # update_scoreboard_points()
-    if request.method == "POST":
-        print(request.POST)
-        form = ContactForm(request.POST)
-        if form.is_valid():
-            isim = form.cleaned_data["İsminiz"]
-            email = form.cleaned_data["Email"]
-            mesaj = form.cleaned_data["Mesajınız"]
-            subject = f"{isim}'den mesaj var"
-            messagetext = f"{isim} kişisinden gelen mesaj: {mesaj}\n Email Adresi: \n{email}"
-            sender = "erdemdur.mailer@gmail.com"
-            recipients = ['berdushwile@gmail.com', 'yaraticicocugum@gmail.com']
-            try:
-                send_mail(subject, messagetext, sender, recipients)            
-            except:
-                print("errorrr"),
-                messages.add_message(request, messages.ERROR,
-                                     f'Bir hata oluştu, daha sonra tekrar deneyin')
-                return redirect('gamification:main')
-            else:
-                messages.add_message(request, messages.SUCCESS,
-                                     f'<i class="fas fa-trophy"></i> Mesajını aldık, en kısa sürede dönüş yapacağız')
-                return redirect('gamification:main')
-
-            
-
-
-    else:
-        form = ContactForm()
-        context = {
-            'form': form,
-        }
-        return render(request, 'gamification/contact-form.html', context)
-
-
 def leaderboard(request):
     # update_scoreboard_points() #use only when points change
     winnerlst = list()
@@ -84,7 +47,7 @@ def leaderboard(request):
     restlst = list()
     leaderboard = ScoreBoard.objects.filter(date__month=NOW.month).values('user').annotate(
         sum=Sum('totalscore')).order_by('-sum')
-    print(leaderboard)
+
     if len(leaderboard) >= 3:
 
         for player in leaderboard[:3]:
@@ -184,7 +147,6 @@ def update_scoreboard_points():
                         scoreobj.save()
 
 
-
 def calculate_score(user):
     # Calculate Challenge Like Sum
     scoresheet = ScoreBoard.objects.filter(user=user).filter(date__month=NOW.month).values(
@@ -209,9 +171,7 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         likes += pointobj['score']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score']
-                        scoremodel.save()
+
                         
             else:
                 activitynum = scoreobj['activity']
@@ -220,9 +180,6 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         likes -= pointobj['score']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score'] * -1
-                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 5 or scoreobj['activity'] == 6:  # comments
@@ -233,9 +190,6 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         challenges += pointobj['score']
                         comments += pointobj['score']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score']
-                        scoremodel.save()
                         
             else:
                 activitynum = scoreobj['activity']
@@ -244,9 +198,6 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         comments -= pointobj['score']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score'] * -1
-                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 2:  # img upload
@@ -256,11 +207,7 @@ def calculate_score(user):
                     if activitynum == pointobj['id']:
                         total_point += pointobj['score']
                         challenges += pointobj['score']
-                        images += pointobj['score']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score']
-                        scoremodel.save()
-                        
+                        images += pointobj['score']                        
 
             else:
                 activitynum = scoreobj['activity']
@@ -269,9 +216,6 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         challenges -= pointobj['score']
                         images -= pointobj['score']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score'] * -1
-                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 8:  # weeklyquestion
@@ -282,9 +226,6 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         weeklyquestion += pointobj['score']
                         results['weeklyquestionid'] = scoreobj['weeklyquestion']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score']
-                        scoremodel.save()
                         
 
         elif scoreobj['activity'] == 10:  # imaginequestion
@@ -295,9 +236,6 @@ def calculate_score(user):
                         total_point += pointobj['score']
                         imaginequestion += pointobj['score']
                         results['imaginequestionid'] = scoreobj['imaginequestion']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score']
-                        scoremodel.save()
                         
             else:
                 activitynum = scoreobj['activity']
@@ -305,9 +243,6 @@ def calculate_score(user):
                     if activitynum == pointobj['id']:
                         total_point -= pointobj['score']
                         imaginequestion -= pointobj['score']
-                        scoremodel = get_object_or_404(ScoreBoard,pk=scoreobj['id'])
-                        scoremodel.totalscore = pointobj['score'] * -1
-                        scoremodel.save()
                         
                         
 
@@ -335,12 +270,11 @@ def calculate_score(user):
     results['weeklyquestion'] = weeklyquestion
     results['imaginequestion'] = imaginequestion
     
-    print(results)
     return results
 
 
 def positioninleaderboard(user):
-    leaderboard = list(ScoreBoard.objects.values(
+    leaderboard = list(ScoreBoard.objects.filter(date__month=NOW.month).values(
         'user').annotate(sum=Sum('totalscore')).order_by('-sum'))
 
     if not ScoreBoard.objects.filter(user=user).values('user').annotate(sum=Sum('totalscore')).order_by('-sum').exists():
@@ -360,17 +294,16 @@ def positioninleaderboard(user):
 
 def profile(request, username):
     user = User.objects.get(username=username)
-
     question = get_object_or_404(Question, is_Published=True)
     imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
     scoringactivities = ScoringActivities.objects.all()
+
+    # profil yoksa profil yaratır
     if not user:
         return redirect('main')
     # Create Profile if doesnt exist
     if not Profile.objects.filter(user=user).exists():
-        new_profile = Profile(
-            user=user,
-        )
+        new_profile = Profile(user=user,)
         new_profile.save()
 
     profile = Profile.objects.get(user=user)
@@ -392,29 +325,9 @@ def profile(request, username):
     return render(request, 'gamification/profile.html', context)
 
 
-def get_challenge_details(request, slug):
-    form = CommentForm
-    challenge = get_object_or_404(Challenge, slug=slug)
-    return render(request, 'gamification/get-challenge-details.html', {'challenge': challenge, 'form': form})
+#######👆👆PROFILE👆👆################################
 
-
-def show_image(request, slug, image_id):
-    form = CommentForm
-    # challenges = Challenge.objects.filter(is_Published__exact=True).order_by('-create_date')
-    image = get_object_or_404(ImageNominate, pk=image_id)
-    challenge = get_object_or_404(Challenge, slug=slug)
-    comments = Comment.objects.order_by('-date')
-    return render(request, 'gamification/show-image.html', {'image': image, 'challenge': challenge, 'form': form})
-
-
-def main(request):
-    form = CommentForm
-    challenges = Challenge.objects.filter(
-        is_Published__exact=True).order_by('-create_date')
-    comments = Comment.objects.order_by('-date')
-    return render(request, 'gamification/main.html', {'challenges': challenges, 'comments': comments, 'form': form})
-
-
+#ID5-6######## YORUM SİLME HEM CHALLENGE HEM DE FOTOĞRAF######### puanlama ok
 @login_required
 def delete_comment(request):
     if request.method == "POST":
@@ -426,7 +339,8 @@ def delete_comment(request):
                 user=request.user,
                 activity=activity,
                 comment=comment,
-                deleted=True
+                deleted=True,
+                totalscore = activity.score * -1
             )
             score.save()
             messages.add_message(request, messages.ERROR,
@@ -438,7 +352,8 @@ def delete_comment(request):
                 score = ScoreBoard(
                     user=comment.image.user,
                     activity=activity,
-                    deleted=True
+                    deleted=True,
+                    totalscore = activity.score * -1
                 )
                 score.save()
             ctx = {"comment_id": comment.id, "message": "Başarıyla Silindi"}
@@ -454,30 +369,7 @@ def delete_comment(request):
             return HttpResponse(json.dumps(ctx), content_type='application/json')
 
 
-# Like for Challenges
-def save_comment(request):
-    if request.method == "POST":
-        print(request.POST)
-        if request.POST.get("operation") == "send_comment" and request.is_ajax():
-            form = CommentForm(request.POST)
-            content_id = request.POST.get("content_id", None)
-            challenge = get_object_or_404(Challenge, pk=content_id)
-
-            if form.is_valid():
-                new_comment = Comment(
-                    comment=form.cleaned_data['comment'],
-                    user=request.user,
-                    challenge=challenge
-                )
-                new_comment.save()
-
-                ctx = {"user": str(request.user), "imgpath": str(request.user.profile.profile_pic.url), "likes_count": challenge.image_likes.count(
-                ), "content_id": content_id, "text": form.cleaned_data['comment']}
-                return HttpResponse(json.dumps(ctx), content_type='application/json')
-
-# Like for Images
-
-
+#ID5-6######## CHALLENGE FOTOĞRAF YORUM KAYDET ######### puanlama ok
 def image_save_comment(request):
     if request.method == "POST":
         if request.POST.get("operation") == "send_comment" and request.is_ajax():
@@ -495,7 +387,8 @@ def image_save_comment(request):
                 score = ScoreBoard(
                     user=request.user,
                     activity=activity,
-                    comment=new_comment
+                    comment=new_comment,
+                    totalscore = activity.score
                 )
                 score.save()
                 if image.user != request.user:
@@ -504,7 +397,8 @@ def image_save_comment(request):
                     score = ScoreBoard(
                         user=image.user,
                         activity=activity,
-                        comment=new_comment
+                        comment=new_comment,
+                        totalscore = activity.score
                     )
                     score.save()
                 messages.add_message(request, messages.SUCCESS,
@@ -514,56 +408,7 @@ def image_save_comment(request):
                 return HttpResponse(json.dumps(ctx), content_type='application/json')
 
 
-# Like for Challenges
-@login_required
-def like(request):
-    if request.method == "POST":
-        #    print(request.POST['content_id'])
-        if request.POST.get("operation") == "like_submit" and request.is_ajax():
-            content_id = request.POST.get("content_id", None)
-            challenge = get_object_or_404(Challenge, pk=content_id)
-            activity = get_object_or_404(ScoringActivities, pk=7)
-
-            # already liked the content
-            if challenge.image_likes.filter(id=request.user.id):
-                challenge.image_likes.remove(
-                    request.user)  # remove user from likes
-                # Add Delete Score
-                score = ScoreBoard(
-                    user=request.user,
-                    activity=activity,
-                    challenge=challenge,
-                    deleted=True
-                )
-                score.save()
-                liked = False
-
-            else:
-                challenge.image_likes.add(request.user)
-                liked = True
-                # Add Score
-                score = ScoreBoard(
-                    user=request.user,
-                    activity=activity,
-                    challenge=challenge
-                )
-                score.save()
-                messages.add_message(request, messages.SUCCESS,
-                                     f'<i class="fas fa-trophy"></i> Tebrikler! Like ile {activity.score} puan kazandın')
-            ctx = {"likes_count": challenge.image_likes.count(
-            ), "liked": liked, "content_id": content_id}
-            return HttpResponse(json.dumps(ctx), content_type='application/json')
-
-
-def show_challenge(request, slug):
-    form = CommentForm
-    challenge = get_object_or_404(Challenge, slug=slug)
-    nominees = ImageNominate.objects.filter(challenge=challenge)
-    comments = Comment.objects.order_by('-date')
-    return render(request, 'gamification/show_challenge.html', {'form': form, 'challenge': challenge, 'nominees': nominees, 'comments': comments})
-
-
-# like for challenge photos
+#ID3-4######## CHALLENGE FOTOĞRAF LİKE ######### PUANLAMA OK
 @login_required
 def like_image(request):
     if request.method == "POST":
@@ -573,7 +418,7 @@ def like_image(request):
             challenge_id = request.POST.get("challenge_id", None)
             challenge = get_object_or_404(Challenge, pk=challenge_id)
             activity = get_object_or_404(
-                ScoringActivities, pk=3)  # Img Like Others
+                ScoringActivities, pk=3) 
             # already liked the content
             if nominee.image_likes.filter(id=request.user.id):
                 # remove user from likes
@@ -584,7 +429,8 @@ def like_image(request):
                     user=request.user,
                     activity=activity,
                     imagenominate=nominee,
-                    deleted=True
+                    deleted=True,
+                    totalscore = activity.score * -1
                 )
                 score.save()
                 if nominee.user != request.user:
@@ -594,7 +440,8 @@ def like_image(request):
                         user=nominee.user,
                         activity=activity,
                         imagenominate=nominee,
-                        deleted=True
+                        deleted=True,
+                        totalscore = activity.score * -1
                     )
                     score.save()
 
@@ -602,10 +449,13 @@ def like_image(request):
                 nominee.image_likes.add(request.user)
                 liked = True
                 # Add Score
+                activity = get_object_or_404(
+                ScoringActivities, pk=3)
                 score = ScoreBoard(
                     user=request.user,
                     activity=activity,
-                    imagenominate=nominee
+                    imagenominate=nominee,
+                    totalscore = activity.score
                 )
                 score.save()
                 messages.add_message(request, messages.SUCCESS,
@@ -616,7 +466,8 @@ def like_image(request):
                     score = ScoreBoard(
                         user=nominee.user,
                         activity=activity,
-                        imagenominate=nominee
+                        imagenominate=nominee,
+                        totalscore = activity.score
                     )
                     score.save()
 
@@ -627,7 +478,7 @@ def like_image(request):
             return HttpResponse(json.dumps(ctx), content_type='application/json')
 
 
-# Delete Image for Challenge
+######### CHALLENGE FOTOĞRAF SİLME ######### PUANLAMA OK
 @login_required
 def delete_image(request, image_id):
     image = get_object_or_404(ImageNominate, pk=image_id)
@@ -638,7 +489,8 @@ def delete_image(request, image_id):
             activity=activity,
             imagenominate=image,
             challenge=image.challenge,
-            deleted=True
+            deleted=True,
+            totalscore = activity.score * -1
         )
         score.save()
         # score = get_object_or_404(ScoreBoard,user=request.user,imagenominate=image, activity=2)
@@ -656,7 +508,7 @@ def delete_image(request, image_id):
         return HttpResponseRedirect(reverse('gamification:main'))
 
 
-# Send photo for Challenge
+#ID2######## CHALLENGE FOTOĞRAF GÖNDERİMİ ######### puanlama ok
 @login_required
 def send_challenge_photo(request, challenge_id):
     activity = get_object_or_404(ScoringActivities, pk=2)
@@ -690,7 +542,8 @@ def send_challenge_photo(request, challenge_id):
                 user=request.user,
                 activity=activity,
                 imagenominate=new_photo,
-                challenge=challenge
+                challenge=challenge,
+                totalscore = activity.score
             )
             score.save()
             messages.add_message(request, messages.SUCCESS,
@@ -701,6 +554,108 @@ def send_challenge_photo(request, challenge_id):
 
     return render(request, 'gamification/send-challenge-photo.html', {'form': form, 'challenge': challenge,'upload_count':upload_count,'upphoto':check_uploaded_photo})
 
+
+######### KATILAN FOTOĞRAF GÖSTERİM SAYFASI #########
+def show_image(request, slug, image_id):
+    form = CommentForm
+    # challenges = Challenge.objects.filter(is_Published__exact=True).order_by('-create_date')
+    image = get_object_or_404(ImageNominate, pk=image_id)
+    challenge = get_object_or_404(Challenge, slug=slug)
+    comments = Comment.objects.order_by('-date')
+    return render(request, 'gamification/show-image.html', {'image': image, 'challenge': challenge, 'form': form})
+
+
+######### CHALLENGE' KATILAN FOTOĞRAFLAR SAYFASI ######### 
+def show_challenge(request, slug):
+    form = CommentForm
+    challenge = get_object_or_404(Challenge, slug=slug)
+    nominees = ImageNominate.objects.filter(challenge=challenge)
+    comments = Comment.objects.order_by('-date')
+    return render(request, 'gamification/show_challenge.html', {'form': form, 'challenge': challenge, 'nominees': nominees, 'comments': comments})
+
+
+######### CHALLENGE DETAY SAYFASI ######### puanlama yok
+def get_challenge_details(request, slug):
+    form = CommentForm
+    challenge = get_object_or_404(Challenge, slug=slug)
+    return render(request, 'gamification/get-challenge-details.html', {'challenge': challenge, 'form': form})
+
+
+######### CHALLENGE ANA ETKİNLİK YORUM ######### puanlama yok
+def save_comment(request):
+    if request.method == "POST":
+        print(request.POST)
+        if request.POST.get("operation") == "send_comment" and request.is_ajax():
+            form = CommentForm(request.POST)
+            content_id = request.POST.get("content_id", None)
+            challenge = get_object_or_404(Challenge, pk=content_id)
+
+            if form.is_valid():
+                new_comment = Comment(
+                    comment=form.cleaned_data['comment'],
+                    user=request.user,
+                    challenge=challenge
+                )
+                new_comment.save()
+
+                ctx = {"user": str(request.user), "imgpath": str(request.user.profile.profile_pic.url), "likes_count": challenge.image_likes.count(
+                ), "content_id": content_id, "text": form.cleaned_data['comment']}
+                return HttpResponse(json.dumps(ctx), content_type='application/json')
+
+
+#ID7######## CHALLENGE ANA ETKİNLİK İÇİN LİKE ######### puanlama ok
+@login_required
+def like(request):
+    if request.method == "POST":
+        #    print(request.POST['content_id'])
+        if request.POST.get("operation") == "like_submit" and request.is_ajax():
+            content_id = request.POST.get("content_id", None)
+            challenge = get_object_or_404(Challenge, pk=content_id)
+            activity = get_object_or_404(ScoringActivities, pk=7)
+
+            # already liked the content
+            if challenge.image_likes.filter(id=request.user.id):
+                challenge.image_likes.remove(
+                    request.user)  # remove user from likes
+                # Add Delete Score
+                score = ScoreBoard(
+                    user=request.user,
+                    activity=activity,
+                    challenge=challenge,
+                    deleted=True,
+                    totalscore = activity.score * -1
+                )
+                score.save()
+                liked = False
+
+            else:
+                challenge.image_likes.add(request.user)
+                liked = True
+                # Add Score
+                score = ScoreBoard(
+                    user=request.user,
+                    activity=activity,
+                    challenge=challenge,
+                    totalscore = activity.score
+                )
+                score.save()
+                messages.add_message(request, messages.SUCCESS,
+                                     f'<i class="fas fa-trophy"></i> Tebrikler! Like ile {activity.score} puan kazandın')
+            ctx = {"likes_count": challenge.image_likes.count(
+            ), "liked": liked, "content_id": content_id}
+            return HttpResponse(json.dumps(ctx), content_type='application/json')
+
+
+######### GAMIFICATION ANASAYFA #########
+def main(request):
+    form = CommentForm
+    challenges = Challenge.objects.filter(
+        is_Published__exact=True).order_by('-create_date')
+    comments = Comment.objects.order_by('-date')
+    return render(request, 'gamification/main.html', {'challenges': challenges, 'comments': comments, 'form': form})
+
+
+#ID8######## HAFTALIK SORU ######### PUANLAMA OK
 def get_question(request):
     form = ChoiceForm()
     question = get_object_or_404(Question, is_Published=True)
@@ -738,7 +693,7 @@ def get_question(request):
                         user=request.user,
                         activity=activity,
                         weeklyquestion = question,
-                        totalscore = ScoringActivities.objects.get(pk=8).score
+                        totalscore = activity.score
                     )
                     score.save()      
                 
@@ -750,7 +705,7 @@ def get_question(request):
 
     return render(request, 'gamification/showdailyquestion.html', {'question': question, 'form': form, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
 
-
+######### HAYALGÜCÜ SORUSU #########
 def imaginequestion(request):
 
     form = CommentForm()
@@ -763,3 +718,40 @@ def imaginequestion(request):
     categories = Category.objects.all()
 
     return render(request, 'gamification/hayalgucu.html', {'form':form, 'question': imaginequestion, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+
+######### CONTACT FORM #########
+def contact_form(request):
+    form = ContactForm()
+    # update_scoreboard_points()
+    if request.method == "POST":
+        print(request.POST)
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            isim = form.cleaned_data["İsminiz"]
+            email = form.cleaned_data["Email"]
+            mesaj = form.cleaned_data["Mesajınız"]
+            subject = f"{isim}'den mesaj var"
+            messagetext = f"{isim} kişisinden gelen mesaj: {mesaj}\n Email Adresi: \n{email}"
+            sender = "erdemdur.mailer@gmail.com"
+            recipients = ['berdushwile@gmail.com', 'yaraticicocugum@gmail.com']
+            try:
+                send_mail(subject, messagetext, sender, recipients)            
+            except:
+                print("errorrr"),
+                messages.add_message(request, messages.ERROR,
+                                     f'Bir hata oluştu, daha sonra tekrar deneyin')
+                return redirect('gamification:main')
+            else:
+                messages.add_message(request, messages.SUCCESS,
+                                     f'<i class="fas fa-trophy"></i> Mesajını aldık, en kısa sürede dönüş yapacağız')
+                return redirect('gamification:main')
+
+            
+
+
+    else:
+        form = ContactForm()
+        context = {
+            'form': form,
+        }
+        return render(request, 'gamification/contact-form.html', context)

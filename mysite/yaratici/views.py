@@ -70,7 +70,7 @@ def posts_bytag(request,slug):
     categories = Category.objects.all()
     return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'category':category})
 
-
+# ID9 READ POST ## PUANLAMA OK
 def show_post(request, slug):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:10]
     sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
@@ -89,7 +89,7 @@ def show_post(request, slug):
             user=request.user,
             activity=activity,
             blogpost = post,
-            totalscore = ScoringActivities.objects.get(pk=9).score
+            totalscore = activity.score
         )
             score.save()      
 
@@ -129,7 +129,7 @@ def delete_comment(request):
             comment.delete()
             return HttpResponse(json.dumps(ctx), content_type='application/json')
 
-# Comment Save for ImagineQuestion
+# ID 10 Comment Save for ImagineQuestion PUANLAMA OK
 def imaginequestion_save_comment(request):
     if request.method =="POST":
         print(request.POST)
@@ -156,7 +156,7 @@ def imaginequestion_save_comment(request):
                         activity=activity,
                         comment = new_comment,
                         imaginequestion = imaginequestion,
-                        totalscore = ScoringActivities.objects.get(pk=10).score
+                        totalscore = activity.score
                         )
                         score.save()
                         messages.add_message(request, messages.SUCCESS,
