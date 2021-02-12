@@ -88,10 +88,11 @@ body {
         color: #8E9DAE;
     }
     .dropdown-item{
+
         font-weight: 600;
         font-style: normal;
         font-size: 14px;
-        line-height: 160%;
+        line-height: 250%;
         letter-spacing: 0.1px;
         text-transform: uppercase;
         white-space: nowrap;
