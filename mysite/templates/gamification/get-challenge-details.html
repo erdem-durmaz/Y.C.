@@ -185,7 +185,7 @@
         type: "POST", // http method
         data: {
           'content_id': $(this).attr('name'),
-          'operation': 'delete_comment',
+          'operation': 'delete_challenge_comment',
           'csrfmiddlewaretoken': '{{ csrf_token }}'
         }, // data sent with the post request
 
@@ -193,7 +193,7 @@
         success: function (json) {
           console.log(json)
           $("#singlecomment" + json.comment_id).remove();
-          alert('Silindi!')
+          
         },
 
         // handle a non-successful response

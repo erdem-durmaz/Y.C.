@@ -77,7 +77,7 @@ def contact_form(request):
 
 
 def leaderboard(request):
-    update_scoreboard_points()
+    # update_scoreboard_points() #use only when points change
     winnerlst = list()
     place = 1
     top213 = []
@@ -441,6 +441,14 @@ def delete_comment(request):
                     deleted=True
                 )
                 score.save()
+            ctx = {"comment_id": comment.id, "message": "Başarıyla Silindi"}
+            comment.delete()
+            return HttpResponse(json.dumps(ctx), content_type='application/json')
+            
+            # delete for challenge details comment screen
+        if request.POST.get("operation") == "delete_challenge_comment" and request.is_ajax():
+            content_id = int(request.POST.get("content_id"))
+            comment = get_object_or_404(Comment, pk=content_id)
             ctx = {"comment_id": comment.id, "message": "Başarıyla Silindi"}
             comment.delete()
             return HttpResponse(json.dumps(ctx), content_type='application/json')
