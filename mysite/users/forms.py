@@ -18,6 +18,7 @@ class SignUpForm(UserCreationForm):
         self.fields['username'].widget.attrs['class'] = 'form-control'
         self.fields['username'].widget.attrs['placeholder'] = 'Kullanıcı Adı'
         self.fields['username'].label=''
+        self.fields['username'].help_text='Zorunlu. Sadece harfler, rakamlar ve @/./+/-/_ karakterleri kullanılabilir.'
 
         self.fields['isim'].widget.attrs['class'] = 'form-control'
         self.fields['isim'].widget.attrs['placeholder'] = 'İsim'

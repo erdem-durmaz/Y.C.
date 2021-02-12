@@ -145,3 +145,7 @@ mysite/gamification/__pycache__/urls.cpython-38.pyc
 mysite/gamification/__pycache__/views.cpython-38.pyc
 mysite/gamification/__pycache__/admin.cpython-38.pyc
 
+mysite/gamification/__pycache__/views.cpython-38.pyc
+mysite/gamification/__pycache__/admin.cpython-38.pyc
+mysite/users/__pycache__/forms.cpython-38.pyc
+mysite/yaratici/__pycache__/views.cpython-38.pyc
