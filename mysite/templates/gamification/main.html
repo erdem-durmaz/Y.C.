@@ -16,14 +16,14 @@
 
     .commentbox .bold {
         font-weight: 600;
-        font-size: 13px;
-        color: rgb(29, 29, 29);
+        font-size: 14px;
+        color:  #3C424F;
     }
 
     .commentbox .description {
 
-        font-size: 13px;
-        color: rgb(69, 69, 69);
+        font-size: 14px;
+        color:  #6B7C93;;
     }
 
     p {
@@ -33,6 +33,9 @@
 
     #likescard {
         font-size: 14px;
+    }
+    .card a:hover, .card a:focus {
+        color: #7380C6
     }
 </style>
 
@@ -47,7 +50,7 @@
     <div class="card-box col-lg-4 col-md-6 col-sm-12">
         <div class="card">
             <div style=" background-image: url('{{challenge.photo.url}}'); background-position: center center; background-size: cover;"
-                class="header"> <a class="stretched-link"href="{%url 'gamification:show_challenge' slug=challenge.slug %}"></a>
+                class="header"> <a style="margin:0 auto;display:block;width:100%;height:250px"class="stretched-link"href="{%url 'gamification:show_challenge' slug=challenge.slug %}"></a>
                 <div class="social-line social-line-visible" data-buttons="4">
                     
                     <button name="{{ challenge.id }}" class="likin btn btn-social btn-facebook">
@@ -94,13 +97,13 @@
                 <div class="commentbox">
                     {%if challenge.comment_set.all %}
                     <p><span class="bold">{{challenge.comment_set.first.user}}</span> <span
-                            class="description">{{challenge.comment_set.first.comment|slice:"20"}}</span></p>
-                    <p class="description"><a
+                            class="description">{{challenge.comment_set.first.comment|truncatewords:4|slice:"-1"}}</span></p>
+                    <p style="padding:0px"class="description"><a
                             href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}">{{challenge.comment_set.count}}
                             Yorumun tümünü gör</a></p>
                     {%if challenge.comment_set.all.count > 1 %}
                     <p><span class="bold">{{challenge.comment_set.last.user}}</span> <span
-                            class="description">{{challenge.comment_set.last.comment|slice:"20"}}</span></p>
+                            class="description">{{challenge.comment_set.last.comment|truncatewords:4|slice:"-1"}}</span></p>
                     {%endif%}
                     {%else%}
                     <p><span class="bold"> </span> <span class="description"></span></p>
