@@ -237,6 +237,7 @@
     </div>
     <!-- mood -->
     <div id="" class="col-lg-2 col-md-2 ml-auto mb-3 mt-2">
+      {% if username == user %}
       <div id="moodcard" class="bg-white rounded-lg py-2 shadow">
         <h6 class="h6 text-center mb-1">Bugünkü <br> Uyku</h6>
         {%if dailymood%}
@@ -259,7 +260,7 @@
         
         <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}"></a>
       </div>
-
+      {% endif %}
     </div>
     <!-- moodend -->
 
