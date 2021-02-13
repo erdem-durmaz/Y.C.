@@ -24,14 +24,14 @@ def dailysleep(request):
             new_mood = Mood(user = request.user,mood = request.POST['rating'])
             new_mood.save()
             messages.add_message(request, messages.SUCCESS,
-                                     f'<i class="fas fa-trophy"></i> Bravo! Çocuğunuzun uyku durumunu giriş yaparak günlük olarak takip edebilirsiniz')
+                                     f'<i class="fas fa-trophy"></i> Bravo! Çocuğunuzun uyku durumunu giriş yaparak günlük olarak takip edebilirsiniz.')
             return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
         else:
             currentmood = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
             currentmood.mood = request.POST['rating']
             currentmood.save()
             messages.add_message(request, messages.SUCCESS,
-                                     f'<i class="fas fa-trophy"></i> Günlük uyku girişiniz güncellendi')
+                                     f'<i class="fas fa-trophy"></i> Günlük uyku girişiniz güncellendi.')
            
             return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
 
