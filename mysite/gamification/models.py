@@ -153,21 +153,13 @@ class ScoreBoard (models.Model):
 
 class Mood(models.Model):
 
-    PERFECT = 1
-    GOOD = 2
-    NEUTRAL = 3
-    BAD = 4
-    WORST = 5
-    MOOD_TYPES = (
-        (PERFECT, '🥳Süper'),
-        (GOOD, '🙂İyi'),
-        (NEUTRAL, '😐Normal'),
-        (BAD, '😕Kötü'),
-        (WORST, '😞Çok Kötü'),
-    )
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    mood = models.PositiveSmallIntegerField(choices=MOOD_TYPES)
+    mood = models.PositiveSmallIntegerField()
+
+    def __str__(self):
+        return str(self.user)+" "+str(self.mood)+" "+str(self.date.year)
+
 
 
 

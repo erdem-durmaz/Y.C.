@@ -80,13 +80,3 @@ class ContactForm(forms.Form):
         self.fields['Mesajınız'].label=''
 
 
-class MoodForm(ModelForm):
-        
-    class Meta:
-        model = Mood
-        fields = ['mood']
-
-    def __init__(self, *args, **kwargs):
-        super(MoodForm, self).__init__(*args, **kwargs)
-        self.fields['mood'].widget.attrs['class'] = 'form-control form-control-lg'
-        self.fields['mood'].widget.attrs['placeholder'] = 'Hakkınızda'

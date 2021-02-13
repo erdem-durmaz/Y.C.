@@ -209,65 +209,197 @@
             bottom: -7px;
         }
 </style>
+
+<style>
+    @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700");
+body {
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  font-size: 18px;
+  background: #eeeeee;
+  color: #1f2024;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rating {
+  max-width: 400px;
+  margin: 80px auto;
+  background: #fff;
+  padding: 1em;
+  border-radius: 3px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+.rating__title {
+  text-align: center;
+  font-weight: 700;
+  display: block;
+}
+.rating__list {
+  max-width: 300px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 0;
+}
+.rating__input {
+  display: none;
+}
+.rating__label {
+  padding: 5px 3px;
+  font-size: 26px;
+  filter: grayscale(1);
+  opacity: 0.7;
+  cursor: pointer;
+}
+.rating__label.active {
+  filter: grayscale(0);
+  opacity: 1;
+  transition: all 100ms ease;
+}
+.rating__label:hover {
+  filter: grayscale(0.1);
+  transform: scale(1.1);
+  transition: 100ms ease;
+}
+
+.feedback {
+  width: 100%;
+  display: none;
+}
+.feedback textarea, .feedback input {
+  max-width: 300px;
+  width: 100%;
+  display: block;
+  margin: 0.5em auto;
+  padding: 0.5em;
+  font-family: inherit;
+  border: 1px solid #d1d2d7;
+  border-radius: 3px;
+}
+.feedback textarea:focus, .feedback textarea:active, .feedback input:focus, .feedback input:active {
+  border-color: #c80000;
+  box-shadow: 0px 0px 0px 3px rgba(200, 0, 0, 0.2);
+  transition: 100ms;
+  outline: 0;
+}
+.feedback textarea {
+  height: 100px;
+}
+.feedback button {
+  margin: 1em auto;
+  display: table;
+  text-align: center;
+}
+.feedback button:focus, .feedback button:active {
+  outline: 0;
+}
+
+.cb911_logo {
+  width: 250px;
+  position: absolute;
+  top: 1em;
+  left: 50%;
+  margin-left: -125px;
+}
+
+button {
+  color: #ecedef;
+  background-color: #9a9da8;
+  border-radius: 3px;
+  font-family: "Source Sans Pro", Arial, sans-serif;
+  border: 0;
+  padding: 9px 15px;
+  font-size: 15px;
+}
+
+button.not-disabled {
+  color: white;
+  background-color: #c80000;
+  text-shadow: 0px 1px 1px #620000;
+  cursor: pointer;
+}
+button.not-disabled:hover {
+  background-color: #950000;
+  transition: 100ms;
+}
+
+
+</style>
 {% endblock css %}
 
 
 {%block content%}
-{{form}}
 
-<div id="page" class="site">
-
+<div>
     
-    <br>
-    <br>
-
-    <div id='page-content' class="content blog-page">
-        <div class="gridContainer gridContainer content">
-            <div class="row">
-                <div class="col-sm-12 col-lg-9 mt-2 ">
-                    <div id=question class="card">
-                        <div class="weeklycard-header text-center">
-                            Bugün Nasıl Hissediyorsun?
-                        </div>
-                        <div class="card-body">
-                            <h6 class="card-title">{{question}}</h6>
-                            <ul class="list-group text-left ">
-                                
-
-                                <form class="form-check form-check-inline"method="POST" action="{% url 'gamification:dailymood' %}">
-                                    {% csrf_token %}
-                                    <input type="hidden" value="{% now 'j / n' %}" name="user_id">
-                                    {% for id, mood in moods.items %}
-                                    <li class="list-group-item list-group-item-action">
-                                        <input class="form-check-input" type="radio" value="{{id}}"
-                                            id="{{id}}" name="response">
-                                            <label class="form-check-label smileys" for="{{id}}"> {{mood|safe}}</label>
-                                        
-                                    </li>
-                                    {%endfor%}
-                                    <br>
-                                    <button style="background-color: #6977DF; border:0px" type="submit"
-                                        class="btn btn-primary button">Tamam</button>
-                                </form>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
+<form class="rating" method="POST" action="{%url 'gamification:dailysleep' %}">
+    {%csrf_token%}
+  <h3 class="rating__title">Çocuğunuz dün nasıl uyudu?
+    <div class="rating__list">
+      
+      <div class="rating__item">
+        <input class="rating__input rating--2" id="rating-2-2" type="radio" value="1" name="rating"/>
+        <label class="rating__label rating--2" for="rating-2-2"></i><img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f629.png" alt=""></label>
+      </div>
+      <div class="rating__item">
+        <input class="rating__input rating--3" id="rating-3-2" type="radio" value="2" name="rating"/>
+        <label class="rating__label rating--3" for="rating-3-2"><img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f97a.png" alt=""></label>
+      </div>
+      
+      <div class="rating__item">
+        <input class="rating__input rating--5" id="rating-5-2" type="radio" value="3" name="rating"/>
+        <label class="rating__label rating--5" for="rating-5-2"><img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f929.png" alt=""></label>
+      </div>
     </div>
-
-
+  </h3>
+  <div class="feedback">
+    <button class="btn btn-primary submit">Kaydet</button>
+  </div>
+</form>
 </div>
-
 
 
 
 
 {%endblock%}
 
+{%block script %}
+<script>
+    $('button.submit').disabled = true;	// disable button on load
 
+// Enable button 
+function enable_submit() {
+  $('button.submit').disabled = false;
+  $('button.submit').addClass('not-disabled');
+  
+}
+
+// Disable button
+function disable_submit() {
+  $('button.submit').disabled = true;
+  $('button.submit').removeClass('not-disabled');
+}
+
+// Display feedback after rating 
+$('.rating__input').on('click', function() {
+  var rating = this['value'];
+  console.log(rating)
+  enable_submit();
+    $('.rating__label').removeClass('active');
+  $(this).siblings('.rating__label').addClass('active');
+  $('.feedback').css('display', "block");
+  
+  //feedback_validate(rating);
+  
+});
+
+
+
+</script>
+{%endblock%}
 
 

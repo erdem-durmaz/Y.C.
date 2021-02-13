@@ -117,11 +117,8 @@
   #flexcontainer {
     display: flex;
     align-items: center;
-    padding: 2rem 0.5rem;
-
+    padding: 1rem 0.5rem;
     word-wrap: break-word;
-
-
   }
 
   .editlink {
@@ -154,7 +151,7 @@
   }
 
   #pointcard {
-    min-height: 360px;
+    min-height: 300px;
   }
 
   #summarybox {
@@ -196,18 +193,35 @@
   .point-header{
     font-weight: bold;
   }
+  .moodcard{
+    display: block;
+    margin: 0 auto;
+    text-align: center; 
+    min-height: 50px;   
+  }
+  #profilemood{
+    filter: grayscale(1);
+  }
+  #profilemoodsent{
+    filter: grayscale(0);
+  }
 </style>
 {%endblock%}
 
 {%block content %}
 
 <div class="container">
-  <div class="row">
-
-    <div id="flexcontainer" class="col-xl-10 pl-5">
+  <div class="row mt-3">
+    
+    <div id="" class="col-xs-2   pl-5">
       <div class="header-photo ">
         <img class=" header-photo" src="{{profile.profile_pic.url}}" alt="card image">
       </div>
+
+
+
+    </div>
+    <div id="" class="col-xs-10  pl-5">
       <div class="header-name">
         {{username}}
         {% if username == user %}
@@ -221,11 +235,39 @@
 
 
     </div>
+    <!-- mood -->
+    <div id="" class="col-lg-2 col-md-2 ml-auto mb-3 mt-2">
+      <div id="moodcard" class="bg-white rounded-lg py-2 shadow">
+        <h6 class="h6 text-center mb-1">Bugünkü <br> Uyku</h6>
+        {%if dailymood%}
+          {%if dailymood.mood == 1 %}
+        <div class="moodcard"><img id="profilemoodsent"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f629.png" alt=""></div>
+        <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Güncelle
+          {%elif dailymood.mood == 2 %}
+          <div class="moodcard"><img id="profilemoodsent"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f97a.png" alt=""></div>
+        <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Güncelle
+          {%elif dailymood.mood == 3 %}
+          <div class="moodcard"><img id="profilemoodsent"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f929.png" alt=""></div>
+        <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Güncelle
+          
+          {%endif%}
+          {%else%}
+        <div class="moodcard"><img id="profilemood"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f634.png" alt=""></div>
+        <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Seçim yapmadınız</a>
+      
+        {%endif%}
+
+        
+        <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}"></a>
+      </div>
+
+    </div>
+    <!-- moodend -->
 
     <h2 id="summarybox" class="col-xl-12 mb-3 text-center">{{month|date:'F'}} Ayı MiO İstatistikleri</h2>
 
-    <div class="col-xl-3 col-lg-6 mb-4">
-      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+    <div class="col-xl-3 col-sm-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-1 pt-2 shadow">
 
         <h2 class="h6 font-weight-bold text-center mb-4">Challenge</h2>
 
@@ -264,8 +306,8 @@
       </div>
     </div>
 
-    <div class="col-xl-3 col-lg-6 mb-4">
-      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+    <div class="col-xl-3 col-sm-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-1 pt-2 shadow">
         <h2 class="h6 font-weight-bold text-center mb-4">Haftanın Sorusu</h2>
 
         <!-- Progress bar 2 -->
@@ -302,8 +344,8 @@
       </div>
     </div>
 
-    <div class="col-xl-3 col-lg-6 mb-4">
-      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+    <div class="col-xl-3 col-sm-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-1 pt-2 shadow">
         <h2 class="h6 font-weight-bold text-center mb-4"> Blog </h2>
         <a class="stretched-link" href="{%url 'yaratici:posts'%}"></a>
         <!-- Progress bar 3 -->
@@ -338,8 +380,8 @@
 
     </div>
 
-    <div class="col-xl-3 col-lg-6 mb-4">
-      <div id="pointcard" class="bg-white rounded-lg p-3 pt-5 shadow">
+    <div class="col-xl-3 col-sm-6 mb-4">
+      <div id="pointcard" class="bg-white rounded-lg p-1 pt-2 shadow">
         <h2 class="h6 font-weight-bold text-center mb-4">Hayal gücü Sorusu</h2>
 
         <!-- Progress bar 2 -->
@@ -377,8 +419,8 @@
       </div>
     </div>
 
-    <div class="col-xl-6 col-lg-6 mb-4 mx-auto">
-      <div style="min-height:200px"id="pointcard" class="bg-white rounded-lg p-3 pt-1 shadow">
+    <div class="col-xl-3 col-lg-3 mb-3 mx-auto">
+      <div style="min-height:200px"id="pointcard" class="bg-white rounded-lg  pt-3 shadow">
         
         <!-- Progress bar 4 -->
         <div class="progress mx-auto" data-value='100'>

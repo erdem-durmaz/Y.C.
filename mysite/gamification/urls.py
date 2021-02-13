@@ -29,8 +29,8 @@ urlpatterns = [
     path('question/', views.get_question, name='weeklyquestion'),
     # imaginequestion
     path('imaginequestion/', views.imaginequestion, name='imaginequestion'),
-    # dailymood
-    path('dailymood/', views.dailymood, name='dailymood'),
+    # dailysleep
+    path('dailysleep/', views.dailysleep, name='dailysleep'),
     
     
 

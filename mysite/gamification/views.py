@@ -2,8 +2,8 @@ from django.db.models import Avg, Sum, Max
 from yaratici.models import Question, BlogPost, ImagineQuestion, Category, Choices
 from yaratici.forms import ChoiceForm
 from django.conf import settings
-from .forms import CommentForm, ContactForm, ImageNominateForm, MoodForm, ProfileForm
-from .models import Challenge, Comment, ImageNominate, Profile, ScoreBoard, ScoringActivities
+from .forms import CommentForm, ContactForm, ImageNominateForm, ProfileForm
+from .models import Challenge, Comment, ImageNominate, Mood, Profile, ScoreBoard, ScoringActivities
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -18,25 +18,31 @@ from django.core.mail import send_mail, BadHeaderError
 NOW = datetime.now()
 
 # Create your views here.
-def dailymood(request):
+def dailysleep(request):
     if request.method == "POST":
-        print(request.POST)
-        return redirect('gamification:dailymood')
+        if not Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
+            new_mood = Mood(user = request.user,mood = request.POST['rating'])
+            new_mood.save()
+            messages.add_message(request, messages.SUCCESS,
+                                     f'<i class="fas fa-trophy"></i> Bravo! Çocuğunuzun uyku durumunu giriş yaparak günlük olarak takip edebilirsiniz')
+            return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
+        else:
+            currentmood = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
+            currentmood.mood = request.POST['rating']
+            currentmood.save()
+            messages.add_message(request, messages.SUCCESS,
+                                     f'<i class="fas fa-trophy"></i> Günlük uyku girişiniz güncellendi')
+           
+            return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
+
     else:
-        form = MoodForm()
-        MOOD_TYPES = {
-            "1": '<i class="fas fa-4x fa-laugh-beam"></i>',
-            "2": '<i class="fas fa-4x fa-smile"></i>',
-            "3": '<i class="fas fa-4x fa-meh"></i>',
-            "4": '<i class="fas fa-4x fa-frown"></i>',
-            "5": '<i class="fas fa-4x fa-sad-tear"></i>',
-        }
+        dailymoodentry = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)
+        print(dailymoodentry)
         context = {
-                'form': form,
-                'moods': MOOD_TYPES
+                'todaysmood': dailymoodentry,
             }
 
-        return render(request, 'gamification/dailymood.html', context)
+        return render(request, 'gamification/dailysleep.html', context)
 
 
 def leaderboard(request):
@@ -153,7 +159,7 @@ def calculate_score(user):
         'id', 'activity', 'date', 'deleted', 'weeklyquestion', 'imaginequestion')
 
     points = ScoringActivities.objects.values('id', 'score', 'title')
-
+    
     total_point = 0
     challenges = 0
     likes = 0
@@ -297,7 +303,12 @@ def profile(request, username):
     question = get_object_or_404(Question, is_Published=True)
     imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
     scoringactivities = ScoringActivities.objects.all()
-
+    def check_daily_mood():
+        if Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
+            dailymoodentry = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
+            return dailymoodentry
+        
+        
     # profil yoksa profil yaratır
     if not user:
         return redirect('main')
@@ -320,7 +331,8 @@ def profile(request, username):
         'imaginequestion': imaginequestion,
         'position': position,
         'month': NOW,
-        'scores': scoringactivities
+        'scores': scoringactivities,
+        'dailymood': check_daily_mood()
     }
     return render(request, 'gamification/profile.html', context)
 
