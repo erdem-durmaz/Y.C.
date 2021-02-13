@@ -12,8 +12,9 @@ from django.contrib import messages
 import json
 import os
 from django.contrib.auth.decorators import login_required
-from datetime import datetime
+from datetime import datetime,timedelta
 from django.core.mail import send_mail, BadHeaderError
+
 
 NOW = datetime.now()
 
@@ -23,8 +24,10 @@ def dailysleep(request):
         if not Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
             new_mood = Mood(user = request.user,mood = request.POST['rating'])
             new_mood.save()
-            messages.add_message(request, messages.SUCCESS,
-                                     f'<i class="fas fa-trophy"></i> Bravo! Çocuğunuzun uyku durumunu giriş yaparak günlük olarak takip edebilirsiniz.')
+            activity = get_object_or_404(ScoringActivities,pk=11)
+            new_score = ScoreBoard(user=request.user,activity=activity,totalscore=activity.score)
+            new_score.save()
+            messages.add_message(request, messages.SUCCESS,f'<i class="fas fa-trophy"></i> Bravo! Çocuğunuzun uyku durumunu giriş yaparak günlük olarak takip edebilirsiniz.')
             return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
         else:
             currentmood = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
@@ -37,9 +40,18 @@ def dailysleep(request):
 
     else:
         dailymoodentry = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)
-        print(dailymoodentry)
+        #chart data
+        labels=[]
+        data = []
+        queryset = Mood.objects.values_list('date__day','mood').order_by('date')
+        for query in queryset:
+            labels.append(query[0])
+            data.append(query[1])
+        
         context = {
                 'todaysmood': dailymoodentry,
+                'labels': labels,
+                'data':data
             }
 
         return render(request, 'gamification/dailysleep.html', context)
@@ -304,10 +316,11 @@ def profile(request, username):
     imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
     scoringactivities = ScoringActivities.objects.all()
     def check_daily_mood():
-        if Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
-            dailymoodentry = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
-            return dailymoodentry
-        
+        if request.user.is_authenticated:
+            if Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
+                dailymoodentry = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
+                return dailymoodentry
+            
         
     # profil yoksa profil yaratır
     if not user:
@@ -733,6 +746,7 @@ def imaginequestion(request):
 
 ######### CONTACT FORM #########
 def contact_form(request):
+
     form = ContactForm()
     # update_scoreboard_points()
     if request.method == "POST":

@@ -155,7 +155,7 @@ class Mood(models.Model):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
-    mood = models.PositiveSmallIntegerField()
+    mood = models.IntegerField()
 
     def __str__(self):
         return str(self.user)+" "+str(self.mood)+" "+str(self.date.year)

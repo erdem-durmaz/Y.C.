@@ -334,8 +334,8 @@ button.not-disabled:hover {
 
 {%block content%}
 
-<div>
-    
+
+<div>    
 <form class="rating" method="POST" action="{%url 'gamification:dailysleep' %}">
     {%csrf_token%}
   <h3 class="rating__title">Çocuğunuz dün nasıl uyudu?
@@ -362,7 +362,40 @@ button.not-disabled:hover {
 </form>
 </div>
 
+<!-- #chartstart -->
+<canvas width="300" height="75"id="myChart"></canvas>
+<!-- #chartend -->
 
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'line',
+
+    // The data for our dataset
+    data: {
+        labels: {{labels}},
+        datasets: [{
+            label: 'Uyku durumu',
+            backgroundColor: '#FF6384',
+            borderColor: '#FF6384',
+            pointRadius :10,
+            pointHoverRadius:15,
+            data: {{data}},
+            fill:false,
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+      title: {
+        display: true,
+        text: '{% now "M" %} Ayı Uyku Durumu'
+    }
+    }
+});
+</script>
 
 
 {%endblock%}

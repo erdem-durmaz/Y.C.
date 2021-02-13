@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Challenge,Comment, ScoreBoard,ImageNominate, ScoringActivities
+from .models import Challenge,Comment, Mood, ScoreBoard,ImageNominate, ScoringActivities
 
 
 
@@ -30,8 +30,14 @@ class ScoringActivitiesAdmin(admin.ModelAdmin):
     list_editable = ('score',)
 
 class ScoreBoardAdmin(admin.ModelAdmin):
-    list_display =('user','activity','challenge','totalscore','date')
+    list_display =('user','activity','totalscore','date')
     list_filter = ('date','user','activity')
+    list_per_page = 20
+    
+class MoodAdmin(admin.ModelAdmin):
+    list_display =('user','mood','date')
+    list_filter = ('date','user','mood')
+    list_per_page = 20
     
 
 
@@ -41,3 +47,4 @@ admin.site.register(ScoreBoard,ScoreBoardAdmin)
 admin.site.register(Comment,CommentAdmin)
 admin.site.register(ImageNominate,ImageNominateAdmin)
 admin.site.register(ScoringActivities,ScoringActivitiesAdmin)
+admin.site.register(Mood, MoodAdmin)
