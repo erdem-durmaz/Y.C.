@@ -262,7 +262,14 @@ def calculate_score(user):
                         total_point -= pointobj['score']
                         imaginequestion -= pointobj['score']
                         
-                        
+        elif scoreobj['activity'] == 11:  # dailysleep
+            if scoreobj['deleted'] == False:
+                activitynum = scoreobj['activity']
+                for pointobj in points:
+                    if activitynum == pointobj['id']:
+                        total_point += pointobj['score']
+                        imaginequestion += pointobj['score']
+                        results['imaginequestionid'] = scoreobj['imaginequestion']                
 
     postcount = BlogPost.objects.exclude(
         id=1).filter(is_Published__exact=True).count()

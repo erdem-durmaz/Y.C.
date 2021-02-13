@@ -241,20 +241,22 @@
       <div id="moodcard" class="bg-white rounded-lg py-2 shadow">
         <h6 class="h6 text-center mb-1">Bugünkü <br> Uyku</h6>
         {%if dailymood%}
-          {%if dailymood.mood == 1 %}
+          {%if dailymood.mood == -1 %}
         <div class="moodcard"><img id="profilemoodsent"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f629.png" alt=""></div>
         <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Güncelle
-          {%elif dailymood.mood == 2 %}
+          {%elif dailymood.mood == 0 %}
           <div class="moodcard"><img id="profilemoodsent"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f97a.png" alt=""></div>
         <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Güncelle
-          {%elif dailymood.mood == 3 %}
+          {%elif dailymood.mood == 1 %}
           <div class="moodcard"><img id="profilemoodsent"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f929.png" alt=""></div>
         <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Güncelle
           
           {%endif%}
           {%else%}
         <div class="moodcard"><img id="profilemood"width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f634.png" alt=""></div>
-        
+        {%if request.user.is_authenticated%}
+        <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailysleep' %}">Henüz giriş yapmadınız
+          {%endif%}
         {%endif%}
 
         
