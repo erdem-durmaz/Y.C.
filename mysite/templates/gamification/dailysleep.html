@@ -389,6 +389,13 @@ var chart = new Chart(ctx, {
 
     // Configuration options go here
     options: {
+      scales: {
+        yAxes: [{
+            ticks: {
+                display: false
+            }
+        }]
+    },
       title: {
         display: true,
         text: '{% now "M" %} Ayı Uyku Durumu'

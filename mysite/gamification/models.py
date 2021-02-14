@@ -158,7 +158,7 @@ class Mood(models.Model):
     mood = models.IntegerField()
 
     def __str__(self):
-        return str(self.user)+" "+str(self.mood)+" "+str(self.date.year)
+        return str(self.user)+" "+str(self.mood)+" "+str(self.date.day)
 
 
 

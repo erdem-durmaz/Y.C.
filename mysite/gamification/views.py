@@ -20,6 +20,7 @@ NOW = datetime.now()
 
 # Create your views here.
 def dailysleep(request):
+    NOW = datetime.now()
     if request.method == "POST":
         if not Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
             new_mood = Mood(user = request.user,mood = request.POST['rating'])
@@ -43,11 +44,11 @@ def dailysleep(request):
         #chart data
         labels=[]
         data = []
-        queryset = Mood.objects.values_list('date__day','mood').order_by('date')
+        queryset = Mood.objects.filter(user=request.user).values_list('date__day','mood').order_by('date')
         for query in queryset:
             labels.append(query[0])
             data.append(query[1])
-        
+        print(labels)
         context = {
                 'todaysmood': dailymoodentry,
                 'labels': labels,
@@ -325,6 +326,7 @@ def profile(request, username):
         if request.user.is_authenticated:
             if Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
                 dailymoodentry = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
+                print(dailymoodentry)
                 return dailymoodentry
             
         
