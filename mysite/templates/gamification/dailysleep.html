@@ -213,7 +213,7 @@
 <style>
     @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700");
 body {
-  font-family: "Source Sans Pro", Arial, sans-serif;
+
   font-size: 18px;
   background: #eeeeee;
   color: #1f2024;
@@ -290,7 +290,7 @@ ul {
   height: 100px;
 }
 .feedback button {
-  margin: 1em auto;
+  margin: 0.1em auto;
   display: table;
   text-align: center;
 }
@@ -298,19 +298,12 @@ ul {
   outline: 0;
 }
 
-.cb911_logo {
-  width: 250px;
-  position: absolute;
-  top: 1em;
-  left: 50%;
-  margin-left: -125px;
-}
+
 
 button {
   color: #ecedef;
   background-color: #9a9da8;
   border-radius: 3px;
-  font-family: "Source Sans Pro", Arial, sans-serif;
   border: 0;
   padding: 9px 15px;
   font-size: 15px;
@@ -357,7 +350,7 @@ button.not-disabled:hover {
     </div>
   </h3>
   <div class="feedback">
-    <button class="btn btn-primary submit">Kaydet</button>
+    <button class="btn btn-lg btn-primary submit">Kaydet</button>
   </div>
 </form>
 </div>
@@ -384,6 +377,7 @@ var chart = new Chart(ctx, {
             pointHoverRadius:15,
             data: {{data}},
             fill:false,
+            
         }]
     },
 
@@ -391,9 +385,22 @@ var chart = new Chart(ctx, {
     options: {
       scales: {
         yAxes: [{
-            ticks: {
-                display: false
+          ticks: {
+            max:1,
+            min:-1,
+            stepSize: 1,
+            // Include a dollar sign in the ticks
+            callback: function(value, index, values) {
+              if (value >= 1) {
+                return '🤩';
+              } else if (value == 0) {
+                return '🙄';
+              } else {
+                return '😫';
+              }
+                
             }
+        }
         }]
     },
       title: {
