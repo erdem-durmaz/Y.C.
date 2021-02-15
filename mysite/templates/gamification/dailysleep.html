@@ -355,8 +355,12 @@ button.not-disabled:hover {
 </form>
 </div>
 
+
+
+
+
 <!-- #chartstart -->
-<canvas width="300" height="75"id="myChart"></canvas>
+<canvas width="300" height="125"id="myChart"></canvas>
 <!-- #chartend -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
@@ -443,10 +447,17 @@ $('.rating__input').on('click', function() {
   //feedback_validate(rating);
   
 });
-
-
-
 </script>
+
+{%if random_message%}
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#exampleModal").modal('show');
+  });
+</script>
+{%endif%}
+
+
 {%endblock%}
 
 

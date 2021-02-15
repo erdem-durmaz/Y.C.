@@ -44,18 +44,27 @@ class ProfileForm(ModelForm):
         
     class Meta:
         model = Profile
-        fields = ['description','profile_pic']
+        fields = ['description','childname','birthday','profile_pic',]
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
-        self.fields['description'].widget.attrs['class'] = 'form-control form-control-lg'
+        self.fields['description'].widget.attrs['class'] = 'form-control form-control-lg mb-5'
         self.fields['description'].widget.attrs['rows'] = 3
         self.fields['description'].widget.attrs['placeholder'] = 'Hakkınızda'
         self.fields['description'].label=''
 
-        self.fields['profile_pic'].label=''
+        
 
+        self.fields['birthday'].widget.attrs['class'] = 'form-control form-control-lg mb-5 datepicker'
+        self.fields['birthday'].widget.attrs['placeholder'] = ''
+        self.fields['birthday'].label='Doğum Tarihi (Opsiyonel)'
+
+        self.fields['childname'].widget.attrs['class'] = 'form-control form-control-lg mb-5 '
+        self.fields['childname'].widget.attrs['placeholder'] = ''
+        self.fields['childname'].label='Çocuğunuzun ismi (Opsiyonel)'
        
+        self.fields['profile_pic'].label=''
+        
 
 class ContactForm(forms.Form):
     İsminiz = forms.CharField(required=True)

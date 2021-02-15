@@ -48,17 +48,19 @@ def dailysleep(request):
         for query in queryset:
             labels.append(query[0])
             data.append(query[1])
-        print(labels)
+
         context = {
                 'todaysmood': dailymoodentry,
                 'labels': labels,
-                'data':data
+                'data':data,
+                'random_message':'yes'
             }
 
         return render(request, 'gamification/dailysleep.html', context)
 
 
 def leaderboard(request):
+    NOW = datetime.now()
     # update_scoreboard_points() #use only when points change
     winnerlst = list()
     place = 1
@@ -148,6 +150,7 @@ def profile_settings(request, username):
 
 # only use when point list is changed
 def update_scoreboard_points():
+    NOW = datetime.now()
     points = ScoringActivities.objects.values('id', 'score')
     scoreboard = ScoreBoard.objects.filter(date__month=NOW.month)
     for scoreobj in scoreboard:
@@ -299,6 +302,7 @@ def calculate_score(user):
 
 
 def positioninleaderboard(user):
+    NOW = datetime.now()
     leaderboard = list(ScoreBoard.objects.filter(date__month=NOW.month).values(
         'user').annotate(sum=Sum('totalscore')).order_by('-sum'))
 
@@ -318,6 +322,7 @@ def positioninleaderboard(user):
 
 
 def profile(request, username):
+    NOW = datetime.now()
     user = User.objects.get(username=username)
     question = get_object_or_404(Question, is_Published=True)
     imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)

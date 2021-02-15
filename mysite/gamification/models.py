@@ -21,7 +21,9 @@ class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,)
     profile_pic = models.ImageField(upload_to=profile_directory_path,default="default_img.jpg")
     date = models.DateTimeField(auto_now_add=True, null= True)
-    description = models.CharField(max_length=200, null=True, blank=True)  
+    description = models.CharField(max_length=200, null=True, blank=True)
+    childname = models.CharField(max_length=50, null=True, blank=True)  
+    birthday = models.DateField(null=True, blank=True)
 
     
     def save(self):
