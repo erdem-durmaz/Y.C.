@@ -362,6 +362,9 @@ def profile(request, username):
     }
     return render(request, 'gamification/profile.html', context)
 
+@login_required
+def redirecttouserprofile(request):
+    return HttpResponseRedirect(reverse('gamification:profile', args=(request.user.username,)))
 
 #######👆👆PROFILE👆👆################################
 

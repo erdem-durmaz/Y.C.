@@ -49,3 +49,20 @@ class SignUpForm(UserCreationForm):
         
 
 
+class LoginForm(AuthenticationForm):
+    
+    class Meta:
+        model = User
+        fields = ('username', 'password',)
+
+    def __init__(self, *args, **kwargs):
+        super(LoginForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['username'].widget.attrs['placeholder'] = 'Kullanıcı Adı'
+        self.fields['username'].label=''
+        self.fields['username'].help_text=''
+
+        self.fields['password'].widget.attrs['class'] = 'form-control'
+        self.fields['password'].widget.attrs['placeholder'] = 'Parolanız'
+        self.fields['password'].label=''
+        

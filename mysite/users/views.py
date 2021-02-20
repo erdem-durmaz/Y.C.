@@ -1,7 +1,8 @@
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from .forms import  SignUpForm
+from .forms import  LoginForm, SignUpForm
 from django.contrib import messages
 
 # Create your views here.
@@ -22,4 +23,6 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'registration/signup.html', {'form': form})
+
+
 

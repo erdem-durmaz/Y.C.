@@ -19,6 +19,7 @@ urlpatterns = [
     path('delete-comment/', views.delete_comment, name='delete_comment'),
     path('image-save-comment/', views.image_save_comment, name='image_save_comment'),
     # profile
+    path('redirecttouserprofile/', views.redirecttouserprofile, name='redirecttouserprofile'),
     path('profile/<username>', views.profile, name='profile'),
     path('profile-settings/<username>', views.profile_settings, name='profile_settings'),
     # leaderboard
