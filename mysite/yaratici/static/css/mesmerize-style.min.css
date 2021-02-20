@@ -4957,7 +4957,8 @@ ul.dropdown-menu {
     left: 0;
     box-sizing: border-box;
     width: 100%;
-    position: absolute
+    position: absolute;
+    align-items: baseline;
 }
 
 ul.dropdown-menu li {
@@ -5125,7 +5126,8 @@ a[data-menu-toggler] {
         -moz-flex-wrap: wrap;
         -ms-flex-wrap: wrap;
         flex-wrap: wrap;
-        position: static
+        position: static;
+        align-items: baseline;
     }
 
     ul.dropdown-menu>li>a {
@@ -5507,8 +5509,8 @@ ul.dropdown-menu.active-line-top-bottom>li:not(.current-menu-item):not(.current_
     -ms-backface-visibility: hidden;
     -o-backface-visibility: hidden;
     backface-visibility: hidden;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.4rem;
+    padding-bottom: 0.4rem;
     position: relative
 }
 

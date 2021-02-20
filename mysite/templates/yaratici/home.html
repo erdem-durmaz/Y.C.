@@ -37,8 +37,7 @@ Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
                             <p class="header-subtitle">Çocuğunuzun Yaratıcı Enerjisine Dokunun</p>
                             <div data-dynamic-mod-container class="header-buttons-wrapper"><a
                                     class="button big color1 round" target="_self"
-                                    href="{%url 'yaratici:get_question'%}#newquestion">Haftanın Sorusu <i
-                                        class="far fa-smile-wink"></i> </a><a
+                                    href="{%url 'login'%}">MiO GİRİŞ </a><a
                                     class="button big color-white round outline" target="_self"
                                     href="{%url 'yaratici:posts'%}">Blog Yazıları</a>
                             </div>
@@ -104,8 +103,7 @@ Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
                     </div>
                 </div>
             </div>
-
-            {% if request.user.is_authenticated %}           
+    
             <!-- mio start -->
                         <div data-label="Content" data-id="content--2" data-export-id="content-3" data-category="content"
                         class="content-3 content-section content-section-spacing" id="content-4"
@@ -151,7 +149,7 @@ Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
                         </div>
                     </div>
                     <!-- mio end -->
-            {%endif%}
+
 
             <div data-label="Blog YAZILARI" data-id="latest_news--1" data-export-id="blog-section-mc"
                 data-category="latest_news"
