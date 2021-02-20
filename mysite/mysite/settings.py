@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'users',
     'yaratici',
     'ckeditor',
-    'gamification',
+    'gamification.apps.GamificationConfig',
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
