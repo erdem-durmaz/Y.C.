@@ -313,13 +313,20 @@ def positioninleaderboard(user):
         position['total'] = len(leaderboard)+1
         return position
     else:
-        userpoint = list(ScoreBoard.objects.filter(user=user).values(
-            'user').annotate(sum=Sum('totalscore')).order_by('-sum'))
-        index = leaderboard.index(userpoint[0])
-        position = dict()
-        position['current'] = index + 1
-        position['total'] = len(leaderboard)
-        return position
+        if user == User.objects.get(pk=3):
+            
+            position = dict()
+            position['current'] = '-'
+            position['total'] = len(leaderboard)
+            return position
+        else:
+            userpoint = list(ScoreBoard.objects.filter(user=user).values(
+                'user').annotate(sum=Sum('totalscore')).order_by('-sum'))
+            index = leaderboard.index(userpoint[0])
+            position = dict()
+            position['current'] = index + 1
+            position['total'] = len(leaderboard)
+            return position
 
 
 def profile(request, username):
