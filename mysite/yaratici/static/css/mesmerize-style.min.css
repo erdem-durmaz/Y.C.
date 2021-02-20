@@ -322,7 +322,11 @@ i.fa.icon.color1.card[class*=bottom-border-] {
 .button.color1,
 button.color1,
 i.fa.icon.reverse.color1 {
-    background-color: #03a9f4
+    background-color: #03a9f4;
+    background: linear-gradient(
+        137deg
+        , rgba(103,122,228,1) 0%, rgba(115,83,173,1) 80%);
+        border-color: #7380C6;
 }
 
 .button.color1:hover,
@@ -1617,7 +1621,7 @@ input[type=submit] {
 .button.color1 {
     color: #fff;
     background-color: #03a9f4;
-    border-color: #03a9f4
+    border-color: #7380C6;
 }
 
 .button.color1:hover {
