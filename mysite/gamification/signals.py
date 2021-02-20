@@ -12,19 +12,19 @@ from django.core.mail import send_mail
 
 @receiver(post_save,sender=User) 
 def create_profile(sender, instance, created, **kwargs):
-    # if created:
-    isim = instance.username
-    email = instance.email
-    subject = f"{isim} Kayıt Oldu!"
-    messagetext = f"Email adresi: {email}"
-    senderemail = "erdemdur.mailer@gmail.com"
-    recipients = ['berdushwile@gmail.com', 'yaraticicocugum@gmail.com']
-    try:
-        send_mail(subject, messagetext, senderemail, recipients)            
-    except:
-        print("Hata oldu email gönderemedim")
-    else:
-        print('mail gönderildiiii')
+    if created:
+        isim = instance.username
+        email = instance.email
+        subject = f"{isim} Kayıt Oldu!"
+        messagetext = f"Email adresi: {email}"
+        senderemail = "erdemdur.mailer@gmail.com"
+        recipients = ['yaraticicocugum@gmail.com',]
+        try:
+            send_mail(subject, messagetext, senderemail, recipients)            
+        except:
+            print("Hata oldu email gönderemedim")
+        else:
+            print('mail gönderildiiii')
 
         
         
