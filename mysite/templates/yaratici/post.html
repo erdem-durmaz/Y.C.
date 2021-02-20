@@ -57,7 +57,18 @@
                                 href="{%url 'yaratici:posts' %}">Diğer Yazılar</a>
                                 <a
                                 class="button big color1" target="_self"
-                                href="{%url 'yaratici:get_question'%}#question">Haftanın Sorusu <i class="far fa-smile-wink"></i> </a></div>
+                                href="{%url 'yaratici:get_question'%}#question">Haftanın Sorusu <i class="far fa-smile-wink"></i> </a>
+                                {% if request.user.is_authenticated %}
+                                <a
+                                class="button big color1" target="_self"
+                                href="{% url 'gamification:profile' username=user.username %}">MiO PROFİL</i> </a>
+                                {%else%}
+                                <a
+                                class="button big color1" target="_self"
+                                href="{% url 'login' %}">MiO GİRİŞ</i> </a>
+                                {%endif%}
+                                
+                            </div>
                     </div>
                 </div>
                

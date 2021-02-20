@@ -1,7 +1,9 @@
-<div class="d-flex align-items-center mt-3 mb-3">
+<div class="d-flex align-items-center justify-content-center mt-3 mb-3">
     {% if request.user.is_authenticated %}
+    <a class="stickymiobutton"style=" font-size:0.8rem; font-weight:700;"class="ml-5" href="{% url 'gamification:profile' username=user.username %}"><span id="miobuttonbottom"style=""><i class="fas fa-user"></i>  MiO PROFİL</span> </a>
+    {%else%}
+    <a class="stickymiobutton"style="font-size:0.8rem; font-weight:700;  "class="" href="{% url 'login' %}"><span id="miobuttonbottom"style=""><i class="fas fa-user"></i>  MiO GİRİŞ</span> </a>
     
-    <a class="stickymiobutton"style="margin-left:auto;margin-right:auto; font-size:0.8rem; font-weight:700;  "class="" href="{% url 'gamification:profile' username=user.username %}"><span id="miobuttonbottom"style=""><i class="fas fa-user"></i>  MiO PROFİL</span> </a>
     {%endif%}
     
 </div>

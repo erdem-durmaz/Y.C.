@@ -35,9 +35,15 @@ Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
                         <div class="align-holder center">
                             <h1 class="hero-title">Yaratıcı Çocuğum</h1>
                             <p class="header-subtitle">Çocuğunuzun Yaratıcı Enerjisine Dokunun</p>
-                            <div data-dynamic-mod-container class="header-buttons-wrapper"><a
-                                    class="button big color1 round" target="_self"
-                                    href="{%url 'login'%}">MiO GİRİŞ </a><a
+                            <div data-dynamic-mod-container class="header-buttons-wrapper">
+                                {% if request.user.is_authenticated %}
+                                <a class="button big color1 round" target="_self"
+                                    href="{% url 'gamification:profile' username=user.username %}">MiO PROFİL </a>
+                                    {%else%}
+                                    <a class="button big color1 round" target="_self"
+                                    href="{%url 'login'%}">MiO GİRİŞ </a>
+                                    {%endif%}
+                                    <a
                                     class="button big color-white round outline" target="_self"
                                     href="{%url 'yaratici:posts'%}">Blog Yazıları</a>
                             </div>
