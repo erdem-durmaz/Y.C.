@@ -66,8 +66,9 @@ def leaderboard(request):
     place = 1
     top213 = []
     restlst = list()
-    leaderboard = ScoreBoard.objects.filter(date__month=NOW.month).values('user').annotate(
+    leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__month=NOW.month).values('user').annotate(
         sum=Sum('totalscore')).order_by('-sum')
+    print(leaderboard)
 
     if len(leaderboard) >= 3:
 
@@ -85,7 +86,7 @@ def leaderboard(request):
         top213.append(winnerlst[0])
         top213.append(winnerlst[2])
 
-        rest = ScoreBoard.objects.filter(date__month=NOW.month).values('user').annotate(
+        rest = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__month=NOW.month).values('user').annotate(
             sum=Sum('totalscore')).order_by('-sum')
         for player in rest[3:]:
             currentuser = get_object_or_404(User, pk=player['user'])
