@@ -304,7 +304,7 @@ def calculate_score(user):
 
 def positioninleaderboard(user):
     NOW = datetime.now()
-    leaderboard = list(ScoreBoard.objects.filter(date__month=NOW.month).values(
+    leaderboard = list(ScoreBoard.objects.exclude(user_id__exact=3).filter(date__month=NOW.month).values(
         'user').annotate(sum=Sum('totalscore')).order_by('-sum'))
 
     if not ScoreBoard.objects.filter(user=user).values('user').annotate(sum=Sum('totalscore')).order_by('-sum').exists():
