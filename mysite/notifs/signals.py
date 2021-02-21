@@ -7,7 +7,8 @@ from .models import Notif
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save
-from yaratici.models import BlogPost
+from yaratici.models import BlogPost,Question,ImagineQuestion
+from gamification.models import Challenge
 from django.contrib.auth.models import User
 
 notify = Signal(providing_args=[  # pylint: disable=invalid-name
@@ -22,6 +23,7 @@ def my_handler(sender, **kwargs):
     description = kwargs.pop('description',None)
     image = kwargs.pop('image',None)
     comment = kwargs.pop('comment',None)
+    challenge=kwargs.pop('challenge',None)
 
     # notify.send(instance, verb='was saved')
 
@@ -38,6 +40,7 @@ def my_handler(sender, **kwargs):
             verb=str(verb),
             image= image,
             comment = comment,
+            challenge = challenge,
         )
         newnotify.save()
 
@@ -57,8 +60,33 @@ def my_handler(sender, **kwargs):
     # return new_notifications
 
 @receiver(post_save, sender=BlogPost)
-def send_blog_notification(sender,**kwargs):
-    sender=User.objects.get(pk=3)
-    users=User.objects.all()
-    notify.send(sender,recipient=users,actor=sender, verb='Yeni blog yazısı yayınlandı!')
+def send_blog_notification(sender,instance, created,**kwargs):
+    if created == True:
+        sender=User.objects.get(pk=3)
+        users=User.objects.all()
+        notify.send(sender,recipient=users,actor=sender, verb='Yeni blog yazısı yayınlandı!')
+
+@receiver(post_save, sender=Question)
+def send_quiz_notification(sender,instance, created,**kwargs):
+    if created == True:
+        sender=User.objects.get(pk=3)
+        users=User.objects.all()
+        notify.send(sender,recipient=users,actor=sender, verb='Yeni anket sorusu yayınlandı!')
+
+@receiver(post_save, sender=ImagineQuestion)
+def send_imaginequestion_notification(sender,instance, created,**kwargs):
+    if created == True:
+        sender=User.objects.get(pk=3)
+        users=User.objects.all()
+        notify.send(sender,recipient=users,actor=sender, verb='Yeni hayal gücü sorusu yayınlandı!')
        
+@receiver(post_save, sender=Challenge) 
+def send_challenge_notification(sender, instance, created, **kwargs):
+    if created == True:
+        sender=User.objects.get(pk=3)
+        users=User.objects.all()
+        notify.send(sender,recipient=users,actor=sender, challenge= instance, verb='Yeni Challenge yayınlandı!')
+
+
+
+

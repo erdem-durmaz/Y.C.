@@ -512,7 +512,7 @@ def like_image(request):
                 )
                 score.save()
                 # Signal for notif
-                notify.send(request.user,recipient=challenge.user,actor=request.user,image=nominee, verb='fotoğrafını beğendi')
+                notify.send(request.user,recipient=nominee.user,actor=request.user,image=nominee, verb='fotoğrafını beğendi')
                 messages.add_message(request, messages.SUCCESS,
                                      f'<i class="fas fa-trophy"></i> Tebrikler! Like ile {activity.score} puan kazandın')
                 if nominee.user != request.user:

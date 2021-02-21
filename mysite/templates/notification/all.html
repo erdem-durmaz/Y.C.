@@ -199,6 +199,15 @@
                             {%elif notif.verb == 'Yeni blog yazısı yayınlandı!'%}
                             <div class="flex"> <a href="{%url 'yaratici:posts'%}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
                             </div>
+                            {%elif notif.verb == 'Yeni Challenge yayınlandı!'%}
+                            <div class="flex"> <a href="{%url 'gamification:get_challenge_details' slug=notif.challenge.slug %}" class="item-author text-color" data-abc="true">{{notif.challenge}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
+                            </div>
+                            {%elif notif.verb == 'Yeni anket sorusu yayınlandı!'%}
+                            <div class="flex"> <a href="{% url 'gamification:weeklyquestion'%}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
+                            </div>
+                            {%elif notif.verb == 'Yeni hayal gücü sorusu yayınlandı!'%}
+                            <div class="flex"> <a href="{% url 'gamification:imaginequestion'%}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
+                            </div>
                             {%endif%}
                             <div class="no-wrap">
                                 <div class="item-date text-muted text-sm d-none d-md-block">{{notif.timestamp|timesince}} 
