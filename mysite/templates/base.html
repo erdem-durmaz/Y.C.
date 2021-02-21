@@ -62,6 +62,21 @@
     <!-- lightbox -->
     <script src="{% static 'gamification/js/lightbox.js' %}"></script>
 
+    <!-- get unread notif -->
+    <script>
+        $(document).ready(function(){
+            $('#headercounter').load("{%url 'notifications:unreadcountajax' %}");
+                $.ajax({
+                method: "get",url: "{%url 'notifications:unreadcountajax' %}",
+                success: function(json)
+                        {
+                        console.log(json)
+                        $("#headercounter").val(json.unreadcount);
+                        }
+                });
+            });
+    </script>
+
     {%block script%}{%endblock%}
 </body>
 

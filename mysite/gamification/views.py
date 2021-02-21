@@ -14,11 +14,13 @@ import os
 from django.contrib.auth.decorators import login_required
 from datetime import datetime,timedelta
 from django.core.mail import send_mail, BadHeaderError
+from notifs.signals import notify
 
 
 NOW = datetime.now()
 
 # Create your views here.
+@login_required
 def dailysleep(request):
     NOW = datetime.now()
     if request.method == "POST":
@@ -440,6 +442,8 @@ def image_save_comment(request):
                     totalscore = activity.score
                 )
                 score.save()
+                # Signal for notif
+                notify.send(request.user,recipient=image.user,actor=request.user,image=image, comment=new_comment, verb='fotoğrafına yorum yaptı')
                 if image.user != request.user:
                     activity = get_object_or_404(
                         ScoringActivities, pk=6)  # Comment by Others
@@ -507,6 +511,8 @@ def like_image(request):
                     totalscore = activity.score
                 )
                 score.save()
+                # Signal for notif
+                notify.send(request.user,recipient=challenge.user,actor=request.user,image=nominee, verb='fotoğrafını beğendi')
                 messages.add_message(request, messages.SUCCESS,
                                      f'<i class="fas fa-trophy"></i> Tebrikler! Like ile {activity.score} puan kazandın')
                 if nominee.user != request.user:
@@ -661,7 +667,6 @@ def like(request):
             content_id = request.POST.get("content_id", None)
             challenge = get_object_or_404(Challenge, pk=content_id)
             activity = get_object_or_404(ScoringActivities, pk=7)
-
             # already liked the content
             if challenge.image_likes.filter(id=request.user.id):
                 challenge.image_likes.remove(

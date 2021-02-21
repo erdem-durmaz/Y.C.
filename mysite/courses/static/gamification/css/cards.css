@@ -236,11 +236,11 @@
         border-width: 1px;
         background-color: transparent;
         font-weight: 400;
-        opacity: 0.8;
+        opacity: 1;
         filter: alpha(opacity=80);
         padding: 8px 16px;
-        border-color: #888888;
-        color: #888888;
+        
+
     }
 
     .btn:hover,

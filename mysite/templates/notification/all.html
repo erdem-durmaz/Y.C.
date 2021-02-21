@@ -1,0 +1,255 @@
+{%extends '../base.html'%}
+
+{%block css %}
+<style>
+    body {
+        background-color: #f9f9fa
+    }
+   
+    .flex {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto
+    }
+   
+    @media (max-width:991.98px) {
+        .padding {
+            padding: 1.5rem
+        }
+    }
+   
+    @media (max-width:767.98px) {
+        .padding {
+            padding: 1rem
+        }
+    }
+   
+    .padding {
+        padding: 1rem
+    }
+   
+    .card {
+        background: #fff;
+        border-width: 0;
+        border-radius: .25rem;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, .05);
+        margin-bottom: 1.5rem
+    }
+   
+    .card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word;
+        background-color: #fff;
+        background-clip: border-box;
+        border: 1px solid rgba(19, 24, 44, .125);
+        border-radius: .25rem
+    }
+   
+    .list-item {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word
+    }
+   
+    .list-item.block .media {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0
+    }
+   
+    .list-item.block .list-content {
+        padding: 1rem
+    }
+   
+    .w-40 {
+        width: 40px !important;
+        height: 40px !important
+    }
+   
+    .avatar {
+        position: relative;
+        line-height: 1;
+        border-radius: 500px;
+        white-space: nowrap;
+        font-weight: 700;
+        border-radius: 100%;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-pack: center;
+        justify-content: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-negative: 0;
+        flex-shrink: 0;
+        border-radius: 500px;
+        box-shadow: 0 5px 10px 0 rgba(50, 50, 50, .15)
+    }
+   
+    .avatar img {
+        border-radius: inherit;
+        width: 100%
+    }
+   
+    .gd-primary {
+        color: #fff;
+        border: none;
+        background: #448bff linear-gradient(45deg, #448bff, #44e9ff)
+    }
+   
+    .flex {
+        -webkit-box-flex: 1;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto
+    }
+   
+    .text-color {
+        color: #5e676f
+    }
+   
+    .text-sm {
+        font-size: .825rem
+    }
+   
+    .h-1x {
+        height: 1.25rem;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical
+    }
+   
+    .no-wrap {
+        white-space: nowrap
+    }
+   
+    .list-row .list-item {
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -ms-flex-align: center;
+        align-items: center;
+        padding: .75rem .625rem
+    }
+   
+    .list-item {
+        position: relative;
+        display: -ms-flexbox;
+        display: flex;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-width: 0;
+        word-wrap: break-word
+    }
+
+    .unread{
+        background-color: #dbe0ff;
+    }
+   
+    .list-row .list-item>* {
+        padding-left: .625rem;
+        padding-right: .625rem
+    }
+   
+    .dropdown {
+        position: relative
+    }
+   
+    a:focus,
+    a:hover {
+        text-decoration: none
+    }
+   
+    list-item {
+        background: white
+    }
+</style>
+{%endblock%}
+
+
+{%block content %}
+
+
+<div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="container-fluid d-flex justify-content-center">
+                    <div class="list list-row card" id="sortable" data-sortable-id="0" aria-dropeffect="move">
+                        {%if not notifs %}
+                        Okunmamış bildirim bulunmuyor
+                        {%endif%}
+                        {%for notif in notifs %}
+                        {%if notif.unread == 1 %}
+                        <div class="list-item unread" data-id="{{notif.id}}" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" style="">
+                            {%else%}
+                            <div class="list-item" data-id="{{notif.id}}" data-item-sortable-id="0" draggable="true" role="option" aria-grabbed="false" style="">
+                            {%endif%}
+                            <div><a href="#" data-abc="true"><span class="w-40 avatar gd-primary">{{notif.actor_id|slice:1|upper}}</span></a></div>
+                            {%if notif.image %}
+                            <div class="flex"> <a href="{%url 'gamification:show_image' slug=notif.image.challenge.slug image_id=notif.image.id %}" class="item-author text-color" data-abc="true"> {{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
+                            </div>
+                            {%elif notif.comment%}
+                            <div class="flex"> <a href="{%url 'gamification:show_image' slug=notif.image.challenge.slug image_id=notif.image.id %}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
+                            </div>
+                            {%endif%}
+                            <div class="no-wrap">
+                                <div class="item-date text-muted text-sm d-none d-md-block">{{notif.timestamp|timesince}} 
+                                    
+                                </div>
+                                
+                            </div>
+                            <div>
+                                
+                            </div>
+                        </div>
+                        
+                        {%endfor%}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{%endblock%}
+
+
+{%block script %}
+
+<script>
+    $(document).ready(function(){
+        $.ajax({
+            url: "{% url 'notifications:mark_all_as_read' %}", // the endpoint
+            type: "POST", // http method
+            data: {
+              'content_id': {{request.user.id}},
+              'operation': 'read-all',
+              'csrfmiddlewaretoken': '{{ csrf_token }}'
+            }, // data sent with the post request
+      
+            // handle a successful response
+            success: function (json) {
+              console.log(json)
+              $("#singlecomment"+json.comment_id).remove();
+              
+            },
+      
+            // handle a non-successful response
+            error: function (xhr, errmsg, err) {
+              $('#results').html(
+                "<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: " +
+                errmsg +
+                " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+              console.log(xhr.status + ": " + xhr
+                .responseText); // provide a bit more info about the error to the console
+            }
+          });
+        });
+</script>
+{%endblock%}

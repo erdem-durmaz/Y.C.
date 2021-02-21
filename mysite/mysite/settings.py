@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'yaratici',
     'ckeditor',
     'gamification.apps.GamificationConfig',
+    'notifs.apps.NotifsConfig'
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 

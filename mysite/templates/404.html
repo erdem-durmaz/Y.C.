@@ -1,7 +1,6 @@
-{%extends '../base.html'%}
-{%load static %}
-
-
+  
+{% extends './base.html' %}
+{%load static%}
 
 {%block css%}
 <style>
@@ -2039,182 +2038,88 @@
     }
 
 </style>
+<style>
+    ul {
+        list-style-type: none;
+
+    }
+
+    li {
+        padding-left: 10px;
+        padding-top: 3px;
+    }
+
+    .card-title {
+        font-size: 2rem;
+        line-height: 1.2;
+
+    }
+
+    #question {
+        border-radius: 50px;
+        border: 20px solid transparent;
+        border-color: #7380C6;
+        padding: 15px;
+
+    }
+
+    .related-question-post {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        margin-top: 20px;
+        font-size: medium;
+
+    }
+
+    .related-question-post-container {
+        margin-top: 20px;
+    }
+    .card-title{
+        padding-left: 0px;
+    }
+
+    body{
+        text-align: left;
+    }
+    .card{
+        max-width: 500px;
+    }
+    .card-body {
+        padding: 2px;
+    }
+    .rounded {
+        border-radius: 1.25rem!important;
+    }
 
 
 
-{%endblock%}
 
-{%block content %}
+</style>
+{% endblock %}
+ 
+{% block content %}
 
-
-<div  class="d-flex flex-column justify-content-around align-items-center">
-    <div ><h1 style="color:white"class="text-center py-3"><strong> {{challenge.title}}</strong></h1></div>
-    <div class="d-flex align-items-baseline mb-3">
-        <a href="{%url 'gamification:get_challenge_details' slug=challenge.slug %}"
-            class="btn btn-primary btn-fill btn-round mr-2"> Detaylar</a>
-        <a href="{%url 'gamification:send_challenge_photo' challenge_id=challenge.id %}"
-            class="btn btn-warning btn-fill btn-round"><i class="fas fa-user-plus"></i> Katıl</a>
-    
-    </div>
-</div>
-
+<div class="col-lg-6 mx-auto mt-3">
+    <div id="question"class="card text-center" >
+        <img style="max-height:300px"class="rounded"src="https://images.unsplash.com/photo-1555861496-0666c8981751?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80" class="card-img-top" alt="...">
+        <div class="card-body">
+          <h4 class="card-title"></h4>
+          <h2 class="">Linkte Hata var</h2>
+            <p>Lütfen tekrar deneyin</p>
+            <a class="stickymiobutton"style=" font-size:0.8rem; font-weight:700;"class="ml-5" href="{% url 'gamification:main' %}"><span class="btn btn-primary"style=""><i class="fas fa-user"></i>  Geri Dön</span> </a>
 
 
-
-<div class="row">
-    {%for nominee in nominees %}
-
-    <div class="card-box col-lg-4 col-md-6 col-xs-6">
-        <div style="background-image: url('{{nominee.photo.url}}'); background-position: center center; background-size: cover;"
-            class="card card-with-border" data-background="image" data-src="">
-            <div class="header">
-                <div class="category">
-                    <a class=""href="#">
-                        <h6 class="label label-info">{{nominee.user}}</h6>
-                        
-                    </a>
-                </div>
-
-            </div>
-
-            <div class="content text-center">
-                <a href="{%url 'gamification:show_image' slug=nominee.challenge.slug image_id=nominee.id %}" class="stretched-link"  data-title="{{nominee.caption}}">
-                    <h4 class="title">{{nominee.caption}}</h4>
-                </a>
-                <p class="description">{{nominee.owner}}</p>
-
-            </div>
-
-            <div class="social-line social-line-visible " data-buttons="2">
-                
-                <button id= {{nominee.challenge.id}} name="{{ nominee.id }}" class="likin btn btn-social btn-facebook">
-                    {%if user in nominee.image_likes.all %}
-                    <i name="likebtn{{ nominee.id }}" style="color: red;" class=" fas fa-heart"></i>
-                    {%else %}
-                    <i name="likebtn{{ nominee.id }}" style="color: red;" class=" far fa-heart"></i>
-                    {%endif%}
-    
-                    <span id="likecounts{{ nominee.id }}">{{nominee.image_likes.count}}</span>
-                </button>
-                <a href="{%url 'gamification:show_image' slug=nominee.challenge.slug image_id=nominee.id %}">
-                    <button class="btn btn-social btn-twitter">
-                        <i class="far fa-comment"></i>
-                        <span id="commentcount{{ nominee.id }}">{{nominee.comment_set.count}}</span>
-                    </button>
-                    
-                </a>
-
-                {%if user == nominee.user %}
-                <a href="{%url 'gamification:delete_image'  image_id=nominee.id %}">
-                    <button id="deletebutton"class="btn btn-danger">
-                        <i class="fas fa-times"></i>
-                        <span id="commentcount{{ nominee.id }}">Sil</span>
-                    </button>
-                </a>
-                {%endif %}
-                <div class="content">
-                    <p></p>
-                </div>
-                
-    
-            </div>
-
-           
-            <div class="filter"></div>
-        </div> <!-- end card -->
-
-    </div>
-
-
-    {%endfor%}
-    
-    
-</div>
-
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
-<script>
-    $('#post-form').on('submit', function (event) {
-        event.preventDefault();
-        console.log("form submitted!") // sanity check
-        console.log($('#challengeid').attr('name'))
-        create_post();
-    });
-
-    function create_post() {
-        console.log("create post is working!") // sanity check
-        $.ajax({
-            url: "{% url 'gamification:save_comment' %}", // the endpoint
-            type: "POST", // http method
-            data: {
-                'content_id': $('#challengeid').attr('name'),
-                'comment': $('#post-text').val(),
-                'operation': 'send_comment',
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            }, // data sent with the post request
-
-            // handle a successful response
-            success: function (json) {
-                $('#post-text').val(''); // remove the value from the input
-                console.log(json); // log the returned json to the console
-                $("#commentarea").prepend(
-                    '<div class="media g-mb-30 media-comment"><img class="d-flex g-width-50 g-height-50 rounded-circle g-mt-3 g-mr-15" src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Image Description"><div class="media-body u-shadow-v18 g-bg-secondary g-pa-30"><div class="g-mb-15"><h5 class="h5 g-color-gray-dark-v1 mb-0">' +
-                    json.user +
-                    '</h5><span class="g-color-gray-dark-v4 g-font-size-12">0 minutes</span></div><p>' +
-                    json.text + '</p></div></div>');
-
-            },
-
-            // handle a non-successful response
-            error: function(response){
-                alert('Yorum Yapmak İçin Lütfen Giriş Yapınız')
-              }
-        });
-    };
-</script>
-
-<script>
-    // AJAX CALL
-    $('.likin').click(function () {
-        console.log('click worked')
-        $.ajax({
-            type: "POST",
-            url: "{% url 'gamification:like_image' %}",
-            data: {
-                'content_id':  $(this).attr('name'),
-                'challenge_id': $(this).attr('id'),
-                'operation': 'like_submit',
-                'csrfmiddlewaretoken': '{{ csrf_token }}'
-            },
-            dataType: "json",
-            success: function (response) {
-                console.log(response)
-                selector = document.getElementsByName("likebtn"+response.content_id);
-                likecount = document.getElementById("likecounts"+response.content_id)
-                console.log(selector)
-                if (response.liked == true) {
-                    $(selector).attr("class","fas fa-heart");
-                    $(likecount).text(response.likes_count)
-                   
-                    
-                } else if (response.liked == false) {
-                    $(selector).attr("class","far fa-heart");
-                    $(likecount).text(response.likes_count)
-                
             
-                }
+        </div>
+      </div>
+    </div>
+    
 
 
-            },
-            error : function (response) {
-                alert('Beğenmek için lütfen giriş yapınız')
-            }
+{% endblock %}
 
-        });
+{%block script%}
 
-    })
-</script>
 
-{%endblock%}
+    {%endblock%}

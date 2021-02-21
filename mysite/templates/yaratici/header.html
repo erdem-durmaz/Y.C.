@@ -74,6 +74,8 @@
                                         <a class="nav-link" href="{% url 'gamification:contact_form'%}" tabindex="-1"
                                             aria-disabled="true">İLETİŞİM</a>
                                     </li>
+
+                                    
                                     {% if request.user.is_authenticated %}
                                     <li class="nav-item">
                                         <a id="miobutton"class="nav-link" href="{% url 'gamification:profile' username=user.username %}" tabindex="-1"

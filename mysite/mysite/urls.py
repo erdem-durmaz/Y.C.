@@ -29,5 +29,6 @@ urlpatterns = [
     path('', include('yaratici.urls')),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('gamification/', include('gamification.urls')),
+    path('notifications/', include('notifs.urls')),
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
