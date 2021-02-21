@@ -15,7 +15,27 @@
         aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
+    <div class="" id="">
+        <ul class="navbar-nav ml-auto">
 
+            {%if unreadnotifcount  %}
+            <li class="nav-item">
+                <a href="{% url 'notifications:all'%}"><button type="button" class="btn btn-light">
+                    <i class="fas fa-bell"></i> <span id='headercounter'class="badge badge-light btn-primary">{{unreadnotifcount}}</span>
+                  </button></a>
+            </li>
+            {%else%}
+            <li class="nav-item">
+                <a href="{% url 'notifications:all'%}"><button type="button" class="btn btn-light">
+                    <i class="fas fa-bell"></i> <span id='headercounter'class="badge badge-light btn-primary">{{unreadnotifcount}}</span>
+                  </button></a>
+            </li>
+            {%endif%}
+
+            
+
+        </ul>
+    </div>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav ml-auto  mt-lg-0">
 
@@ -40,19 +60,6 @@
                 <a class="nav-link" href="{% url 'gamification:contact_form'%}" tabindex="-1"
                     aria-disabled="true">İLETİŞİM</a>
             </li>
-            {%if unreadnotifcount  %}
-            <li class="nav-item">
-                <a href="{% url 'notifications:all'%}"><button type="button" class="btn btn-light">
-                    <i class="fas fa-bell"></i> <span id='headercounter'class="badge badge-light btn-primary">{{unreadnotifcount}}</span>
-                  </button></a>
-            </li>
-            {%else%}
-            <li class="nav-item">
-                <a href="{% url 'notifications:all'%}"><button type="button" class="btn btn-light">
-                    <i class="fas fa-bell"></i> <span id='headercounter'class="badge badge-light btn-primary">{{unreadnotifcount}}</span>
-                  </button></a>
-            </li>
-            {%endif%}
 
             <li class="nav-item">
                 <div class="dropdown nav-link">

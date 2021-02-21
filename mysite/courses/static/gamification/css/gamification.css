@@ -154,3 +154,7 @@ body {
         background: rgb(255,168,162);
         background: linear-gradient(131deg, rgba(255,168,162,1) 0%, rgba(104,119,223,1) 80%);
     }
+
+    .navbar-toggler {
+        padding: 0rem 0.3rem;
+    }
