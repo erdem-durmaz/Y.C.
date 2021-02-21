@@ -7,7 +7,7 @@ from .models import BlogPost, ImagineQuestion, Question,Choices, Challange,Categ
 
 
 class BlogPostAdmin(admin.ModelAdmin):
-    list_display =('title','create_date','is_Published','category','user','edit_date')
+    list_display =('title','create_date','is_Published','publish_date','category','user','edit_date')
     list_filter = ('create_date','category')
     list_editable = ('is_Published',)
     search_fields = ('title','slug')

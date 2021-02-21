@@ -15,8 +15,8 @@ def landing_page(request):
     return render(request, 'yaratici/landing.html')
 
 def cerez(request):
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
@@ -25,7 +25,7 @@ def cerez(request):
 
 
 def home(request):
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     challanges = Challange.objects.filter(is_Published__exact=True).order_by('-create_date')[:3]
     kimim = BlogPost.objects.get(slug__iexact="ben-kimim")
     return render(request, 'yaratici/home.html', {'kimim': kimim, 'posts': posts,'challanges': challanges})
@@ -41,8 +41,8 @@ def get_read_posts(request):
     
 
 def posts(request):
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
@@ -53,8 +53,8 @@ def posts(request):
     return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'readposts':readposts})
 
 def posts_byyear(request,year):
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(create_date__year=str(year)).order_by('-create_date')
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(create_date__year=str(year)).order_by('-publish_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
@@ -63,8 +63,8 @@ def posts_byyear(request,year):
 def posts_bytag(request,slug):
     print(slug)
     category = Category.objects.get(slug=slug)
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(category__exact=category).order_by('-create_date')
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(category__exact=category).order_by('-publish_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
@@ -72,8 +72,8 @@ def posts_bytag(request,slug):
 
 # ID9 READ POST ## PUANLAMA OK
 def show_post(request, slug):
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:10]
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:10]
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     post = get_object_or_404(BlogPost, slug=slug)
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
@@ -172,8 +172,8 @@ def imaginequestion(request):
     form = CommentForm()
     imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
     print(imaginequestion)
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
@@ -184,8 +184,8 @@ def imaginequestion(request):
 def get_question(request):
     form = ChoiceForm()
     question = get_object_or_404(Question, is_Published=True)
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
+    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')
+    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-publish_date')[:3]
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()

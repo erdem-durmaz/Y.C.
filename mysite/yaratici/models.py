@@ -26,6 +26,7 @@ class BlogPost(models.Model):
     photo = models.ImageField(upload_to='blog_img')
     create_date = models.DateTimeField(auto_now_add=True)
     edit_date = models.DateTimeField(auto_now=True)
+    publish_date = models.DateTimeField(blank=True,null=True)
     category = models.ForeignKey(Category, on_delete= models.CASCADE,blank=True,null=True )
     is_Published = models.BooleanField(default=False)
     message = RichTextField(blank=True,null=True)
