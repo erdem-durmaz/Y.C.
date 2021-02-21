@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.contrib import messages
 from django.urls import reverse
 import json
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
@@ -47,10 +48,20 @@ def posts(request):
     years = [i.year for i in dates]
     categories = Category.objects.all()
     readposts= get_read_posts(request)
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(posts, 10)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
     
     
     
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'readposts':readposts})
+    return render(request, 'yaratici/posts.html', {'users':users,'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'readposts':readposts})
 
 def posts_byyear(request,year):
     posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).filter(create_date__year=str(year)).order_by('-publish_date')
@@ -58,7 +69,18 @@ def posts_byyear(request,year):
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'year':year })
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(posts, 10)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+    
+    return render(request, 'yaratici/posts.html', {'users':users,'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'year':year })
 
 def posts_bytag(request,slug):
     print(slug)
@@ -68,7 +90,18 @@ def posts_bytag(request,slug):
     dates = BlogPost.objects.dates('create_date','month')
     years = [i.year for i in dates]
     categories = Category.objects.all()
-    return render(request, 'yaratici/posts.html', {'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'category':category})
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(posts, 10)
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+        
+    return render(request, 'yaratici/posts.html', {'users':users,'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories,'category':category})
 
 # ID9 READ POST ## PUANLAMA OK
 def show_post(request, slug):

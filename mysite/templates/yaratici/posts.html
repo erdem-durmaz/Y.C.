@@ -50,7 +50,7 @@ Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
                 <div class="col-xs-12 col-sm-8 col-md-9">
                     <div class="post-list row" data-no-masonry='1'>
                         <!-- START OF BLOG POST -->
-                        {%for post in posts %}
+                        {%for post in users %}
                         <div class="post-list-item col-xs-12 space-bottom col-sm-12 col-md-12"
                             data-masonry-width="col-sm-12.col-md-12">
                             <div id="post-{{post.id}}">
@@ -98,6 +98,30 @@ Geçirip, Yaratıcılıklarını Artırlamayı Hedefliyoruz {% endblock  %}
                             </div>
                         </div>
                         {%endfor %}
+
+                        <!-- #Paginator -->
+                        {% if users.has_other_pages %}
+  <ul class="pagination">
+    {% if users.has_previous %}
+      <li><a class="page-link"href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+    {% else %}
+      <li class="page-link disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in users.paginator.page_range %}
+      {% if users.number == i %}
+        <li class="page-link active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        <li><a class="page-link"href="?page={{ i }}">{{ i }}</a></li>
+      {% endif %}
+    {% endfor %}
+    {% if users.has_next %}
+      <li><a class="page-link"href="?page={{ users.next_page_number }}">&raquo;</a></li>
+    {% else %}
+      <li class="page-link disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+                        <!-- paginator end -->
                         {% if request.user.is_authenticated %}
                                 <a
                                 class="button big color1" target="_self"
