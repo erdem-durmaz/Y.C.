@@ -6,6 +6,9 @@ from django.db.models.query import QuerySet
 from .models import Notif
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.signals import post_save
+from yaratici.models import BlogPost
+from django.contrib.auth.models import User
 
 notify = Signal(providing_args=[  # pylint: disable=invalid-name
     'recipient', 'actor', 'verb', 'description','target',
@@ -13,7 +16,6 @@ notify = Signal(providing_args=[  # pylint: disable=invalid-name
 
 @receiver(notify)
 def my_handler(sender, **kwargs):
-    print(kwargs)
     recipient=kwargs.pop('recipient')
     actor = kwargs.pop('actor')
     verb = kwargs.pop('verb')
@@ -28,8 +30,6 @@ def my_handler(sender, **kwargs):
     else:
         recipients = [recipient]
 
-
-    new_notifications = []
 
     for recipient in recipients:
         newnotify = Notif(
@@ -55,3 +55,10 @@ def my_handler(sender, **kwargs):
     #     new_notifications.append(newnotify)
 
     # return new_notifications
+
+@receiver(post_save, sender=BlogPost)
+def send_blog_notification(sender,**kwargs):
+    sender=User.objects.get(pk=3)
+    users=User.objects.all()
+    notify.send(sender,recipient=users,actor=sender, verb='Yeni blog yazısı yayınlandı!')
+       

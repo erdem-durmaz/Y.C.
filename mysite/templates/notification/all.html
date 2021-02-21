@@ -196,6 +196,9 @@
                             {%elif notif.comment%}
                             <div class="flex"> <a href="{%url 'gamification:show_image' slug=notif.image.challenge.slug image_id=notif.image.id %}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
                             </div>
+                            {%elif notif.verb == 'Yeni blog yazısı yayınlandı!'%}
+                            <div class="flex"> <a href="{%url 'yaratici:posts'%}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
+                            </div>
                             {%endif%}
                             <div class="no-wrap">
                                 <div class="item-date text-muted text-sm d-none d-md-block">{{notif.timestamp|timesince}} 

@@ -158,3 +158,6 @@ body {
     .navbar-toggler {
         padding: 0rem 0.3rem;
     }
+    .navbar-light .navbar-toggler {
+        margin-left: auto;
+    }
