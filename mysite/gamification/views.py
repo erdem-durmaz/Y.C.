@@ -828,6 +828,14 @@ def imaginequestionmain(request):
 
     return render(request, 'gamification/hayalgucu_main.html', {'questions':questions,'readids':ids})
 
+######### LAST HAYALGÜCÜ SORUSU #########
+def lastimaginequestion(request):
+
+    form = CommentForm()
+    imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
+
+    return render(request, 'gamification/hayalgucu.html', {'form':form, 'question': imaginequestion,})
+
 
 ######### HAYALGÜCÜ SORUSU #########
 def imaginequestion(request, imagine_id):
