@@ -819,7 +819,7 @@ def get_question(request):
 ######### HAYALGÜCÜ SORUSU ANASAYFA#########
 def imaginequestionmain(request):
 
-    questions = ImagineQuestion.objects.all()
+    questions = ImagineQuestion.objects.all().order_by('-create_date')
     ids=[]
     if request.user.is_authenticated:
         readids = ScoreBoard.objects.filter(user=request.user).filter(activity__exact = 10).values('imaginequestion')
