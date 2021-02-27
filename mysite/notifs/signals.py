@@ -89,4 +89,44 @@ def send_challenge_notification(sender, instance, created, **kwargs):
 
 
 
+from django.core.mail import send_mail, EmailMessage
+from django.template.loader import render_to_string
+from django.conf import settings
+
+
+    
+
+def send_html_email(to_list, subject, template_name, context, sender=settings.DEFAULT_FROM_EMAIL):
+    msg_html = render_to_string(template_name, context)
+    msg = EmailMessage(subject=subject, body=msg_html, from_email=sender, bcc=to_list)
+    msg.content_subtype = "html"  # Main content is now text/html
+    return msg.send()
+
+@receiver(post_save,sender=User) 
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        emails=['yaraticicocugum@gmail.com',instance.email]
+        subject = f"{instance.username}, MiO Dijital Yaratıcılık Platformuna Hoş Geldiniz!!"
+        context={
+        'username':'username'
+        }
+        try:
+            send_html_email(emails, subject, 'email.html', context)           
+        except:
+            print("Hata oldu email gönderemedim")
+        else:
+            print('mail gönderildiiii')
+        
+        # isim = instance.username
+        # email = instance.email
+        # subject = f"{isim} Kayıt Oldu!"
+        # messagetext = f"Email adresi: {email}"
+        # senderemail = "yaraticicocugum@gmail.com"
+        # recipients = ['yaraticicocugum@gmail.com',]
+        # try:
+        #     send_mail(subject, messagetext, senderemail, recipients)            
+        # except:
+        #     print("Hata oldu email gönderemedim")
+        # else:
+        #     print('mail gönderildiiii')
 

@@ -17,7 +17,6 @@ from django.core.mail import send_mail, BadHeaderError
 from notifs.signals import notify
 
 
-NOW = datetime.now()
 
 # Create your views here.
 @login_required
@@ -173,6 +172,8 @@ def update_scoreboard_points():
 
 
 def calculate_score(user):
+    NOW = datetime.now()
+    
     # Calculate Challenge Like Sum
     scoresheet = ScoreBoard.objects.filter(user=user).filter(date__month=NOW.month).values(
         'id', 'activity', 'date', 'deleted', 'weeklyquestion', 'imaginequestion')
@@ -280,6 +281,8 @@ def calculate_score(user):
     postcount = BlogPost.objects.exclude(
         id=1).filter(is_Published__exact=True).count()
     readpost = ScoreBoard.objects.filter(
+        user=user).filter(date__month=NOW.month).filter(activity__exact=9).count()
+    previouslyreadpost = ScoreBoard.objects.exclude(date__month=NOW.month).filter(
         user=user).filter(activity__exact=9).count()
 
 
@@ -292,6 +295,7 @@ def calculate_score(user):
 
     results['blog_points'] = blog_points
     results['blog_read'] = readpost
+    results['total_blog_read'] = previouslyreadpost
     results['blog_postcount'] = postcount
     results['total_point'] = total_point
     results['challenges'] = challenges
@@ -309,7 +313,7 @@ def positioninleaderboard(user):
     leaderboard = list(ScoreBoard.objects.exclude(user_id__exact=3).filter(date__month=NOW.month).values(
         'user').annotate(sum=Sum('totalscore')).order_by('-sum'))
 
-    if not ScoreBoard.objects.filter(user=user).values('user').annotate(sum=Sum('totalscore')).order_by('-sum').exists():
+    if not ScoreBoard.objects.filter(user=user).filter(date__month=NOW.month).values('user').annotate(sum=Sum('totalscore')).order_by('-sum').exists():
         position = dict()
         position['current'] = len(leaderboard)+1
         position['total'] = len(leaderboard)+1
@@ -322,7 +326,7 @@ def positioninleaderboard(user):
             position['total'] = len(leaderboard)
             return position
         else:
-            userpoint = list(ScoreBoard.objects.filter(user=user).values(
+            userpoint = list(ScoreBoard.objects.filter(user=user).filter(date__month=NOW.month).values(
                 'user').annotate(sum=Sum('totalscore')).order_by('-sum'))
             index = leaderboard.index(userpoint[0])
             position = dict()
@@ -772,6 +776,7 @@ def imaginequestion(request):
     categories = Category.objects.all()
 
     return render(request, 'gamification/hayalgucu.html', {'form':form, 'question': imaginequestion, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+
 
 ######### CONTACT FORM #########
 def contact_form(request):
