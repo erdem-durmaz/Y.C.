@@ -331,6 +331,10 @@ def calculate_score(user):
     previouslyreadpost = ScoreBoard.objects.exclude(date__month=NOW.month).filter(
         user=user).filter(activity__exact=9).count()
 
+    answeredimaginequestion = ScoreBoard.objects.filter(
+        user=user).filter(date__month=NOW.month).filter(activity__exact=10).count()
+    totalimaginequestion = ImagineQuestion.objects.all().count()
+
 
 
     # calculate blog points seperately (outside monthly calc)
@@ -350,6 +354,9 @@ def calculate_score(user):
     results['images'] = images
     results['weeklyquestion'] = weeklyquestion
     results['imaginequestion'] = imaginequestion
+    results['total_imagine_question'] = totalimaginequestion
+    results['answered_imagine_question'] = answeredimaginequestion
+    
     
     return results
 
@@ -809,19 +816,28 @@ def get_question(request):
 
     return render(request, 'gamification/showdailyquestion.html', {'question': question, 'form': form, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
 
+######### HAYALGÜCÜ SORUSU ANASAYFA#########
+def imaginequestionmain(request):
+
+    questions = ImagineQuestion.objects.all()
+    ids=[]
+    if request.user.is_authenticated:
+        readids = ScoreBoard.objects.filter(user=request.user).filter(activity__exact = 10).values('imaginequestion')
+        for i in readids:
+            ids.append(i['imaginequestion'])
+
+    return render(request, 'gamification/hayalgucu_main.html', {'questions':questions,'readids':ids})
+
+
 ######### HAYALGÜCÜ SORUSU #########
-def imaginequestion(request):
+def imaginequestion(request, imagine_id):
 
     form = CommentForm()
-    imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
+    imaginequestion = get_object_or_404(ImagineQuestion, pk=imagine_id)
     
-    posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')
-    sidebar_posts = BlogPost.objects.exclude(id=1).filter(is_Published__exact=True).order_by('-create_date')[:3]
-    dates = BlogPost.objects.dates('create_date','month')
-    years = [i.year for i in dates]
-    categories = Category.objects.all()
+    
 
-    return render(request, 'gamification/hayalgucu.html', {'form':form, 'question': imaginequestion, 'posts': posts,'sidebarposts':sidebar_posts,'years':set(years),'categories':categories})
+    return render(request, 'gamification/hayalgucu.html', {'form':form, 'question': imaginequestion,})
 
 
 ######### CONTACT FORM #########

@@ -206,7 +206,7 @@
                             <div class="flex"> <a href="{% url 'gamification:weeklyquestion'%}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
                             </div>
                             {%elif notif.verb == 'Yeni hayal gücü sorusu yayınlandı!'%}
-                            <div class="flex"> <a href="{% url 'gamification:imaginequestion'%}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
+                            <div class="flex"> <a href="{% url 'gamification:imaginequestionmain'%}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm"> {{notif.verb}}</span></a> 
                             </div>
                             {%elif notif.verb == 'Fotoğraf yüklendi!'%}
                             <div class="flex"> <a href="{%url 'gamification:show_image' slug=notif.image.challenge.slug image_id=notif.image.id %}" class="item-author text-color" data-abc="true">{{notif.actor_id}} <span class="item-except text-muted text-sm">{{notif.image.challenge}} için {{notif.verb}}</span></a> 

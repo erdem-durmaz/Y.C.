@@ -30,7 +30,8 @@ urlpatterns = [
     # weeklyquestion
     path('question/', views.get_question, name='weeklyquestion'),
     # imaginequestion
-    path('imaginequestion/', views.imaginequestion, name='imaginequestion'),
+    path('imaginequestionmain/', views.imaginequestionmain, name='imaginequestionmain'),
+    path('imaginequestion/<int:imagine_id>', views.imaginequestion, name='imaginequestion'),
     # dailysleep
     path('dailysleep/', views.dailysleep, name='dailysleep'),
     

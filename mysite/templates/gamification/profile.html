@@ -404,19 +404,18 @@
         <!-- Demo info -->
 
         <div class="row text-center mt-4">
+          <div class="col-6">
+            <div class="h4 font-weight-bold mb-0">{{results.answered_imagine_question}}</div><span class="small text-gray"><a
+              href="{% url 'yaratici:posts' %}">Cevaplanan</a></span>
+            
+          </div>
+          <div class="col-6">
+            <div class="h4 font-weight-bold mb-0"> {{results.total_imagine_question}}</div><span class="small text-gray"><a
+                href="{% url 'yaratici:posts' %}">Toplam Soru</a></span>
+          </div>
 
-          {%if results.imaginequestionid == imaginequestion.id %}
-          <div class="col-12">
-            <span class="small text-gray">Haftanın <a class="stretched-link"
-                href="{%url 'gamification:imaginequestion'%}"> hayalgücü sorusuna</a> yorum eklediniz 😊 Takipte kalın!</span>
-          </div>
-          {%else%}
-          <div class="col-12">
-            <span class="small text-gray">Henüz sorumuza yorum eklemediniz, eklemek için <a
-                href="{%url 'gamification:imaginequestion'%}"> tıklayınız</a></span>
-          </div>
-          {%endif%}
-          <a class="stretched-link" href="{%url 'gamification:imaginequestion'%}"></a>
+          
+          <a class="stretched-link" href="{%url 'gamification:imaginequestionmain'%}"></a>
         </div>
         <!-- END -->
       </div>
