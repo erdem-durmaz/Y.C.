@@ -24,6 +24,7 @@ urlpatterns = [
     path('profile-settings/<username>', views.profile_settings, name='profile_settings'),
     # leaderboard
     path('leaderboard/', views.leaderboard, name='leaderboard'),
+    path('leaderboard/<int:year>/', views.leaderboardbyyear, name='leaderboardbyyear'),
     # contact form
     path('contact-form', views.contact_form, name='contact_form'),
     # weeklyquestion

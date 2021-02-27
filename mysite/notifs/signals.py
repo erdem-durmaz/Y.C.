@@ -8,7 +8,7 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.db.models.signals import post_save
 from yaratici.models import BlogPost,Question,ImagineQuestion
-from gamification.models import Challenge
+from gamification.models import Challenge,ImageNominate
 from django.contrib.auth.models import User
 
 notify = Signal(providing_args=[  # pylint: disable=invalid-name
@@ -87,6 +87,13 @@ def send_challenge_notification(sender, instance, created, **kwargs):
         users=User.objects.all()
         notify.send(sender,recipient=users,actor=sender, challenge= instance, verb='Yeni Challenge yayınlandı!')
 
+@receiver(post_save, sender=ImageNominate) 
+def send_challengephoto_notification(sender, instance, created, **kwargs):
+    if created == True:
+        users=User.objects.all()
+        notify.send(sender,recipient=users,actor=instance.user, image= instance, verb='Fotoğraf yüklendi!')
+
+
 
 
 from django.core.mail import send_mail, EmailMessage
@@ -94,7 +101,6 @@ from django.template.loader import render_to_string
 from django.conf import settings
 
 
-    
 
 def send_html_email(to_list, subject, template_name, context, sender=settings.DEFAULT_FROM_EMAIL):
     msg_html = render_to_string(template_name, context)

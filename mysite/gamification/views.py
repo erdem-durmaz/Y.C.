@@ -59,6 +59,52 @@ def dailysleep(request):
 
         return render(request, 'gamification/dailysleep.html', context)
 
+def leaderboardbyyear(request,year):
+    print(request.GET)
+    NOW = datetime(year=year,month=1,day=1)
+    # update_scoreboard_points() #use only when points change
+    winnerlst = list()
+    place = 1
+    top213 = []
+    restlst = list()
+    leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
+        sum=Sum('totalscore')).order_by('-sum')[:10]
+
+    if len(leaderboard) >= 3:
+
+        for player in leaderboard[:3]:
+            currentuser = get_object_or_404(User, pk=player['user'])
+            
+            board = dict()
+            board['place'] = place
+            board['username'] = currentuser.username
+            board['imgpath'] = currentuser.profile.profile_pic.url
+            board['points'] = player['sum']
+            winnerlst.append(board)
+            place += 1
+        top213.append(winnerlst[1])
+        top213.append(winnerlst[0])
+        top213.append(winnerlst[2])
+
+        rest = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
+            sum=Sum('totalscore')).order_by('-sum')[:10] 
+        for player in rest[3:]:
+            currentuser = get_object_or_404(User, pk=player['user'])
+            board = dict()
+            board['place'] = place
+            board['username'] = currentuser.username
+            board['imgpath'] = currentuser.profile.profile_pic.url
+            board['points'] = player['sum']
+            restlst.append(board)
+            place += 1
+
+    context = {
+        'leaders': top213,
+        'rest': restlst,
+        'month': NOW
+    }
+
+    return render(request, 'gamification/leaderboardbyyear.html', context)
 
 def leaderboard(request):
     NOW = datetime.now()
