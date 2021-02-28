@@ -100,8 +100,10 @@
 
 <div  class="d-flex flex-column justify-content-around align-items-center">
   <div class="d-flex align-items-baseline mb-1">
+    <a class="btn btn-primary btn-fill btn-round mr-2 mt-3"class="" href="{% url 'gamification:main' %}"><span id=""style=""> Geri Dön </span> </a>
       <a href="{%url 'gamification:main' %}"
           class="btn btn-primary btn-fill btn-round mr-2 mt-3"> Challenges</a>
+          
 
   
   </div>
@@ -129,7 +131,7 @@
             <h2 class=" ml-3 pt-2"><small><strong>{{image.caption}}</strong></small></h2>
             <h6 class=" ml-3"><strong>{{image.owner}}</strong> - {{image.user.username}} </h6>
             
-    <a class="btn btn-primary ml-auto"class="" href="{% url 'gamification:main' %}"><span id=""style=""> Geri Dön </span> </a>
+    
     
           </div>
         </div>

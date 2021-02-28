@@ -17,6 +17,16 @@ def profile_directory_path(instance,filename):
     return f'user_{instance.user.username}/profilepics/{filename}'
 
 
+class Milk(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateTimeField(auto_now_add=True)
+    drankmilk = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.user)+" "+str(self.drankmilk)+" "+str(self.date.day)
+
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,)
     profile_pic = models.ImageField(upload_to=profile_directory_path,default="default_img.jpg")
@@ -24,6 +34,7 @@ class Profile(models.Model):
     description = models.CharField(max_length=200, null=True, blank=True)
     childname = models.CharField(max_length=50, null=True, blank=True)  
     birthday = models.DateField(null=True, blank=True)
+    instagram = models.CharField(max_length=100, null=True, blank=True) 
 
     
     def save(self):

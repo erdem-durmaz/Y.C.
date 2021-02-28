@@ -35,6 +35,9 @@ urlpatterns = [
     path('imaginequestion/<int:imagine_id>', views.imaginequestion, name='imaginequestion'),
     # dailysleep
     path('dailysleep/', views.dailysleep, name='dailysleep'),
+
+    # dailymilk
+    path('dailymilk/', views.dailymilk, name='dailymilk'),
     
     
 

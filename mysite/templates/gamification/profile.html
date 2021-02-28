@@ -123,8 +123,12 @@
 
   .editlink {
     font-size: 1rem;
-    color: #37BFFC;
-    font-weight: 400;
+  
+    font-weight: 800;
+    background: rgb(255,168,162);
+    background: linear-gradient(131deg, rgba(255,168,162,1) 0%, rgba(104,119,223,1) 80%);
+font-size: 0.9rem;
+padding: 0px 5px;
   }
 
   .header-desc {
@@ -205,6 +209,11 @@
   #profilemoodsent{
     filter: grayscale(0);
   }
+  .milkprogress{
+
+    font-weight: 800;
+    font-size: 0.8rem;
+  }
 </style>
 {%endblock%}
 
@@ -221,11 +230,11 @@
 
 
     </div>
-    <div id="" class="col-xs-10  pl-5">
+    <div id="" class="col-xs-6  pl-5">
       <div class="header-name">
         {{username}}
         {% if username == user %}
-        <a class="editlink " href="{%url 'gamification:profile_settings' username=username.username %}">Profili düzenle
+        <a class="btn btn-primary btn-sm editlink " href="{%url 'gamification:profile_settings' username=username.username %}"> <i class="fas fa-user-edit"></i> Düzenle
         </a>
         {%endif%}
         <div class="header-desc mt-1">
@@ -235,8 +244,28 @@
 
 
     </div>
+
+        <!-- milk -->
+        <div id="" class="col-lg-2 col-sm-6 ml-auto mb-3 mt-2">
+          {% if username == user %}
+          <div id="moodcard" class="bg-white rounded-lg py-2 shadow">
+            <h6 class="h6 text-center mb-1">Süt Takibi</h6>
+
+            <div class="moodcard"><img id=""width="50px" class=""src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f95b.png" alt=""> </div>
+            <div style="text-align:center"class="mx-auto"><span class="milkprogress">{%if not results.dailymilkperc %}Giriş yapmadınız{%else%}%{{results.dailymilkperc}}{%endif%}</span></div>
+            <a style="display:block;margin:0 auto;text-align:center" class="small" href="{%url 'gamification:dailymilk' %}">Ekle
+             
+            
+            
+            <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}"></a>
+          </div>
+          
+          {% endif %}
+        </div>
+        <!-- milkend -->
+
     <!-- mood -->
-    <div id="" class="col-lg-2 col-md-2 ml-auto mb-3 mt-2">
+    <div id="" class="col-lg-2 col-sm-6 mb-3 mt-2">
       {% if username == user %}
       <div id="moodcard" class="bg-white rounded-lg py-2 shadow">
         <h6 class="h6 text-center mb-1">Bugünkü <br> Uyku</h6>
@@ -262,9 +291,12 @@
         
         <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}"></a>
       </div>
+      
       {% endif %}
     </div>
     <!-- moodend -->
+
+
     <h2 id="summarybox" class="col-xl-12 mb-3 text-center">{{month|date:'F'}} Ayı MiO İstatistikleri</h2>
 
     <div class="col-xl-3 col-sm-6 mb-4">
@@ -273,7 +305,7 @@
         <h2 class="h6 font-weight-bold text-center mb-4">Challenge</h2>
 
         <!-- Progress bar 1 -->
-        <div class="progress mx-auto" data-value='100'>
+        <div class="progress mx-auto" data-value='{{results.challenge_percentage}}'>
           <span class="progress-left">
             <span class="progress-bar border-primary"></span>
           </span>
@@ -289,7 +321,8 @@
         <!-- END -->
 
         <!-- Demo info -->
-        <div class="row text-center mt-4">
+        <a style="display:block;margin:0 auto;text-align:center; color:grey" class="small mt-1" href="{%url 'gamification:main' %}">Katılınan Challenge: {{results.userchallenge_count}}</a>
+        <div class="row text-center mt-1">
           <div class="col-4 border-right">
             <div class="h4 font-weight-bold mb-0">{{results.likes}}</div><span class="small text-gray">Like</span>
           </div>
@@ -300,10 +333,12 @@
             <div class="h4 font-weight-bold mb-0">{{results.images}}</div><span class="small text-gray">Fotoğraf</span>
           </div>
 
+
         </div>
         <!-- END -->
+        <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}">Toplam Challenge:{{results.totalchallenge_count}}</a>
         <a class="stretched-link" href="{%url 'gamification:main' %}"></a>
-        <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}">Tüm Challengelar</a>
+
       </div>
     </div>
 
@@ -312,7 +347,12 @@
         <h2 class="h6 font-weight-bold text-center mb-4">Haftanın Sorusu</h2>
 
         <!-- Progress bar 2 -->
+        {%if results.weeklyquestionid == question.id %}
         <div class="progress mx-auto" data-value='100'>
+        {%else%}
+        <div class="progress mx-auto" data-value='0'>
+        {%endif%}
+        
           <span class="progress-left">
             <span class="progress-bar border-danger"></span>
           </span>
@@ -350,7 +390,7 @@
         <h2 class="h6 font-weight-bold text-center mb-4"> Blog </h2>
         <a class="stretched-link" href="{%url 'yaratici:posts'%}"></a>
         <!-- Progress bar 3 -->
-        <div class="progress mx-auto" data-value='100'>
+        <div class="progress mx-auto" data-value='{{results.blog_percentage}}'>
           <span class="progress-left">
             <span class="progress-bar border-success"></span>
           </span>
@@ -388,7 +428,7 @@
         <h2 class="h6 font-weight-bold text-center mb-4">Hayal gücü Sorusu</h2>
 
         <!-- Progress bar 2 -->
-        <div class="progress mx-auto" data-value='100'>
+        <div class="progress mx-auto" data-value='{{results.imagine_percentage}}'>
           <span class="progress-left">
             <span class="progress-bar border-danger"></span>
           </span>

@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 
-from .models import Challenge,Comment, Mood, ScoreBoard,ImageNominate, ScoringActivities
+from .models import Challenge,Comment, Milk, Mood, ScoreBoard,ImageNominate, ScoringActivities
 
 
 
@@ -38,6 +38,11 @@ class MoodAdmin(admin.ModelAdmin):
     list_display =('user','mood','date')
     list_filter = ('date','user','mood')
     list_per_page = 20
+
+class MilkAdmin(admin.ModelAdmin):
+    list_display =('user','drankmilk','date')
+    list_filter = ('date','user','drankmilk')
+    list_per_page = 20
     
 
 
@@ -48,3 +53,4 @@ admin.site.register(Comment,CommentAdmin)
 admin.site.register(ImageNominate,ImageNominateAdmin)
 admin.site.register(ScoringActivities,ScoringActivitiesAdmin)
 admin.site.register(Mood, MoodAdmin)
+admin.site.register(Milk, MilkAdmin)

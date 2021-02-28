@@ -3,7 +3,7 @@ from yaratici.models import Question, BlogPost, ImagineQuestion, Category, Choic
 from yaratici.forms import ChoiceForm
 from django.conf import settings
 from .forms import CommentForm, ContactForm, ImageNominateForm, ProfileForm
-from .models import Challenge, Comment, ImageNominate, Mood, Profile, ScoreBoard, ScoringActivities
+from .models import Challenge, Comment, ImageNominate, Milk, Mood, Profile, ScoreBoard, ScoringActivities
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -12,13 +12,101 @@ from django.contrib import messages
 import json
 import os
 from django.contrib.auth.decorators import login_required
-from datetime import datetime,timedelta
+from datetime import datetime,timedelta,date
 from django.core.mail import send_mail, BadHeaderError
 from notifs.signals import notify
 
 
+@login_required
+def dailymilk(request):
+    NOW=date.today() 
+    if request.method == "POST":
+        if not Milk.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
+            new_milk = Milk(
+                user= request.user,
+                drankmilk= int(request.POST['rating'])
+            )
+            new_milk.save()
+            activity = get_object_or_404(ScoringActivities,pk=12)
+            new_score = ScoreBoard(user=request.user,activity=activity,totalscore=activity.score)
+            new_score.save()
+            messages.add_message(request, messages.SUCCESS,f'<i class="fas fa-trophy"></i> Bravo! Günlük süt takibi girişi ile {activity.score} puan kazandınız!')
+            return redirect(reverse('gamification:dailymilk'))
+        else:
+                
+            dailymilkentry = Milk.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
+            dailymilkentry.drankmilk += int(request.POST['rating'])
+            dailymilkentry.save()
 
-# Create your views here.
+            return redirect(reverse('gamification:dailymilk'))
+            return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
+    
+
+    #Calculate Age
+    userbirthday = get_object_or_404(Profile,user=request.user.id)
+    if not userbirthday.birthday:
+        messages.add_message(request, messages.ERROR,'<i class="fas fa-exclamation-circle"></i> Çocuğunuzun süt takibini yapabilmeniz için doğum tarihinizi girmeniz gerekmektedir')
+        return redirect(reverse('gamification:profile_settings', kwargs={'username': request.user.username}))
+    else:
+        calculateage = (NOW - userbirthday.birthday)/365
+        age = calculateage.days
+    
+    def get_total(user):
+        if not Milk.objects.filter(user=user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
+            totaldrank = 0
+            return totaldrank
+        else:
+            dailymilkentry = Milk.objects.filter(user=user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)
+            print(dailymilkentry)
+            totaldrank=0
+            for entry in dailymilkentry:
+                totaldrank += entry.drankmilk
+            return totaldrank
+
+    # get daily drank milk
+    totaldrank=get_total(request.user)
+    print(totaldrank)
+    
+    # check status
+    if age < 2:
+        requiredmilk = 1 
+    elif 2<=age<=3:
+        requiredmilk = 400
+    elif 4<=age<=8:
+        requiredmilk = 500
+    else:
+        requiredmilk = 600 
+        
+    def get_left(requiredmilk,totaldrank):
+        if requiredmilk > totaldrank:
+            left = requiredmilk-totaldrank
+            return left
+        else:
+            left = 0
+            return left
+    
+    def get_percentage():
+        perc = int(totaldrank / requiredmilk *100)
+        if perc>= 100:
+            return 100
+        return perc  
+
+    success_message=""
+    if get_percentage() >=100:
+        success_message = "Bugün hedefine ulaştın, çocuğunun gelişimi için günlük takip etmeye devam et."
+
+    context = {
+        'age':age,
+        'totaldrank':totaldrank,
+        'requiredmilk':requiredmilk,
+        'percentage': get_percentage(),
+        'left':get_left(requiredmilk,totaldrank),
+        'success_message': success_message
+        
+        }
+
+    return render(request, 'gamification/dailymilk.html', context)
+
 @login_required
 def dailysleep(request):
     NOW = datetime.now()
@@ -170,18 +258,24 @@ def profile_settings(request, username):
         #     pass
         #     # os.remove(rf"{user.profile.profile_pic.path}")
         # print(request.POST)
+        
         if user.profile:
             form = ProfileForm(
                 request.POST, instance=user.profile, files=request.FILES)
             if form.is_valid():
                 form.save()
                 return redirect(reverse('gamification:profile', kwargs={'username': user.username}))
+            else:
+                print('bi hata var')
         else:
             form = ProfileForm(request.POST, request.FILES)
             new_profile = Profile(
                 description=form.cleaned_data['description'],
                 user=request.user,
                 profile_pic=form.cleaned_data['profile_pic'],
+                childname=form.cleaned_data['childname'],
+                birthday=form.cleaned_data['birthday'],
+                instagram=form.cleaned_data['instagram'],
             )
             new_profile.save()
 
@@ -343,10 +437,47 @@ def calculate_score(user):
     total_point += blog_points
 
 
+    #dailymilk
+    if Milk.objects.filter(user=user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
+        userbirthday = get_object_or_404(Profile,user=user.id)
+        if not userbirthday.birthday:
+            results['dailymilkperc'] = 0
+        else:
+            NOW=date.today() 
+            calculateage = (NOW - userbirthday.birthday)/365
+            age = calculateage.days
+            totaldrank = 1
+            dailymilkentry = Milk.objects.filter(user=user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)
+            for entry in dailymilkentry:
+                totaldrank += entry.drankmilk
+
+            # check status
+            if age < 2:
+                requiredmilk = 1
+                results['dailymilkperc'] =  "NA"
+            elif 2<=age<=3:
+                requiredmilk = 400
+                results['dailymilkperc'] =  int(totaldrank / requiredmilk *100)
+            elif 4<=age<=8:
+                requiredmilk = 500
+                results['dailymilkperc'] =  int(totaldrank / requiredmilk *100)
+            else:
+                requiredmilk = 600 
+                results['dailymilkperc'] =  int(totaldrank / requiredmilk *100)
+            
+            
+
+    # challange process
+    challengecount = Challenge.objects.all().count()
+    userchallengeimagecount = ImageNominate.objects.filter(user=user).count()
+
+
+
     results['blog_points'] = blog_points
     results['blog_read'] = readpost
     results['total_blog_read'] = previouslyreadpost
     results['blog_postcount'] = postcount
+    results['blog_percentage'] = int(readpost/postcount*100)
     results['total_point'] = total_point
     results['challenges'] = challenges
     results['likes'] = likes
@@ -356,6 +487,10 @@ def calculate_score(user):
     results['imaginequestion'] = imaginequestion
     results['total_imagine_question'] = totalimaginequestion
     results['answered_imagine_question'] = answeredimaginequestion
+    results['imagine_percentage'] = int(answeredimaginequestion/totalimaginequestion*100)
+    results['challenge_percentage'] = int(userchallengeimagecount/challengecount*100)
+    results['totalchallenge_count'] = challengecount
+    results['userchallenge_count'] = userchallengeimagecount
     
     
     return results

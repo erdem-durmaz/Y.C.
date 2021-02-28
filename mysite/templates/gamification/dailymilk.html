@@ -1,0 +1,502 @@
+{% extends '../base.html'%}
+
+
+{% block title %} {% endblock  %}
+{% block meta %} {% endblock  %}
+
+{% block css %}
+<style>
+    ul {
+        list-style-type: none;
+
+    }
+
+    li {
+        padding-left: 10px;
+        padding-top: 3px;
+    }
+
+    .card-title {
+        font-size: 1.5rem;
+        line-height: 1.2;
+        text-align: center;
+
+    }
+
+    #question {
+        border-radius: 50px;
+        border: 20px solid transparent;
+        border-color: #F3A5A5;
+        padding: 15px;
+
+    }
+
+    .related-question-post {
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        margin-top: 20px;
+        font-size: medium;
+
+    }
+
+    .related-question-post-container {
+        margin-top: 20px;
+    }
+
+
+    body{
+        text-align: left;
+    }
+
+     /* WRAPPER */
+    
+    .site {
+        display: flex;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 1 auto;
+        -moz-box-flex: 0;
+        -moz-flex: 0 1 auto;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        -webkit-flex-direction: column;
+        -moz-flex-direction: column;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        min-height: 100vh;
+    }
+    .header-wrapper {
+        position: relative;
+        -webkit-box-flex: 0;
+        -webkit-flex: 0 0 auto;
+        -moz-box-flex: 0;
+        -moz-flex: 0 0 auto;
+        -ms-flex: 0 0 auto;
+        flex: 0 0 auto;
+        flex-grow: 0;}
+
+        .header-wrapper>div[class*=header] {
+            flex-grow: 1;
+        }
+        
+        [data-parallax-depth] {
+            background-attachment: fixed;
+            will-change: transform;
+            transform: translate3d(0, 0, 0);
+        }
+        .header, .header-homepage {
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            position: relative;
+            z-index: 0;
+        }
+        .header-description, .inner-header-description {
+            position: relative;
+            z-index: 50;
+        }
+        
+        .gridContainer {
+            max-width: 1232px;
+            margin: 0 auto;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+        *, .col-xs, .gridContainer, .row {
+            box-sizing: border-box;
+        }
+        .inner-header-description {
+            padding-top: 5%;
+            padding-bottom: 5%;
+        }
+        #offcanvas-wrapper, .site {
+            -webkit-box-direction: normal;
+            -webkit-box-orient: vertical;
+        }
+        .header .background-overlay {
+            background: linear-gradient(
+        135deg
+        , rgba(102, 126, 234, 0.8) 0%, rgba(118, 75, 162, 0.8) 100%);
+        }
+        .background-overlay {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            position: absolute;
+            z-index: 1;
+            display: inline-block;
+            content: "";
+        }
+        .form-check-label {
+            color: #6B7C93;
+        }
+
+        /* PAGE CONTENTS */
+
+
+        .mesmerize-content-no-padding .page-content {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+        
+        .site>.content, .site>.page-content {
+            z-index: 1;
+            -webkit-box-flex: 0;
+            -webkit-flex: 0 0 auto;
+            -moz-box-flex: 0;
+            -moz-flex: 0 0 auto;
+            -ms-flex: 0 0 auto;
+            flex: 0 0 auto;
+            flex-grow: 1;
+            background-color: #fff;
+        }
+
+        .sidebar .panel {
+            border: 1px solid #ececec;
+            border-radius: 4px;
+            -webkit-box-shadow: 0 0.5625rem 2.8125rem 0 rgb(35 69 152 / 15%);
+            box-shadow: 0 0.5625rem 2.8125rem 0 rgb(35 69 152 / 15%);
+
+        }
+
+        .sidebar .widget:first-child {
+            padding-top: 1.5rem;
+        }
+        
+        .sidebar .widget {
+            background-color: transparent;
+            -webkit-box-shadow: none;
+            box-shadow: none;
+            border: none;
+            padding: 1rem 1.6rem;
+            margin: 0;
+        }
+        .sidebar .widget .widgettitle {
+            letter-spacing: normal;
+            text-transform: capitalize;
+            font-size: 120%;
+        }
+        .sidebar .widget>ul {
+            list-style: none;
+            margin: 0;
+            padding-inline-start: 0px;
+        }
+        .sidebar .widget>ul>li {
+            padding: .4rem 0rem;
+            border-top: 1px solid #ececec;
+        }
+
+        .weeklycard-header {
+            padding: .75rem 1.25rem;
+            margin-bottom: 0;
+            
+        }
+
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: .75rem 1.25rem;
+            background-color: #fff;
+            border: 0px;
+        }
+        .smileys{
+            background-color: #6B7C93;
+            
+            color: #FFE132;
+            position: absolute;
+            left: 8px;
+            bottom: -7px;
+        }
+</style>
+
+<style>
+   
+body {
+
+  font-size: 18px;
+  background: #eeeeee;
+  color: #1f2024;
+  line-height: 1;
+  background: rgb(103,122,228);
+background: linear-gradient(137deg, rgba(103,122,228,1) 0%, rgba(115,83,173,1) 80%);
+min-height: 100vh;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.rating {
+  max-width: 400px;
+  margin: 30px auto;
+  background: #fff;
+  padding: 1em;
+  border-radius: 3px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+.rating__title {
+  text-align: center;
+  font-weight: 700;
+  display: block;
+  font-size: 1.2rem;
+}
+.rating__list {
+  max-width: 300px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  padding: 1em 0;
+}
+.rating__input {
+  display: none;
+}
+.rating__label {
+  padding: 5px 3px;
+  font-size: 26px;
+  filter: grayscale(1);
+  opacity: 0.7;
+  cursor: pointer;
+}
+.rating__label.active {
+  filter: grayscale(0);
+  opacity: 1;
+  transition: all 100ms ease;
+}
+.rating__label:hover {
+  filter: grayscale(0.1);
+  transform: scale(1.1);
+  transition: 100ms ease;
+}
+
+.feedback {
+  width: 100%;
+  display: none;
+}
+.feedback textarea, .feedback input {
+  max-width: 300px;
+  width: 100%;
+  display: block;
+  margin: 0.5em auto;
+  padding: 0.5em;
+  font-family: inherit;
+  border: 1px solid #d1d2d7;
+  border-radius: 3px;
+}
+.feedback textarea:focus, .feedback textarea:active, .feedback input:focus, .feedback input:active {
+  border-color: #c80000;
+  box-shadow: 0px 0px 0px 3px rgba(200, 0, 0, 0.2);
+  transition: 100ms;
+  outline: 0;
+}
+.feedback textarea {
+  height: 100px;
+}
+.feedback button {
+  margin: 0.1em auto;
+  display: table;
+  text-align: center;
+}
+.feedback button:focus, .feedback button:active {
+  outline: 0;
+}
+
+
+
+button {
+  color: #ecedef;
+  background-color: #9a9da8;
+  border-radius: 3px;
+  border: 0;
+  padding: 9px 15px;
+  font-size: 15px;
+}
+
+button.not-disabled {
+  color: white;
+  background-color: #c80000;
+  text-shadow: 0px 1px 1px #620000;
+  cursor: pointer;
+}
+button.not-disabled:hover {
+  background-color: #950000;
+  transition: 100ms;
+}
+
+
+</style>
+
+<style>
+  .glass {
+    margin: 30px auto;
+    height: 150px;
+    width: 100px;
+    position: relative;
+    border-style: none solid solid solid;
+    border-width: 10px;
+    border-color: skyblue;
+    border-radius: 10px;
+}
+
+.water {
+    width: 100%;
+    height: 10%;
+    background-color: white;
+    position: absolute;
+    bottom: 0;
+}
+.milkprogresstext{
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+
+</style>
+{% endblock css %}
+
+
+{%block content%}
+
+<div class="row">
+
+  <div class="col-lg-1 col-sm-4 ml-auto mb-3 mt-5 ">
+    <div class="glass">
+      <div class="water"><div style="text-align:center;color:skyblue ;font-size:1.5rem;font-weight:800;margin-top:20px"class="mx-auto">{{totaldrank}}ml</div></div>
+    </div>
+  </div>
+
+  <div class="col-lg-8 col-sm-8 mr-auto mb-3 mt-2">
+
+    <div>    
+      <form class="rating" method="POST" action="{%url 'gamification:dailymilk' %}">
+          {%csrf_token%}
+        <h3 class="rating__title mt-2">{{request.user.profile.childname|default:""}} ne kadar süt eklemek istersin?
+          <div class="milkprogresstext mt-3">
+            {%if age < 2 %}
+            <span style="font-weight: bold;"></span> 2 yaş öncesi çocuklarda, günlük  <br>tüketilen süt miktarı konusunda doktorunuzdan öneri almanızı rica ederiz <br>
+            {%else%}
+            <span style="font-weight: bold;">{{age}}</span> yaşındaki çocuklar için <br> önerilen günlük süt miktarı <span style="font-weight: bold">{{requiredmilk}}ml</span>'dir. <br>
+            {%endif%}
+             
+           <br> 
+           {%if totaldrank == 0 %}
+           <span style="font-weight: bold; font-size:1.2rem"> Bugün hiç süt içmedin</span> <br>
+           {%else%}
+           Bugün <span style="font-weight: bold; font-size:1.2rem"> {{totaldrank}}ml </span> süt içtin. <br>
+           {%endif%}
+           
+          </div>
+          <div class="rating__list">
+            
+            <div class="rating__item">
+              <input class="rating__input rating--2" id="rating-2-2" type="radio" value="100" name="rating"/>
+              <label class="rating__label rating--2" for="rating-2-2"></i><img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f95b.png" alt="">100ml</label>
+            </div>
+            <div class="rating__item">
+              <input class="rating__input rating--3" id="rating-3-2" type="radio" value="200" name="rating"/>
+              <label class="rating__label rating--3" for="rating-3-2"><img src="https://twemoji.maxcdn.com/v/13.0.1/72x72/1f95b.png" alt="">200ml</label>
+            </div>
+            
+          </div>
+        </h3>
+        <span style="font-size: 0.7rem;color:#6B7C93">* Tüketilmesi gereken süt miktarları ortalama değerlere göre alınmıştır. Çocuğunuzun gelişim durumuna göre doktorunuzdan tavsiye almanızı öneririz.</span>
+        <div class="feedback">
+          <button class="btn btn-lg btn-primary submit">Ekle</button>
+        </div>
+      </form>
+      
+      </div>
+
+  </div>
+
+
+</div>
+
+
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Tebrikler {{request.user.profile.childname}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {{success_message}}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+{%endblock%}
+
+{%block script %}
+
+<script>
+  $(function(){
+    $('.water').animate({
+        height: '{{percentage}}%'
+    }, 1000)
+})
+</script>
+
+<script>
+  $('button.submit').disabled = true;	// disable button on load
+
+// Enable button 
+function enable_submit() {
+$('button.submit').disabled = false;
+$('button.submit').addClass('not-disabled');
+
+}
+
+// Disable button
+function disable_submit() {
+$('button.submit').disabled = true;
+$('button.submit').removeClass('not-disabled');
+}
+
+// Display feedback after rating 
+$('.rating__input').on('click', function() {
+var rating = this['value'];
+console.log(rating)
+enable_submit();
+  $('.rating__label').removeClass('active');
+$(this).siblings('.rating__label').addClass('active');
+$('.feedback').css('display', "block");
+
+//feedback_validate(rating);
+
+});
+</script>
+
+
+{%if age >= 2 and success_message %}
+<script type="text/javascript">
+  $(document).ready(function(){
+      $("#exampleModalCenter").modal('show');
+  });
+</script>
+{%endif%}
+
+{%endblock%}
+
+

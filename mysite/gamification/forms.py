@@ -44,7 +44,7 @@ class ProfileForm(ModelForm):
         
     class Meta:
         model = Profile
-        fields = ['description','childname','birthday','profile_pic',]
+        fields = ['profile_pic','description','childname','birthday','instagram']
 
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
@@ -63,7 +63,11 @@ class ProfileForm(ModelForm):
         self.fields['childname'].widget.attrs['placeholder'] = ''
         self.fields['childname'].label='Çocuğunuzun ismi (Opsiyonel)'
        
-        self.fields['profile_pic'].label=''
+        self.fields['profile_pic'].label='Profil fotoğrafı'
+
+        self.fields['instagram'].widget.attrs['class'] = 'form-control form-control-lg mb-5'
+        self.fields['instagram'].widget.attrs['placeholder'] = ''
+        self.fields['instagram'].label='Instagram hesabı (Opsiyonel)'
         
 
 class ContactForm(forms.Form):
