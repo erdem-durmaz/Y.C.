@@ -83,7 +83,7 @@
 
 <div class="col-lg-6 mx-auto mt-3">
     <div id="question"class="card text-center" >
-        <img class="rounded"src="{{ user.profile.profile_pic.url }}" class="card-img-top" alt="...">
+        <img style="max-height:250px"class="rounded"src="{{ user.profile.profile_pic.url }}" class="card-img-top" alt="...">
         
         <div class="card-body">
           <h4 class="card-title">
@@ -93,7 +93,9 @@
           <form enctype="multipart/form-data" method="post" action="{%url 'gamification:profile_settings' username=request.user %}">
             {% csrf_token %}
             {{ form.as_p }}
-            <br>
+            *Sizleri instagram sayfamızda gerektiğinde etiketleyebilmemiz için lütfen instagram adınızı giriş yapınız.
+            <br><br>
+           
     
             <input  class="btn btn-primary btn-fill" type="submit" value="Kaydet"> 
             <a class="btn btn-secondary btn-fill "href="{%url 'gamification:main' %}">İptal</a>
