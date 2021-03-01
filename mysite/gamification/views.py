@@ -161,7 +161,6 @@ def dailysleep(request):
         return render(request, 'gamification/dailysleep.html', context)
 
 def leaderboardbyyear(request,year):
-    print(request.GET)
     NOW = datetime(year=year,month=1,day=1)
     # update_scoreboard_points() #use only when points change
     winnerlst = list()
@@ -209,6 +208,9 @@ def leaderboardbyyear(request,year):
 
 def leaderboard(request):
     NOW = datetime.now()
+    year = request.GET.get('year', NOW.year)
+    month = request.GET.get('month', NOW.month)
+    NOW = datetime(int(year),int(month),day=1)
     # update_scoreboard_points() #use only when points change
     winnerlst = list()
     place = 1
@@ -216,7 +218,6 @@ def leaderboard(request):
     restlst = list()
     leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__month=NOW.month).values('user').annotate(
         sum=Sum('totalscore')).order_by('-sum')
-    print(leaderboard)
 
     if len(leaderboard) >= 3:
 
@@ -439,7 +440,7 @@ def calculate_score(user):
         user=user).filter(activity__exact=9).count()
 
     answeredimaginequestion = ScoreBoard.objects.filter(
-        user=user).filter(date__month=NOW.month).filter(activity__exact=10).count()
+        user=user).filter(activity__exact=10).count()
     totalimaginequestion = ImagineQuestion.objects.all().count()
 
 
@@ -504,8 +505,9 @@ def calculate_score(user):
     results['challenge_percentage'] = int(userchallengeimagecount/challengecount*100)
     results['totalchallenge_count'] = challengecount
     results['userchallenge_count'] = userchallengeimagecount
+    results['weeklyquestionid'] = ScoreBoard.objects.filter(user=user,activity=8).last().weeklyquestion.id
     
-    
+
     return results
 
 
