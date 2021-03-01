@@ -336,7 +336,7 @@ padding: 0px 5px;
 
         </div>
         <!-- END -->
-        <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}">Toplam Challenge:{{results.totalchallenge_count}}</a>
+        <a style="display:block;margin:0 auto;text-align:center" class="small mt-1" href="{%url 'gamification:main' %}">Toplam Challenge: {{results.totalchallenge_count}}</a>
         <a class="stretched-link" href="{%url 'gamification:main' %}"></a>
 
       </div>
@@ -414,7 +414,7 @@ padding: 0px 5px;
             <div class="h4 font-weight-bold mb-0"> {{results.blog_postcount}}</div><span class="small text-gray"><a
                 href="{% url 'yaratici:posts' %}">Toplam Post</a></span>
           </div>
-          <div class="mx-auto"><span class="small text-gray">Daha önce okunan:{{results.total_blog_read}} </span></div>
+          <div class="mx-auto"><span class="small text-gray">Daha önce okunan: {{results.total_blog_read}} </span></div>
           
 
         </div>
@@ -445,7 +445,7 @@ padding: 0px 5px;
 
         <div class="row text-center mt-4">
           <div class="col-6">
-            <div class="h4 font-weight-bold mb-0">{{results.answered_imagine_question}}</div><span class="small text-gray"><a
+            <div class="h4 font-weight-bold mb-0">{{results.answered_imagine_questionthismonth}}</div><span class="small text-gray"><a
               href="{% url 'yaratici:posts' %}">Cevaplanan</a></span>
             
           </div>
@@ -453,7 +453,7 @@ padding: 0px 5px;
             <div class="h4 font-weight-bold mb-0"> {{results.total_imagine_question}}</div><span class="small text-gray"><a
                 href="{% url 'yaratici:posts' %}">Toplam Soru</a></span>
           </div>
-
+          <div class="mx-auto"><span class="small text-gray">Daha önce cevaplanan: {{results.answered_imagine_question}} </span></div>
           
           <a class="stretched-link" href="{%url 'gamification:imaginequestionmain'%}"></a>
         </div>

@@ -441,6 +441,8 @@ def calculate_score(user):
 
     answeredimaginequestion = ScoreBoard.objects.filter(
         user=user).filter(activity__exact=10).count()
+    answeredimaginequestionthismonth = ScoreBoard.objects.filter(
+        user=user, date__month=NOW.month).filter(activity__exact=10).count()
     totalimaginequestion = ImagineQuestion.objects.all().count()
 
 
@@ -501,6 +503,7 @@ def calculate_score(user):
     results['imaginequestion'] = imaginequestion
     results['total_imagine_question'] = totalimaginequestion
     results['answered_imagine_question'] = answeredimaginequestion
+    results['answered_imagine_questionthismonth'] = answeredimaginequestionthismonth
     results['imagine_percentage'] = int(answeredimaginequestion/totalimaginequestion*100)
     results['challenge_percentage'] = int(userchallengeimagecount/challengecount*100)
     results['totalchallenge_count'] = challengecount
