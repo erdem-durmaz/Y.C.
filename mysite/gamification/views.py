@@ -39,7 +39,7 @@ def dailymilk(request):
             dailymilkentry.save()
 
             return redirect(reverse('gamification:dailymilk'))
-            return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
+            # return redirect(reverse('gamification:profile', kwargs={'username': request.user.username}))
     
 
     #Calculate Age
@@ -95,13 +95,26 @@ def dailymilk(request):
     if get_percentage() >=100:
         success_message = "Bugün hedefine ulaştın, çocuğunun gelişimi için günlük takip etmeye devam et."
 
+    labels=[]
+    data = []
+    
+    queryset = Milk.objects.filter(user=request.user,date__year=NOW.year).values_list('date__day','date__month','drankmilk').order_by('date')
+    for query in queryset:
+        x=f"{query[0]}/{query[1]}"
+        y=query[2]
+        data.append(y)
+        labels.append(x)
+
+
     context = {
         'age':age,
         'totaldrank':totaldrank,
         'requiredmilk':requiredmilk,
         'percentage': get_percentage(),
         'left':get_left(requiredmilk,totaldrank),
-        'success_message': success_message
+        'success_message': success_message,
+        'labels':labels,
+        'data':data
         
         }
 
@@ -477,7 +490,7 @@ def calculate_score(user):
     results['blog_read'] = readpost
     results['total_blog_read'] = previouslyreadpost
     results['blog_postcount'] = postcount
-    results['blog_percentage'] = int(readpost/postcount*100)
+    results['blog_percentage'] = int((readpost+previouslyreadpost)/postcount*100)
     results['total_point'] = total_point
     results['challenges'] = challenges
     results['likes'] = likes

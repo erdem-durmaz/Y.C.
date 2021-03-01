@@ -355,6 +355,8 @@ button.not-disabled:hover {
 
 
 </style>
+
+
 {% endblock css %}
 
 
@@ -412,9 +414,53 @@ button.not-disabled:hover {
 
   </div>
 
-
 </div>
 
+
+<!-- #chartstart -->
+<div style="background-color:#eeeeee"class="row">
+<canvas width="500" height="125"id="myChart"></canvas>
+</div>
+
+<!-- #chartend -->
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+<script>
+  var ctx = document.getElementById('myChart').getContext('2d');
+  
+var chart = new Chart(ctx, {
+    // The type of chart we want to create
+    type: 'bar',
+
+    // The data for our dataset
+    data: {
+        labels: {{labels|safe}} ,
+        datasets: [{
+            label: 'Süt Tüketim Miktarı',
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: '#67B9F0',
+            borderWidth:1,
+
+            data: {{data}},
+            fill:false,
+            
+        }]
+    },
+
+    // Configuration options go here
+    options: {
+      scales: {
+        yAxes: [{
+          
+        }]
+    },
+      title: {
+        display: true,
+        text: '{% now "Y" %} Yılı Süt Tüketim Grafiği'
+    }
+    }
+});
+</script>
 
 <!-- Button trigger modal -->
 
