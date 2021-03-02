@@ -508,7 +508,12 @@ def calculate_score(user):
     results['challenge_percentage'] = int(userchallengeimagecount/challengecount*100)
     results['totalchallenge_count'] = challengecount
     results['userchallenge_count'] = userchallengeimagecount
-    results['weeklyquestionid'] = ScoreBoard.objects.filter(user=user,activity=8).last().weeklyquestion.id
+    try:
+        results['weeklyquestionid'] = ScoreBoard.objects.filter(user=user,activity=8).last().weeklyquestion.id
+    except:
+        results['weeklyquestionid'] = 0
+    else:
+        results['weeklyquestionid'] = ScoreBoard.objects.filter(user=user,activity=8).last().weeklyquestion.id
     
 
     return results
