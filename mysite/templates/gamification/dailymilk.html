@@ -353,6 +353,11 @@ button.not-disabled:hover {
   text-align: center;
 }
 
+li{
+  padding-bottom: 7px;
+  color: #3C424F;
+  text-decoration: dotted;
+}
 
 </style>
 
@@ -364,13 +369,13 @@ button.not-disabled:hover {
 
 <div class="row">
 
-  <div class="col-lg-1 col-sm-4 ml-auto mb-3 mt-5 ">
+  <div class="col-lg-1 col-sm-2 ml-auto  mt-5 ">
     <div class="glass">
       <div class="water"><div style="text-align:center;color:skyblue ;font-size:1.5rem;font-weight:800;margin-top:20px"class="mx-auto">{{totaldrank}}ml</div></div>
     </div>
   </div>
 
-  <div class="col-lg-8 col-sm-8 mr-auto mb-3 mt-2">
+  <div class="col-lg-8 col-sm-8 mr-auto  mt-2">
 
     <div>    
       <form class="rating" method="POST" action="{%url 'gamification:dailymilk' %}">
@@ -412,6 +417,20 @@ button.not-disabled:hover {
       
       </div>
 
+  </div>
+
+  <div class="col-lg-3 col-sm-12  mb-2 mt-1 ">
+    <div class="rating">
+    <h2> 1 bardak süt= <i class="fas fa-2x fa-question"></i></h2>
+    <ul>
+      <li>1 bardak yoğurt</li>
+      <li>2 bardak ayran</li>
+      <li>1 bardak kefir</li>
+      <li>2 kibrit kutusu peynir</li>
+      <li>2şer tatlı kaşığı tahin ve pekmez</li>
+      <li>1 tabak barbunya/nohut/kuru fasulye/bamya</li>
+    </ul>
+  </div>
   </div>
 
 </div>
