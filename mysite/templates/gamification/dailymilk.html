@@ -354,9 +354,10 @@ button.not-disabled:hover {
 }
 
 li{
-  padding-bottom: 7px;
+  padding-bottom: 5px;
   color: #3C424F;
   text-decoration: dotted;
+  font-size: 0.9rem;
 }
 
 </style>
@@ -369,18 +370,29 @@ li{
 
 <div class="row">
 
-  <div class="col-lg-1 col-sm-2 ml-auto  mt-5 ">
+  <div class="col-lg-4 col-sm-6 ml-auto  mt-3">
     <div class="glass">
       <div class="water"><div style="text-align:center;color:skyblue ;font-size:1.5rem;font-weight:800;margin-top:20px"class="mx-auto">{{totaldrank}}ml</div></div>
     </div>
+    <div class="rating">
+      <h2> 1 bardak süt= <i class="fas fa-2x fa-question"></i></h2>
+      <ul>
+        <li>1 bardak yoğurt</li>
+        <li>2 bardak ayran</li>
+        <li>1 bardak kefir</li>
+        <li>2 kibrit kutusu peynir</li>
+        <li>2şer tatlı kaşığı tahin ve pekmez</li>
+        <li>1 tabak barbunya/nohut/ <br>kuru fasulye/bamya</li>
+      </ul>
+    </div>
   </div>
 
-  <div class="col-lg-8 col-sm-8 mr-auto  mt-2">
+  <div class="col-lg-8 col-sm-6 mr-auto  mt-2">
 
     <div>    
       <form class="rating" method="POST" action="{%url 'gamification:dailymilk' %}">
           {%csrf_token%}
-        <h3 class="rating__title mt-2">{{request.user.profile.childname|default:""}} ne kadar süt eklemek istersin?
+        <h3 class="rating__title mt-2">{{request.user.profile.childname|default:""}} ne kadar süt/eşdeğerini eklemek istersin?
           <div class="milkprogresstext mt-3">
             {%if age < 2 %}
             <span style="font-weight: bold;"></span> 2 yaş öncesi çocuklarda, günlük  <br>tüketilen süt miktarı konusunda doktorunuzdan öneri almanızı rica ederiz <br>
@@ -419,19 +431,6 @@ li{
 
   </div>
 
-  <div class="col-lg-3 col-sm-12  mb-2 mt-1 ">
-    <div class="rating">
-    <h2> 1 bardak süt= <i class="fas fa-2x fa-question"></i></h2>
-    <ul>
-      <li>1 bardak yoğurt</li>
-      <li>2 bardak ayran</li>
-      <li>1 bardak kefir</li>
-      <li>2 kibrit kutusu peynir</li>
-      <li>2şer tatlı kaşığı tahin ve pekmez</li>
-      <li>1 tabak barbunya/nohut/kuru fasulye/bamya</li>
-    </ul>
-  </div>
-  </div>
 
 </div>
 
