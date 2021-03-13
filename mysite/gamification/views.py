@@ -502,7 +502,7 @@ def calculate_score(user):
     results['weeklyquestion'] = weeklyquestion
     results['imaginequestion'] = imaginequestion
     results['total_imagine_question'] = totalimaginequestion
-    results['answered_imagine_question'] = answeredimaginequestion
+    results['answered_imagine_question'] = answeredimaginequestion - answeredimaginequestionthismonth
     results['answered_imagine_questionthismonth'] = answeredimaginequestionthismonth
     results['imagine_percentage'] = int(answeredimaginequestion/totalimaginequestion*100)
     results['challenge_percentage'] = int(userchallengeimagecount/challengecount*100)
