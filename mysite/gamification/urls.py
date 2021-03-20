@@ -38,7 +38,10 @@ urlpatterns = [
 
     # dailymilk
     path('dailymilk/', views.dailymilk, name='dailymilk'),
-    
+
+    #monthlyentries
+
+    path('monthlypoints/', views.monthlyUserPoints, name='monthlypoints'),
     
 
 ]

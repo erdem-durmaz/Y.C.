@@ -16,6 +16,30 @@ from datetime import datetime,timedelta,date
 from django.core.mail import send_mail, BadHeaderError
 from notifs.signals import notify
 
+def monthlyUserPoints(request):
+
+    labels=[]
+    data = []
+    
+    monthlyEntries = ScoreBoard.objects.filter(user=request.user).values_list('date__month','date__year').annotate(
+    sum=Sum('totalscore')).order_by('-sum')
+    
+    for query in monthlyEntries:
+        print(query)
+        x=f"{query[1]}/{query[0]}"
+        y=query[2]
+        data.append(y)
+        labels.append(x)
+
+    
+    context = {
+        'labels':labels,
+        'data':data
+        
+        }
+
+    return render(request, 'gamification/monthlyentries.html', context)
+
 
 @login_required
 def dailymilk(request):
@@ -105,6 +129,10 @@ def dailymilk(request):
         data.append(y)
         labels.append(x)
 
+    monthly2 = ScoreBoard.objects.filter(user=request.user,date__year=NOW.year).values('date__month','date__year').annotate(
+    sum=Sum('totalscore')).order_by('-sum')[:10]
+
+    print(monthly2)
 
     context = {
         'age':age,
