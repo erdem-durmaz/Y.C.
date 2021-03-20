@@ -390,7 +390,7 @@ li{
 var chart = new Chart(ctx, {
     plugins: [ChartDataLabels],
     // The type of chart we want to create
-    type: 'bar',
+    type: 'line',
 
     // The data for our dataset
     data: {
@@ -400,6 +400,14 @@ var chart = new Chart(ctx, {
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: '#67B9F0',
             borderWidth:1,
+            backgroundColor: '#FF6384',
+            borderColor: '#FF6384',
+            pointRadius :20,
+            pointHoverRadius:20,
+            data: {{data}},
+            fill:false,
+            showLine:true,
+            lineTension: 0.5,
 
             data: {{data}},
             fill:false,
