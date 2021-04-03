@@ -30,5 +30,6 @@ urlpatterns = [
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('gamification/', include('gamification.urls')),
     path('notifications/', include('notifs.urls')),
+    path('api/', include('api.urls')),
     
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

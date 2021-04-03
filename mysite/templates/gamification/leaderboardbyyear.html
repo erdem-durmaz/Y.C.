@@ -395,8 +395,12 @@ list-item {
 <!-- #leaderboard -->
 <div class="container p-5">
     
+{%if year%}
+    <h2 id="summarybox"class="col-xl-12 text-center w-75 mx-auto">{{month|date:'Y M'}} Genel MiO Sıralaması</h2>
+    {%else%}
+    <h2 id="summarybox"class="col-xl-12 text-center w-75 mx-auto">{{month|date:'Y'}} Genel MiO Sıralaması</h2>
+    {%endif%}
 
-    <h2 id="summarybox"class="col-xl-12 text-center w-75 mx-auto">{{month|date:'Y'}} Yılı Genel MiO Sıralaması</h2>
   </div>
 
 <!-- #yearlyresults -->

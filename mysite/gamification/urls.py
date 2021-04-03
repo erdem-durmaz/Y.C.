@@ -43,5 +43,5 @@ urlpatterns = [
 
     path('monthlypoints/', views.monthlyUserPoints, name='monthlypoints'),
     
-
+    path('profileapi/', views.ProfileView.as_view(), name='profileapi'),
 ]

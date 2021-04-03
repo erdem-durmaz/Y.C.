@@ -16,13 +16,62 @@ from datetime import datetime,timedelta,date
 from django.core.mail import send_mail, BadHeaderError
 from notifs.signals import notify
 
+############
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated  # <-- Here
+
+class ProfileView(APIView):
+    # permission_classes = (IsAuthenticated,)             # <-- And here
+    
+    def get(self, request):
+        print(request.user)
+        
+        NOW = datetime.now()
+        user = User.objects.get(pk=1)
+        question = get_object_or_404(Question, is_Published=True)
+        imaginequestion = get_object_or_404(ImagineQuestion, is_Published=True)
+        scoringactivities = ScoringActivities.objects.all()
+        def check_daily_mood():
+            if request.user.is_authenticated:
+                if Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day).exists():
+                    dailymoodentry = Mood.objects.filter(user=request.user,date__year=NOW.year,date__month=NOW.month,date__day=NOW.day)[0]
+                    print(dailymoodentry)
+                    return dailymoodentry
+                
+            
+        # profil yoksa profil yaratır
+        
+
+        results = calculate_score(user)
+        position = positioninleaderboard(user)
+        user_id = request.user.id
+
+        context = {
+            'username': user.id,
+            # 'username': user,
+            # 'profile': profile,
+            'results': results,
+            'question': str(question),
+            'imaginequestion': str(imaginequestion),
+            'position': position,
+            # 'month': NOW,
+            'scores': str(scoringactivities),
+            'dailymood': check_daily_mood()
+        }
+        
+        return Response(context)
+
+
+###########
 def monthlyUserPoints(request):
 
     labels=[]
     data = []
     
     monthlyEntries = ScoreBoard.objects.filter(user=request.user).values_list('date__month','date__year').annotate(
-    sum=Sum('totalscore')).order_by('-sum')
+    sum=Sum('totalscore'))
+    
     
     for query in monthlyEntries:
         print(query)
@@ -190,6 +239,13 @@ def dailysleep(request):
 
 def leaderboardbyyear(request,year):
     NOW = datetime(year=year,month=1,day=1)
+
+    if 'month' in request.GET:
+        NOW = datetime(year=year,month=int(request.GET['month']),day=1)
+        leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year, date__month=NOW.month).values('user').annotate(
+        sum=Sum('totalscore')).order_by('-sum')[:10]
+
+
     # update_scoreboard_points() #use only when points change
     winnerlst = list()
     place = 1
@@ -198,6 +254,7 @@ def leaderboardbyyear(request,year):
     leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
         sum=Sum('totalscore')).order_by('-sum')[:10]
 
+    
     if len(leaderboard) >= 3:
 
         for player in leaderboard[:3]:
@@ -229,7 +286,8 @@ def leaderboardbyyear(request,year):
     context = {
         'leaders': top213,
         'rest': restlst,
-        'month': NOW
+        'month': NOW,
+        'year':request.GET
     }
 
     return render(request, 'gamification/leaderboardbyyear.html', context)
