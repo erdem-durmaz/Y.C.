@@ -1,3 +1,4 @@
+from yaratici.models import BlogPost
 from rest_framework import serializers
 from gamification.models import Challenge, Comment, ImageNominate, Milk, Mood, Profile, ScoreBoard, ScoringActivities
 from django.contrib.auth.models import User
@@ -15,3 +16,10 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id', 'username']
+
+class BlogSerializer(serializers.ModelSerializer):
+    # milks = serializers.PrimaryKeyRelatedField(many=True, queryset=Milk.objects.all())
+
+    class Meta:
+        model = BlogPost
+        fields = ['id', 'title','photo','message']

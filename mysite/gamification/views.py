@@ -244,6 +244,9 @@ def leaderboardbyyear(request,year):
         NOW = datetime(year=year,month=int(request.GET['month']),day=1)
         leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year, date__month=NOW.month).values('user').annotate(
         sum=Sum('totalscore')).order_by('-sum')[:10]
+    else:
+        leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
+        sum=Sum('totalscore')).order_by('-sum')[:10]
 
 
     # update_scoreboard_points() #use only when points change
@@ -251,8 +254,6 @@ def leaderboardbyyear(request,year):
     place = 1
     top213 = []
     restlst = list()
-    leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
-        sum=Sum('totalscore')).order_by('-sum')[:10]
 
     
     if len(leaderboard) >= 3:
@@ -271,8 +272,21 @@ def leaderboardbyyear(request,year):
         top213.append(winnerlst[0])
         top213.append(winnerlst[2])
 
-        rest = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
+    #     if 'month' in request.GET:
+    #     NOW = datetime(year=year,month=int(request.GET['month']),day=1)
+    #     leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year, date__month=NOW.month).values('user').annotate(
+    #     sum=Sum('totalscore')).order_by('-sum')[:10]
+    # else:
+    #     leaderboard = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
+    #     sum=Sum('totalscore')).order_by('-sum')[:10]
+        if 'month' in request.GET:
+            NOW = datetime(year=year,month=int(request.GET['month']),day=1)
+            rest = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year,date__month=NOW.month).values('user').annotate(
             sum=Sum('totalscore')).order_by('-sum')[:10] 
+        else:
+            rest = ScoreBoard.objects.exclude(user_id__exact=3).filter(date__year=NOW.year).values('user').annotate(
+            sum=Sum('totalscore')).order_by('-sum')[:10] 
+
         for player in rest[3:]:
             currentuser = get_object_or_404(User, pk=player['user'])
             board = dict()

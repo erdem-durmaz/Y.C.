@@ -1,5 +1,6 @@
+from yaratici.models import BlogPost
 from api.serializers import UserSerializer
-from api.serializers import MilkSerializer
+from api.serializers import MilkSerializer,BlogSerializer
 from gamification.models import Milk
 from django.shortcuts import render
 from rest_framework.views import APIView
@@ -30,6 +31,9 @@ class HelloView(APIView):
         content = {'message': request.user.id}
         return Response(content)
 
+class BlogList(generics.ListCreateAPIView):
+    queryset = BlogPost.objects.all().order_by('-id')
+    serializer_class = BlogSerializer
 
 class getUserIdView(APIView):
     permission_classes = (IsAuthenticated,)             # <-- And here
@@ -41,7 +45,7 @@ class getUserIdView(APIView):
 
 
 
-class MilkList(generics.ListCreateAPIView):
+class MilkList(generics.ListAPIView):
     queryset = Milk.objects.all().order_by('-id')
     serializer_class = MilkSerializer
 
